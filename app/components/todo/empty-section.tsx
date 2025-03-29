@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Input } from "../ui/input";
 import { todoStore } from "@/lib/storage";
 
 export const EmptySection = () => {
   const [sectionName, setSectionName] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -12,6 +13,7 @@ export const EmptySection = () => {
         title: sectionName,
       });
       setSectionName("");
+      inputRef.current?.focus();
     }
   };
 
@@ -25,6 +27,7 @@ export const EmptySection = () => {
         className="w-full font-serif text-xl"
         value={sectionName}
         onChange={(e) => setSectionName(e.target.value)}
+        ref={inputRef}
       />
     </form>
   );

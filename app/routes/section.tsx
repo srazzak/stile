@@ -9,8 +9,15 @@ import { TodoDialog } from "@/components/todo/todo-dialog";
 export default function SectionPage({ params }: Route.ComponentProps) {
   const sectionId = params.sectionId;
 
-  const section = useLiveQuery(() => todoStore.getSection(sectionId));
-  const todos = useLiveQuery(() => todoStore.getTodosBySectionId(sectionId));
+  const section = useLiveQuery(
+    () => todoStore.getSection(sectionId),
+    [sectionId],
+  );
+
+  const todos = useLiveQuery(
+    () => todoStore.getTodosBySectionId(sectionId),
+    [sectionId],
+  );
 
   const sectionTitleRef = useRef<HTMLInputElement>(null);
 
