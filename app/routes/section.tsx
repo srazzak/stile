@@ -1,6 +1,6 @@
 // route("section/:sectionId")
 import type { Route } from "./+types/section";
-import { use, useRef } from "react";
+import { useRef } from "react";
 import { TodoList } from "@/components/todo/todo-list";
 import { useLiveQuery } from "dexie-react-hooks";
 import { todoStore } from "@/lib/storage";

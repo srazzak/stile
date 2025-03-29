@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import { todoStore } from "@/lib/storage";
 import { type Section } from "@/lib/storage/types";
 import { Separator } from "@/components/ui/separator";
-import { TodoInput } from "./todo-input";
+import { TodoInput } from "../todo/todo-input";
 
 export function SectionDialog() {
   const [title, setTitle] = useState("");

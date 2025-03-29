@@ -10,7 +10,7 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import { KeyboardProvider } from "./contexts/keyboard-context";
-import { SectionList } from "./components/todo/section-list";
+import { SectionList } from "./components/section/section-list";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
