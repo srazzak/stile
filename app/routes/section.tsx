@@ -6,6 +6,13 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { todoStore } from "@/lib/storage";
 import { TodoDialog } from "@/components/todo/todo-dialog";
 
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "Verdigris" },
+    { name: "description", content: "A simple todo app" },
+  ];
+}
+
 export default function SectionPage({ params }: Route.ComponentProps) {
   const sectionId = params.sectionId;
 
