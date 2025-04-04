@@ -87,7 +87,22 @@ export class TodoDb {
   }
 
   async getTodosBySectionId(sectionId: string): Promise<Todo[]> {
-    return this.db.todos.where({ sectionId: sectionId }).sortBy("completed");
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    const endOfToday = new Date();
+    endOfToday.setHours(23, 59, 59, 999);
+
+    return this.db.todos
+      .where({ sectionId: sectionId })
+      .filter(
+        (todo) =>
+          !todo.completed ||
+          (todo.completed &&
+            todo.updatedAt >= startOfToday &&
+            todo.updatedAt <= endOfToday),
+      )
+      .reverse()
+      .sortBy("completed");
   }
 
   async getAllSections(): Promise<Section[]> {
