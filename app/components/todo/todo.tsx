@@ -136,7 +136,7 @@ export const TodoItem = ({
     <li
       ref={todoRef}
       className={cn(styles.todo, isInnerFocusMode ? styles.innerFocusMode : "")}
-      tabIndex={0}
+      tabIndex={isInnerFocusMode ? -1 : 0}
       onKeyDown={handleTodoKeyDown}
       aria-label={`Todo: ${todo.title}`}
       data-todo-id={dataTodoId}

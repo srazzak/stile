@@ -18,11 +18,11 @@ export function TodoList({ todos, sectionId }: TodoListProps) {
     e: React.KeyboardEvent<HTMLLIElement>,
     index: number,
   ) => {
-    if (e.key === "ArrowDown" || e.key === "Tab") {
+    if (e.key === "ArrowDown") {
       e.preventDefault();
       const nextIndex = (index + 1) % todos.length;
       setFocusedTodoId(todos[nextIndex].id);
-    } else if (e.key === "ArrowUp" || (e.key === "Tab" && e.shiftKey)) {
+    } else if (e.key === "ArrowUp") {
       e.preventDefault();
       const prevIndex = (index - 1 + todos.length) % todos.length;
       setFocusedTodoId(todos[prevIndex].id);

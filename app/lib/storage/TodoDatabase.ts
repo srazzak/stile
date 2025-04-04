@@ -17,20 +17,6 @@ class TodoDatabase extends Dexie {
       sections: "id, title, createdAt, updatedAt",
     });
   }
-
-  async getPendingTodos(): Promise<Todo[]> {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const todayStr = today.toISOString().split("T")[0];
-
-    return this.todos
-      .where("completed")
-      .equals(0)
-      .or("updatedAt")
-      .startsWith(todayStr)
-      .reverse()
-      .sortBy("completed");
-  }
 }
 
 export class TodoDb {
@@ -83,14 +69,25 @@ export class TodoDb {
   }
 
   async getPendingTodos(): Promise<Todo[]> {
-    return this.db.getPendingTodos();
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    const endOfToday = new Date();
+    endOfToday.setHours(23, 59, 59, 999);
+
+    return this.db.todos
+      .filter(
+        (todo) =>
+          !todo.completed ||
+          (todo.completed &&
+            todo.updatedAt >= startOfToday &&
+            todo.updatedAt <= endOfToday),
+      )
+      .reverse()
+      .sortBy("completed");
   }
 
   async getTodosBySectionId(sectionId: string): Promise<Todo[]> {
-    return this.db.todos
-      .where("sectionId")
-      .equals(sectionId)
-      .sortBy("completed");
+    return this.db.todos.where({ sectionId: sectionId }).sortBy("completed");
   }
 
   async getAllSections(): Promise<Section[]> {

@@ -82,7 +82,7 @@ export const EmptyTodo = forwardRef<HTMLDivElement, EmptyTodoProps>(
         </TooltipProvider>
       </div>
     );
-  }
+  },
 );
 
 EmptyTodo.displayName = "EmptyTodo";

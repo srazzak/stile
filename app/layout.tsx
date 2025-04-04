@@ -1,4 +1,7 @@
+import { Select } from "@base-ui-components/react";
 import { Outlet } from "react-router";
+import { SectionDialog } from "./components/section/section-dialog";
+import { TodoDb } from "./lib/storage/TodoDatabase";
 
 export default function Layout() {
   return (
@@ -8,6 +11,7 @@ export default function Layout() {
       </h1>
       <div className="h-full w-full">
         <Outlet />
+        <SectionDialog />
       </div>
     </main>
   );
