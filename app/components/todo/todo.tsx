@@ -144,7 +144,12 @@ export const TodoItem = ({
       <TodoCheckbox
         ref={checkboxRef}
         checked={todo.completed}
-        onCheckedChange={(checked) => handleUpdate({ completed: checked })}
+        onCheckedChange={(checked) =>
+          handleUpdate({
+            completed: checked,
+            completedAt: checked ? new Date() : undefined,
+          })
+        }
         tabIndex={isInnerFocusMode ? 0 : -1}
       />
       <TodoInput

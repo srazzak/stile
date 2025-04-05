@@ -1,11 +1,24 @@
-export interface Todo {
+export type Todo = CompleteTodo | IncompleteTodo;
+
+export interface CompleteTodo {
   id: string;
   title: string;
   description?: string;
   createdAt: Date;
   updatedAt: Date;
-  completed: boolean;
-  completedAt?: Date;
+  completed: true;
+  completedAt: Date;
+  deadline?: Date;
+  sectionId?: string;
+}
+
+export interface IncompleteTodo {
+  id: string;
+  title: string;
+  description?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  completed: false;
   deadline?: Date;
   sectionId?: string;
 }

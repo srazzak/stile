@@ -42,6 +42,7 @@ export class TodoDb {
       id: generateId(),
       createdAt: new Date(),
       updatedAt: new Date(),
+      completed: false,
     });
     return id;
   }
@@ -79,11 +80,10 @@ export class TodoDb {
         (todo) =>
           !todo.completed ||
           (todo.completed &&
-            todo.updatedAt >= startOfToday &&
-            todo.updatedAt <= endOfToday),
+            todo.completedAt >= startOfToday &&
+            todo.completedAt <= endOfToday),
       )
-      .reverse()
-      .sortBy("completed");
+      .sortBy("completedAt");
   }
 
   async getTodosBySectionId(sectionId: string): Promise<Todo[]> {
@@ -98,11 +98,10 @@ export class TodoDb {
         (todo) =>
           !todo.completed ||
           (todo.completed &&
-            todo.updatedAt >= startOfToday &&
-            todo.updatedAt <= endOfToday),
+            todo.completedAt >= startOfToday &&
+            todo.completedAt <= endOfToday),
       )
-      .reverse()
-      .sortBy("completed");
+      .sortBy("completedAt");
   }
 
   async getAllSections(): Promise<Section[]> {
