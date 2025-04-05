@@ -93,14 +93,16 @@ export class TodoDb {
     endOfToday.setHours(23, 59, 59, 999);
 
     return this.db.todos
-      .where({ sectionId: sectionId })
-      .filter(
+      .where("sectionId")
+      .equals(sectionId)
+      .and(
         (todo) =>
           !todo.completed ||
           (todo.completed &&
             todo.completedAt >= startOfToday &&
             todo.completedAt <= endOfToday),
       )
+      .reverse()
       .sortBy("completedAt");
   }
 
