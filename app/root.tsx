@@ -11,7 +11,7 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { KeyboardProvider } from "./contexts/keyboard-context";
 import { SectionList } from "./components/section/section-list";
-import { Viewport } from "node_montexts/view-context";
+import { ViewProvider } from "./contexts/view-context";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -37,8 +37,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="relative h-full w-full antialiased">
-        <SectionList />
-        <KeyboardProvider>{children}</KeyboardProvider>
+        <ViewProvider>
+          <SectionList />
+          <KeyboardProvider>{children}</KeyboardProvider>
+        </ViewProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
