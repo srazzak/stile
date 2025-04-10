@@ -9,10 +9,11 @@ const buttonVariants = cva(styles.button, {
       primary: styles.primary,
       secondary: styles.secondary,
       red: styles.red,
+      green: styles.green,
     },
   },
   defaultVariants: {
-    variant: "primary",
+    variant: "green",
   },
 });
 

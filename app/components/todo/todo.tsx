@@ -161,6 +161,7 @@ export const TodoItem = ({
         onKeyDown={handleInputKeyDown}
         completed={todo.completed}
         tabIndex={isInnerFocusMode ? 0 : -1}
+        onFocus={() => setIsInnerFocusMode(true)}
       />
       <TooltipProvider>
         <Tooltip>

@@ -59,6 +59,7 @@ const DatePicker = ({
         className="inline-flex shrink-0 cursor-pointer gap-1 rounded-lg bg-transparent p-2 text-xs duration-75 hover:bg-[#EFD7BF] data-[popup-open]:bg-[#efd7bf]"
         ref={ref}
         tabIndex={tabIndex}
+        type="button"
       >
         {selectedDate ? null : (
           <CalendarIcon className="text-foreground/70 h-4 w-4" />
@@ -69,7 +70,7 @@ const DatePicker = ({
         <PopoverPopup
           className={cn(
             "bg-background-950 flex w-auto flex-col p-0",
-            className
+            className,
           )}
           initialFocus={inputRef}
         >

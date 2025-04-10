@@ -63,7 +63,7 @@
         inset 0.5px 0.5px 0.1px oklch(53.13% 0.198 27.32);
 }
 
-.primary {
+.green {
     background:
         radial-gradient(
             circle at 10% 10%,
@@ -81,7 +81,7 @@
     box-shadow: 0px 1px 1.5px #cdbeb1;
 }
 
-/* .primary {
+.primary {
     background: radial-gradient(
         circle at 90% 90%,
         oklch(81.47% 0.108 67.57 / 0.45),
@@ -109,7 +109,7 @@
         inset -1px -1px 4px oklch(0% 0 0 / 0.07),
         inset 1px 1px 0.1px oklch(91.8% 0.014 60.56),
         inset 0.5px 0.5px 0.1px oklch(96.69% 0.023 82.12);
-} */
+}
 
 .secondary {
     background: radial-gradient(

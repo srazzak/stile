@@ -57,7 +57,7 @@ export function TodoDialog({ section }: TodoDialogProps) {
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-3 p-2">
             {section && (
-              <div className="w-fit rounded-sm border border-gray-200 px-2 py-0.5 text-sm">
+              <div className="w-fit rounded-sm border border-gray-200 px-2 py-0.5 font-serif shadow-lg font-medium">
                 {section.title}
               </div>
             )}

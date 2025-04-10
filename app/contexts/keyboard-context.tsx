@@ -1,10 +1,11 @@
-import React, {
+import {
   createContext,
   useContext,
   useEffect,
   useState,
   useCallback,
   useMemo,
+  type ReactNode,
 } from "react";
 
 // Define types for our shortcuts and contexts
@@ -29,7 +30,7 @@ const KeyboardContext = createContext<KeyboardContextType | undefined>(
   undefined,
 );
 
-export function KeyboardProvider({ children }: { children: React.ReactNode }) {
+export function KeyboardProvider({ children }: { children: ReactNode }) {
   const [shortcuts, setShortcuts] = useState<ShortcutDefinition[]>([]);
   const [activeContext, setActiveContext] = useState<string>("global");
   const [keySequence, setKeySequence] = useState<string[]>([]);

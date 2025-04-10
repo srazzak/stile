@@ -11,6 +11,7 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { KeyboardProvider } from "./contexts/keyboard-context";
 import { SectionList } from "./components/section/section-list";
+import { Viewport } from "node_montexts/view-context";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
