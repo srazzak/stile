@@ -1,6 +1,7 @@
 import Dexie, { type Table } from "dexie";
 import { type Todo, type Section } from "./types";
 import { generateId } from "../utils";
+import { upgradeToV2 } from "./v2_upgrade";
 
 class TodoDatabase extends Dexie {
   todos!: Table<Todo>;
@@ -11,11 +12,13 @@ class TodoDatabase extends Dexie {
     this.version(1).stores({
       todos: "id, completed, createdAt, deadline, updatedAt",
     });
-    this.version(2).stores({
-      todos:
-        "id, completed, deadline, createdAt, updatedAt, completedAt, sectionId",
-      sections: "id, title, createdAt, updatedAt",
-    });
+    this.version(2)
+      .stores({
+        todos:
+          "id, completed, deadline, createdAt, updatedAt, completedAt, sectionId",
+        sections: "id, title, createdAt, updatedAt",
+      })
+      .upgrade(upgradeToV2);
   }
 }
 
