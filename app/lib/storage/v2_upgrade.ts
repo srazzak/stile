@@ -6,6 +6,8 @@ export function upgradeToV2(transaction: Transaction) {
     .table("todos")
     .toCollection()
     .modify((todo: Todo) =>
-      todo.completed ? (todo.completedAt = todo.updatedAt) : null,
+      todo.completed && !todo.completedAt
+        ? (todo.completedAt = todo.updatedAt)
+        : null,
     );
 }
