@@ -9,10 +9,21 @@ class TodoDatabase extends Dexie {
 
   constructor() {
     super("todo_db");
+
     this.version(1).stores({
       todos: "id, completed, createdAt, deadline, updatedAt",
     });
+
     this.version(2)
+      .stores({
+        todos:
+          "id, completed, deadline, createdAt, updatedAt, completedAt, sectionId",
+        sections: "id, title, createdAt, updatedAt",
+      })
+      .upgrade(upgradeToV2);
+
+    // need a second one since dexie upgrade only runs once.
+    this.version(3)
       .stores({
         todos:
           "id, completed, deadline, createdAt, updatedAt, completedAt, sectionId",
