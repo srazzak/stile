@@ -11,7 +11,6 @@ interface TodoListProps {
 export function TodoList({ todos, sectionId }: TodoListProps) {
   const [focusedTodoId, setFocusedTodoId] = useState<string | null>(null);
   const listRef = useRef<HTMLUListElement>(null);
-  const emptyTodoRef = useRef<HTMLDivElement>(null);
 
   // Handle keyboard navigation between todos
   const handleKeyDown = (
@@ -57,7 +56,6 @@ export function TodoList({ todos, sectionId }: TodoListProps) {
           data-todo-id={todo.id}
         />
       ))}
-      <EmptyTodo sectionId={sectionId} ref={emptyTodoRef} />
     </ul>
   );
 }

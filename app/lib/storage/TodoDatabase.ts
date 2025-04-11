@@ -65,11 +65,15 @@ export class TodoDb {
     await this.db.todos.delete(id);
   }
 
-  async getAllTodos(): Promise<Todo[]> {
-    return this.db.todos.toArray();
+  async getAllTodos(sectionId?: string): Promise<Todo[]> {
+    return this.db.todos
+      .filter((todo) =>
+        sectionId ? todo.sectionId === sectionId : todo.sectionId === undefined,
+      )
+      .toArray();
   }
 
-  async getPendingTodos(): Promise<Todo[]> {
+  async getPendingTodos(sectionId?: string): Promise<Todo[]> {
     const startOfToday = new Date();
     startOfToday.setHours(0, 0, 0, 0);
     const endOfToday = new Date();
@@ -78,7 +82,10 @@ export class TodoDb {
     return this.db.todos
       .filter(
         (todo) =>
-          !todo.completed ||
+          ((sectionId
+            ? todo.sectionId === sectionId
+            : todo.sectionId === undefined) &&
+            !todo.completed) ||
           (todo.completed &&
             todo.completedAt >= startOfToday &&
             todo.completedAt <= endOfToday),

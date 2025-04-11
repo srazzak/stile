@@ -5,6 +5,9 @@ import { TodoList } from "@/components/todo/todo-list";
 import { useLiveQuery } from "dexie-react-hooks";
 import { todoStore } from "@/lib/storage";
 import { TodoDialog } from "@/components/todo/todo-dialog";
+import { useView } from "@/contexts/view-context";
+import { EmptyTodo } from "@/components/todo/empty-todo";
+import { TodoTimeline } from "@/components/todo/todo-timeline";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -16,14 +19,20 @@ export function meta({}: Route.MetaArgs) {
 export default function SectionPage({ params }: Route.ComponentProps) {
   const sectionId = params.sectionId;
 
+  const { view } = useView();
+
   const section = useLiveQuery(
     () => todoStore.getSection(sectionId),
     [sectionId],
   );
 
   const todos = useLiveQuery(
-    () => todoStore.getTodosBySectionId(sectionId),
-    [sectionId],
+    () =>
+      view === "list"
+        ? todoStore.getPendingTodos(sectionId)
+        : todoStore.getAllTodos(sectionId),
+    [view, sectionId],
+    [],
   );
 
   const sectionTitleRef = useRef<HTMLInputElement>(null);
@@ -48,7 +57,14 @@ export default function SectionPage({ params }: Route.ComponentProps) {
           defaultValue={section?.title}
         />
       </form>
-      {todos && section && <TodoList todos={todos} sectionId={section.id} />}
+      {todos && section && view === "list" ? (
+        <>
+          <TodoList todos={todos} />
+          <EmptyTodo sectionId={section.id} />
+        </>
+      ) : (
+        <TodoTimeline todos={todos} />
+      )}
       {section && <TodoDialog section={section} />}
     </div>
   );
