@@ -47,6 +47,7 @@ function groupTodos(todos: Todo[]) {
   todos.forEach((todo) => {
     if (todo.completed) {
       const today = new Date();
+      today.setHours(0, 0, 0, 0);
 
       if (todo.completedAt > subDays(today, 1)) {
         grouped["Yesterday"].push(todo);
