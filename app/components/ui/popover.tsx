@@ -12,7 +12,7 @@ const PopoverPositioner = React.forwardRef<
 >(
   (
     { className, align = "center", sideOffset = 4, children, ...props },
-    ref
+    ref,
   ) => (
     <BasePopover.Portal>
       <BasePopover.Positioner
@@ -25,7 +25,7 @@ const PopoverPositioner = React.forwardRef<
         {children}
       </BasePopover.Positioner>
     </BasePopover.Portal>
-  )
+  ),
 );
 PopoverPositioner.displayName = "PopoverPositioner";
 
@@ -36,7 +36,7 @@ const PopoverPopup = React.forwardRef<
   <BasePopover.Popup
     ref={ref}
     className={cn(
-      "w-72 origin-[var(--transform-origin)] rounded-xl border border-gray-200 bg-white p-4 shadow-md duration-150 outline-none",
+      "w-72 origin-[var(--transform-origin)] rounded-xl border border-gray-200 shadow bg-background-950 p-4 duration-150 outline-none",
       "transition-[scale,opacity]",
       "data-[ending-style]:scale-90 data-[starting-style]:scale-90",
       "data-[ending-style]:opacity-0 data-[starting-style]:opacity-0",
@@ -44,7 +44,7 @@ const PopoverPopup = React.forwardRef<
       "data-[side=left]:slide-in-from-right-2",
       "data-[side=right]:slide-in-from-left-2",
       "data-[side=top]:slide-in-from-bottom-2",
-      className
+      className,
     )}
     {...props}
   />

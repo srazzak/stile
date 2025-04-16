@@ -69,7 +69,7 @@ const DatePicker = ({
       <PopoverPositioner align="start" side="right">
         <PopoverPopup
           className={cn(
-            "bg-background-950 flex w-auto flex-col p-0",
+            "flex w-auto flex-col p-0",
             className,
           )}
           initialFocus={inputRef}

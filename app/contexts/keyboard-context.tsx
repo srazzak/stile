@@ -133,6 +133,30 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
   );
 }
 
+/**
+ * Custom hook for handling keyboard shortcuts and context-based keyboard interactions.
+ * This hook provides access to the keyboard context, allowing components to register,
+ * unregister shortcuts, and manage active contexts.
+ *
+ * @returns {KeyboardContextType} An object containing methods and state for keyboard shortcut management
+ * @throws {Error} If used outside of a KeyboardProvider component
+ *
+ * @example
+ * function MyComponent() {
+ *   const { registerShortcut, setActiveContext } = useKeyboard();
+ *
+ *   useEffect(() => {
+ *     registerShortcut({
+ *       key: "g h",
+ *       description: "Go home",
+ *       handler: () => navigate("/"),
+ *       contexts: ["global"]
+ *     });
+ *   }, []);
+ *
+ *   return <div>...</div>;
+ * }
+ */
 export function useKeyboard(): KeyboardContextType {
   const context = useContext(KeyboardContext);
   if (context === undefined) {
