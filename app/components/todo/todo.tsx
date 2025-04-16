@@ -160,26 +160,29 @@ export const TodoItem = ({
         onBlur={handleBlur}
         onKeyDown={handleInputKeyDown}
         completed={todo.completed}
+        disabled={todo.completed}
         tabIndex={isInnerFocusMode ? 0 : -1}
         onFocus={() => setIsInnerFocusMode(true)}
       />
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger
-            render={
-              <DatePicker
-                ref={datePickerRef}
-                selectedDate={deadline}
-                setSelectedDate={setDeadline}
-                tabIndex={isInnerFocusMode ? 0 : -1}
-              />
-            }
-          />
-          <TooltipPositioner>
-            <TooltipPopup>Due date</TooltipPopup>
-          </TooltipPositioner>
-        </Tooltip>
-      </TooltipProvider>
+      {!todo.completed && (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <DatePicker
+                  ref={datePickerRef}
+                  selectedDate={deadline}
+                  setSelectedDate={setDeadline}
+                  tabIndex={isInnerFocusMode ? 0 : -1}
+                />
+              }
+            />
+            <TooltipPositioner>
+              <TooltipPopup>Due date</TooltipPopup>
+            </TooltipPositioner>
+          </Tooltip>
+        </TooltipProvider>
+      )}
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger
