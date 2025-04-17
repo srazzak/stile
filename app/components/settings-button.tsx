@@ -4,6 +4,7 @@ import {
   Cog6ToothIcon,
   EyeSlashIcon,
   EyeIcon,
+  CheckIcon,
 } from "@heroicons/react/16/solid";
 import { useView } from "@/contexts/view-context";
 import { Menu as BaseMenu } from "@base-ui-components/react";
@@ -42,7 +43,7 @@ export function SettingsButton() {
         <Cog6ToothIcon className="h-4 w-4" />
       </MenuTrigger>
       <MenuPositioner>
-        <MenuPopup>
+        <MenuPopup className="flex flex-col gap-4">
           <ViewSettings />
           <OptionsSettings />
         </MenuPopup>
@@ -62,7 +63,7 @@ function ViewSettings() {
           <div className="flex gap-2 w-full">
             <BaseMenu.RadioItem
               value="list"
-              className="flex flex-col justify-center items-center text-sm gap-1 w-full border border-stone-300 py-2 rounded data-[highlighted]:bg-background-900 data-[checked]:bg-background-950 duration-75"
+              className="flex flex-col justify-center items-center text-sm gap-1 w-full border border-stone-300 py-2 rounded data-[highlighted]:bg-background-900 data-[checked]:bg-background-900 duration-75"
             >
               <QueueListIcon className="h-4 w-4" />
               List
@@ -77,7 +78,6 @@ function ViewSettings() {
           </div>
         </BaseMenu.RadioGroup>
       </div>
-      <OptionsSettings />
     </MenuGroup>
   );
 }
@@ -86,14 +86,21 @@ function OptionsSettings() {
   const { hideCompleted, setHideCompleted } = useTodoFilters();
 
   return (
-    <div className="flex flex-col gap-1">
-      <MenuGroupLabel>Options</MenuGroupLabel>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+    <MenuGroup className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1">
+        <MenuGroupLabel>Options</MenuGroupLabel>
+        <BaseMenu.CheckboxItem
+          className="flex items-center gap-2 justify-between data-[highlighted]:bg-background-900 select-none duration-75"
+          checked={hideCompleted}
+          onCheckedChange={setHideCompleted}
+        >
           <span className="text-sm">Hide completed todos</span>
-        </div>
-        <Switch checked={hideCompleted} onCheckedChange={setHideCompleted} />
+          <BaseMenu.CheckboxItemIndicator className="h-4 w-4">
+            <CheckIcon className="h-4 w-4" />
+          </BaseMenu.CheckboxItemIndicator>
+        </BaseMenu.CheckboxItem>
+        {/* <Switch checked={hideCompleted} onCheckedChange={setHideCompleted} /> */}
       </div>
-    </div>
+    </MenuGroup>
   );
 }
