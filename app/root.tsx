@@ -12,6 +12,7 @@ import "./app.css";
 import { KeyboardProvider } from "./contexts/keyboard-context";
 import { SectionList } from "./components/section/section-list";
 import { ViewProvider } from "./contexts/view-context";
+import { TodoFiltersProvider } from "./contexts/todo-filters-context";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -38,8 +39,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="relative h-full w-full antialiased">
         <ViewProvider>
-          <SectionList />
-          <KeyboardProvider>{children}</KeyboardProvider>
+          <TodoFiltersProvider>
+            <SectionList />
+            <KeyboardProvider>{children}</KeyboardProvider>
+          </TodoFiltersProvider>
         </ViewProvider>
         <ScrollRestoration />
         <Scripts />

@@ -16,16 +16,18 @@ export function TodoTimeline({ todos }: TodoTimlineProps) {
 
   return (
     <section className="w-full h-full flex flex-col gap-4">
-      {sortedDateArray.map(([date, todos], index) => todos.length > 0 && (
-        <div key={date}>
-          <h3 className="font-medium text-md text-zinc-500 mb-3 font-serif">
-            {date}
-          </h3>
-          <TodoList todos={todos} />
-          {index === 0 ? <EmptyTodo /> : null}
-        </div>
-      ))}
-      {sortedDateArray.length === 0 ? <EmptyTodo /> : null}
+      {sortedDateArray.map(
+        ([date, todos], index) =>
+          todos.length > 0 && (
+            <div key={date}>
+              <h3 className="font-medium text-md text-zinc-500 mb-3 font-serif">
+                {date}
+              </h3>
+              <TodoList todos={todos} />
+              {index === 0 ? <EmptyTodo /> : null}
+            </div>
+          ),
+      )}
     </section>
   );
 }

@@ -1,15 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { TodoItem } from "./todo";
-import { EmptyTodo } from "./empty-todo";
 import { type Todo } from "@/lib/storage/types";
+import { useTodoFilters } from "@/contexts/todo-filters-context";
 
 interface TodoListProps {
   todos: Todo[];
   sectionId?: string;
 }
 
-export function TodoList({ todos, sectionId }: TodoListProps) {
+export function TodoList({ todos }: TodoListProps) {
   const [focusedTodoId, setFocusedTodoId] = useState<string | null>(null);
+  const { hideCompleted } = useTodoFilters();
   const listRef = useRef<HTMLUListElement>(null);
 
   // Handle keyboard navigation between todos
@@ -48,14 +49,16 @@ export function TodoList({ todos, sectionId }: TodoListProps) {
       className="flex h-full w-full flex-col space-y-[1px]"
       role="list"
     >
-      {todos.map((todo, index) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          onKeyDown={(e) => handleKeyDown(e, index)}
-          data-todo-id={todo.id}
-        />
-      ))}
+      {todos
+        .filter((todo) => !hideCompleted || !todo.completed)
+        .map((todo, index) => (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onKeyDown={(e) => handleKeyDown(e, index)}
+            data-todo-id={todo.id}
+          />
+        ))}
     </ul>
   );
 }

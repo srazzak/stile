@@ -63,7 +63,7 @@ const MenuGroupLabel = forwardRef<
 >(({ className, ...props }, ref) => (
   <BaseMenu.GroupLabel
     ref={ref}
-    className={cn("text-sm text-background-100", className)}
+    className={cn("text-xs text-background-100", className)}
     {...props}
   />
 ));

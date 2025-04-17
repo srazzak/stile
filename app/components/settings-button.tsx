@@ -2,6 +2,8 @@ import {
   CalendarIcon,
   QueueListIcon,
   Cog6ToothIcon,
+  EyeSlashIcon,
+  EyeIcon,
 } from "@heroicons/react/16/solid";
 import { useView } from "@/contexts/view-context";
 import { Menu as BaseMenu } from "@base-ui-components/react";
@@ -13,6 +15,8 @@ import {
   MenuGroupLabel,
   MenuGroup,
 } from "@/components/ui/menu";
+import { Switch } from "@/components/ui/switch";
+import { useTodoFilters } from "@/contexts/todo-filters-context";
 import { useShortcut } from "@/hooks/useShortcut";
 import { useState } from "react";
 
@@ -38,8 +42,9 @@ export function SettingsButton() {
         <Cog6ToothIcon className="h-4 w-4" />
       </MenuTrigger>
       <MenuPositioner>
-        <MenuPopup className="h-32">
+        <MenuPopup>
           <ViewSettings />
+          <OptionsSettings />
         </MenuPopup>
       </MenuPositioner>
     </Menu>
@@ -50,26 +55,45 @@ function ViewSettings() {
   const { view, setView } = useView();
 
   return (
-    <MenuGroup className="flex flex-col gap-2">
-      <MenuGroupLabel>View</MenuGroupLabel>
-      <BaseMenu.RadioGroup value={view} onValueChange={setView}>
-        <div className="flex gap-2 w-full">
-          <BaseMenu.RadioItem
-            value="list"
-            className="flex flex-col justify-center items-center text-sm gap-1 w-full border border-stone-300 py-2 rounded data-[highlighted]:bg-background-900 data-[checked]:bg-background-900 duration-75"
-          >
-            <QueueListIcon className="h-4 w-4" />
-            List
-          </BaseMenu.RadioItem>
-          <BaseMenu.RadioItem
-            value="timeline"
-            className="flex flex-col justify-center items-center text-sm gap-1 w-full border border-stone-300 py-2 rounded data-[highlighted]:bg-background-900 data-[checked]:bg-background-900 duration-75"
-          >
-            <CalendarIcon className="h-4 w-4" />
-            Timeline
-          </BaseMenu.RadioItem>
-        </div>
-      </BaseMenu.RadioGroup>
+    <MenuGroup className="flex flex-col gap-4">
+      <div className="flex flex-col gap-1">
+        <MenuGroupLabel>View</MenuGroupLabel>
+        <BaseMenu.RadioGroup value={view} onValueChange={setView}>
+          <div className="flex gap-2 w-full">
+            <BaseMenu.RadioItem
+              value="list"
+              className="flex flex-col justify-center items-center text-sm gap-1 w-full border border-stone-300 py-2 rounded data-[highlighted]:bg-background-900 data-[checked]:bg-background-950 duration-75"
+            >
+              <QueueListIcon className="h-4 w-4" />
+              List
+            </BaseMenu.RadioItem>
+            <BaseMenu.RadioItem
+              value="timeline"
+              className="flex flex-col justify-center items-center text-sm gap-1 w-full border border-stone-300 py-2 rounded data-[highlighted]:bg-background-900 data-[checked]:bg-background-900 duration-75"
+            >
+              <CalendarIcon className="h-4 w-4" />
+              Timeline
+            </BaseMenu.RadioItem>
+          </div>
+        </BaseMenu.RadioGroup>
+      </div>
+      <OptionsSettings />
     </MenuGroup>
+  );
+}
+
+function OptionsSettings() {
+  const { hideCompleted, setHideCompleted } = useTodoFilters();
+
+  return (
+    <div className="flex flex-col gap-1">
+      <MenuGroupLabel>Options</MenuGroupLabel>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="text-sm">Hide completed todos</span>
+        </div>
+        <Switch checked={hideCompleted} onCheckedChange={setHideCompleted} />
+      </div>
+    </div>
   );
 }
