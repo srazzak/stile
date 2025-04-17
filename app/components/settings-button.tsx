@@ -18,11 +18,18 @@ import { useState } from "react";
 
 export function SettingsButton() {
   const [open, setOpen] = useState(false);
+  const { setView } = useView();
 
   useShortcut({
-    key: "e",
-    handler: (e) => setOpen(true),
-    description: "Open settings menu",
+    key: "e l",
+    handler: (e) => setView("list"),
+    description: "Set view to list",
+  });
+
+  useShortcut({
+    key: "e t",
+    handler: (e) => setView("timeline"),
+    description: "Set view to timeline",
   });
 
   return (
@@ -41,20 +48,6 @@ export function SettingsButton() {
 
 function ViewSettings() {
   const { view, setView } = useView();
-
-  useShortcut({
-    key: "l",
-    handler: () => setView("list"),
-    description: "Sets view to list",
-    contexts: ["view"],
-  });
-
-  useShortcut({
-    key: "t",
-    handler: () => setView("timeline"),
-    description: "Sets view to timeline",
-    contexts: ["view"],
-  });
 
   return (
     <MenuGroup className="flex flex-col gap-2">
