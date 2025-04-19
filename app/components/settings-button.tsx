@@ -6,8 +6,8 @@ import {
   EyeIcon,
   CheckIcon,
 } from "@heroicons/react/16/solid";
-import { useView } from "@/contexts/view-context";
-import { Menu as BaseMenu } from "@base-ui-components/react";
+import { useView, type ViewType } from "@/contexts/view-context";
+import { Menu as BaseMenu, RadioGroup, Radio } from "@base-ui-components/react";
 import {
   Menu,
   MenuTrigger,
@@ -16,6 +16,12 @@ import {
   MenuGroupLabel,
   MenuGroup,
 } from "@/components/ui/menu";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverPopup,
+  PopoverPositioner,
+} from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
 import { useTodoFilters } from "@/contexts/todo-filters-context";
 import { useShortcut } from "@/hooks/useShortcut";
@@ -23,62 +29,63 @@ import { useState } from "react";
 
 export function SettingsButton() {
   const [open, setOpen] = useState(false);
-  const { setView } = useView();
 
   useShortcut({
-    key: "e l",
-    handler: (e) => setView("list"),
-    description: "Set view to list",
-  });
-
-  useShortcut({
-    key: "e t",
-    handler: (e) => setView("timeline"),
-    description: "Set view to timeline",
+    key: "o",
+    handler: (e) => setOpen(true),
+    description: "Open options",
   });
 
   return (
-    <Menu open={open} onOpenChange={setOpen}>
-      <MenuTrigger className="inline-flex w-8 h-8 rounded hover:bg-[#EFD7BF] duration-100 justify-center items-center">
+    <Popover open={open} onOpenChange={setOpen} modal>
+      <PopoverTrigger className="inline-flex w-8 h-8 rounded hover:bg-[#EFD7BF] duration-100 justify-center items-center">
         <Cog6ToothIcon className="h-4 w-4" />
-      </MenuTrigger>
-      <MenuPositioner>
-        <MenuPopup className="flex flex-col gap-4">
+      </PopoverTrigger>
+      <PopoverPositioner>
+        <PopoverPopup className="flex flex-col gap-4">
           <ViewSettings />
           <OptionsSettings />
-        </MenuPopup>
-      </MenuPositioner>
-    </Menu>
+        </PopoverPopup>
+      </PopoverPositioner>
+    </Popover>
   );
 }
 
 function ViewSettings() {
   const { view, setView } = useView();
 
+  function handleViewChange(newView: ViewType) {
+    if (view !== newView) {
+      setView(newView);
+    }
+  }
+
   return (
-    <MenuGroup className="flex flex-col gap-4">
-      <div className="flex flex-col gap-1">
-        <MenuGroupLabel>View</MenuGroupLabel>
-        <BaseMenu.RadioGroup value={view} onValueChange={setView}>
-          <div className="flex gap-2 w-full">
-            <BaseMenu.RadioItem
-              value="list"
-              className="flex flex-col justify-center items-center text-sm gap-1 w-full border border-stone-300 py-2 rounded data-[highlighted]:bg-background-900 data-[checked]:bg-background-900 duration-75"
-            >
-              <QueueListIcon className="h-4 w-4" />
-              List
-            </BaseMenu.RadioItem>
-            <BaseMenu.RadioItem
-              value="timeline"
-              className="flex flex-col justify-center items-center text-sm gap-1 w-full border border-stone-300 py-2 rounded data-[highlighted]:bg-background-900 data-[checked]:bg-background-900 duration-75"
-            >
-              <CalendarIcon className="h-4 w-4" />
-              Timeline
-            </BaseMenu.RadioItem>
-          </div>
-        </BaseMenu.RadioGroup>
+    <div className="flex flex-col gap-2">
+      <label className="text-xs text-gray-500">View</label>
+      <div className="flex flex-col gap-4">
+        <div className="flex gap-2 w-full">
+          <button
+            value="list"
+            className="flex flex-col justify-center items-center text-xs gap-1 w-full border border-stone-300 py-1 rounded data-[checked=true]:bg-background-900 duration-75"
+            onClick={() => handleViewChange("list")}
+            data-checked={view === "list"}
+          >
+            <QueueListIcon className="h-4 w-4" />
+            List
+          </button>
+          <button
+            value="timeline"
+            className="flex flex-col justify-center items-center text-xs gap-1 w-full border border-stone-300 py-1 rounded data-[checked=true]:bg-background-900 duration-75"
+            onClick={() => handleViewChange("timeline")}
+            data-checked={view === "timeline"}
+          >
+            <CalendarIcon className="h-4 w-4" />
+            Timeline
+          </button>
+        </div>
       </div>
-    </MenuGroup>
+    </div>
   );
 }
 
@@ -86,21 +93,12 @@ function OptionsSettings() {
   const { hideCompleted, setHideCompleted } = useTodoFilters();
 
   return (
-    <MenuGroup className="flex flex-col gap-1">
-      <div className="flex flex-col gap-1">
-        <MenuGroupLabel>Options</MenuGroupLabel>
-        <BaseMenu.CheckboxItem
-          className="flex items-center gap-2 justify-between data-[highlighted]:bg-background-900 select-none duration-75"
-          checked={hideCompleted}
-          onCheckedChange={setHideCompleted}
-        >
-          <span className="text-sm">Hide completed todos</span>
-          <BaseMenu.CheckboxItemIndicator className="h-4 w-4">
-            <CheckIcon className="h-4 w-4" />
-          </BaseMenu.CheckboxItemIndicator>
-        </BaseMenu.CheckboxItem>
-        {/* <Switch checked={hideCompleted} onCheckedChange={setHideCompleted} /> */}
+    <div className="flex flex-col gap-2">
+      <label className="text-xs text-gray-500">Options</label>
+      <div className="flex justify-between items-center">
+        <span className="text-sm">Hide completed todos</span>
+        <Switch checked={hideCompleted} onCheckedChange={setHideCompleted} />
       </div>
-    </MenuGroup>
+    </div>
   );
 }
