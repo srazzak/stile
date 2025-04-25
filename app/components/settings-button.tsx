@@ -2,20 +2,8 @@ import {
   CalendarIcon,
   QueueListIcon,
   Cog6ToothIcon,
-  EyeSlashIcon,
-  EyeIcon,
-  CheckIcon,
 } from "@heroicons/react/16/solid";
 import { useView, type ViewType } from "@/contexts/view-context";
-import { Menu as BaseMenu, RadioGroup, Radio } from "@base-ui-components/react";
-import {
-  Menu,
-  MenuTrigger,
-  MenuPopup,
-  MenuPositioner,
-  MenuGroupLabel,
-  MenuGroup,
-} from "@/components/ui/menu";
 import {
   Popover,
   PopoverTrigger,
