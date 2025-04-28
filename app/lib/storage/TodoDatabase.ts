@@ -1,7 +1,8 @@
 import Dexie, { type Table } from "dexie";
 import { type Todo, type Section } from "./types";
 import { generateId } from "../utils";
-import { upgradeToV2 } from "./v2_upgrade";
+import { upgradeToV3 } from "./v3-upgrade";
+import { upgradeToV4 } from "./v4-upgrade";
 
 class TodoDatabase extends Dexie {
   todos!: Table<Todo>;
@@ -20,7 +21,7 @@ class TodoDatabase extends Dexie {
           "id, completed, deadline, createdAt, updatedAt, completedAt, sectionId",
         sections: "id, title, createdAt, updatedAt",
       })
-      .upgrade(upgradeToV2);
+      .upgrade(upgradeToV3);
 
     // need a second one since dexie upgrade only runs once.
     this.version(3)
@@ -29,7 +30,14 @@ class TodoDatabase extends Dexie {
           "id, completed, deadline, createdAt, updatedAt, completedAt, sectionId",
         sections: "id, title, createdAt, updatedAt",
       })
-      .upgrade(upgradeToV2);
+      .upgrade(upgradeToV3);
+
+    this.version(4)
+      .stores({
+        todos:
+          "id, completed, deadline, createdAt, updatedAt, completedAt, sectionId",
+      })
+      .upgrade(upgradeToV4);
   }
 }
 
