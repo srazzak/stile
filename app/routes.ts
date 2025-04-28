@@ -7,7 +7,7 @@ import {
 
 export default [
   layout("./layout.tsx", [
-    index("routes/home.tsx"),
-    route("section/:sectionId", "routes/section.tsx"),
+    index("routes/today.tsx"),
+    route("later", "routes/later.tsx"),
   ]),
 ] satisfies RouteConfig;

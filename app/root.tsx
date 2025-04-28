@@ -10,9 +10,6 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import { KeyboardProvider } from "./contexts/keyboard-context";
-import { SectionList } from "./components/section/section-list";
-import { ViewProvider } from "./contexts/view-context";
-import { TodoFiltersProvider } from "./contexts/todo-filters-context";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -38,12 +35,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="relative h-full w-full antialiased">
-        <ViewProvider>
-          <TodoFiltersProvider>
-            <SectionList />
-            <KeyboardProvider>{children}</KeyboardProvider>
-          </TodoFiltersProvider>
-        </ViewProvider>
+        <KeyboardProvider>{children}</KeyboardProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
