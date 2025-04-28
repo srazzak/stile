@@ -2,17 +2,17 @@ import { Dialog, DialogPopup } from "@/components/ui/dialog";
 import { useState } from "react";
 import { useShortcut } from "@/hooks/useShortcut";
 import { Button } from "../ui/button";
-import { DatePicker } from "../ui/date-picker";
 import { todoStore } from "@/lib/storage";
 import { type Section, type Todo } from "@/lib/storage/types";
 import { Separator } from "@/components/ui/separator";
 import { TodoInput } from "./todo-input";
 
 interface TodoDialogProps {
+  sectionId?: string;
   section?: Section;
 }
 
-export function TodoDialog({ section }: TodoDialogProps) {
+export function TodoDialog({ sectionId, section }: TodoDialogProps) {
   const [title, setTitle] = useState("");
   const [deadline, setDeadline] = useState<Date | undefined>();
   const [open, setOpen] = useState(false);
@@ -32,7 +32,7 @@ export function TodoDialog({ section }: TodoDialogProps) {
         completed: false,
         updatedAt: new Date(),
         deadline: deadline,
-        sectionId: section?.id,
+        sectionId: sectionId,
       };
 
       await todoStore.createTodo(newTodo);
@@ -56,11 +56,6 @@ export function TodoDialog({ section }: TodoDialogProps) {
       <DialogPopup className="text-foreground space-y-4">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-3 p-2">
-            {section && (
-              <div className="w-fit rounded-sm border border-gray-200 px-2 py-0.5 font-serif shadow-lg font-medium">
-                {section.title}
-              </div>
-            )}
             <TodoInput
               placeholder="Task title"
               value={title}
@@ -71,13 +66,7 @@ export function TodoDialog({ section }: TodoDialogProps) {
             />
           </div>
           <Separator />
-          <div className="flex justify-between p-2">
-            <div className="flex items-center">
-              <DatePicker
-                selectedDate={deadline}
-                setSelectedDate={setDeadline}
-              />
-            </div>
+          <div className="flex justify-end p-2">
             <Button type="submit">Create</Button>
           </div>
         </form>

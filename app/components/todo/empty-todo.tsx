@@ -2,14 +2,8 @@ import { useState, type KeyboardEvent, useRef, forwardRef } from "react";
 import { todoStore } from "@/lib/storage";
 import { type Todo } from "@/lib/storage/types";
 import { TodoInput } from "./todo-input";
-import {
-  TooltipProvider,
-  Tooltip,
-  TooltipTrigger,
-  TooltipPopup,
-  TooltipPositioner,
-} from "../ui/tooltip";
-import { DatePicker } from "../ui/date-picker";
+import { useLiveQuery } from "dexie-react-hooks";
+import { cn } from "@/lib/utils";
 
 interface EmptyTodoProps {
   sectionId?: string;
@@ -21,6 +15,12 @@ export const EmptyTodo = forwardRef<HTMLDivElement, EmptyTodoProps>(
     const [newTodoTitle, setNewTodoTitle] = useState("");
     const [deadline, setDeadline] = useState<Date | undefined>(undefined);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    const todos = useLiveQuery(
+      () => todoStore.getPendingTodos(),
+      [sectionId],
+      [],
+    );
 
     const createTodo = async () => {
       if (newTodoTitle.trim()) {
@@ -54,32 +54,23 @@ export const EmptyTodo = forwardRef<HTMLDivElement, EmptyTodoProps>(
     return (
       <div
         ref={ref}
-        className="flex items-center justify-center py-1 pr-11 pl-10"
+        className={cn("flex items-center justify-center py-2 pr-11 pl-10")}
       >
-        <TodoInput
-          type="text"
-          ref={inputRef}
-          value={newTodoTitle}
-          onChange={(e) => setNewTodoTitle(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Add a new todo..."
-          completed={false}
-        />
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger
-              render={
-                <DatePicker
-                  selectedDate={deadline}
-                  setSelectedDate={setDeadline}
-                />
-              }
-            />
-            <TooltipPositioner>
-              <TooltipPopup>Due date</TooltipPopup>
-            </TooltipPositioner>
-          </Tooltip>
-        </TooltipProvider>
+        {todos.length <= 10 ? (
+          <TodoInput
+            type="text"
+            ref={inputRef}
+            value={newTodoTitle}
+            onChange={(e) => setNewTodoTitle(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Add a new todo..."
+            completed={false}
+          />
+        ) : (
+          <div className="text-neutral-400">
+            There's too many todos, delete some to add more.
+          </div>
+        )}
       </div>
     );
   },

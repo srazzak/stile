@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { TodoItem } from "./todo";
 import { type Todo } from "@/lib/storage/types";
 import { useTodoFilters } from "@/contexts/todo-filters-context";
+import { useShortcut } from "@/hooks/useShortcut";
+import { todoStore } from "@/lib/storage";
 
 interface TodoListProps {
   todos: Todo[];
@@ -13,18 +15,25 @@ export function TodoList({ todos }: TodoListProps) {
   const { hideCompleted } = useTodoFilters();
   const listRef = useRef<HTMLUListElement>(null);
 
+  useShortcut({
+    key: "t d",
+    handler: () => (focusedTodoId ? todoStore.deleteTodo(focusedTodoId) : null),
+    description: "Delete a todo",
+    contexts: ["global", "todo"],
+  });
+
   // Handle keyboard navigation between todos
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLLIElement>,
     index: number,
   ) => {
-    if (e.key === "ArrowDown") {
+    if ((e.key === "ArrowDown" || e.key === "j") && index < todos.length - 1) {
       e.preventDefault();
-      const nextIndex = (index + 1) % todos.length;
+      const nextIndex = index + 1;
       setFocusedTodoId(todos[nextIndex].id);
-    } else if (e.key === "ArrowUp") {
+    } else if ((e.key === "ArrowUp" || e.key === "k") && index > 0) {
       e.preventDefault();
-      const prevIndex = (index - 1 + todos.length) % todos.length;
+      const prevIndex = index - 1;
       setFocusedTodoId(todos[prevIndex].id);
     } else if (e.key === "Escape") {
       setFocusedTodoId(null);
