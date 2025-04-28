@@ -6,7 +6,6 @@ import { TodoCheckbox } from "./todo-checkbox";
 import { TodoInput } from "./todo-input";
 import { TrashIcon } from "@heroicons/react/16/solid";
 import styles from "./todo.module.css";
-import { DatePicker } from "@/components/ui/date-picker";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -35,7 +34,6 @@ export const TodoItem = ({
 
   const todoRef = useRef<HTMLLIElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const datePickerRef = useRef<HTMLButtonElement>(null);
   const deleteButtonRef = useRef<HTMLButtonElement>(null);
   const checkboxRef = useRef<HTMLButtonElement>(null);
 
