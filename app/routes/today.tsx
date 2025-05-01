@@ -1,3 +1,4 @@
+// route("/")
 import type { Route } from "./+types/today";
 import { TodoList } from "@/components/todo/todo-list";
 import { todoStore } from "@/lib/storage";

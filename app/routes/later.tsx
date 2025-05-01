@@ -1,4 +1,4 @@
-// route("later")
+// route("/later")
 import type { Route } from "./+types/later";
 import { TodoList } from "@/components/todo/todo-list";
 import { useLiveQuery } from "dexie-react-hooks";

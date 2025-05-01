@@ -16,10 +16,24 @@ export function TodoList({ todos }: TodoListProps) {
   const listRef = useRef<HTMLUListElement>(null);
 
   useShortcut({
-    key: "t d",
+    key: "x",
     handler: () => (focusedTodoId ? todoStore.deleteTodo(focusedTodoId) : null),
     description: "Delete a todo",
-    contexts: ["global", "todo"],
+    contexts: ["global"],
+  });
+
+  useShortcut({
+    key: "m l",
+    handler: () => (focusedTodoId ? todoStore.updateTodo(focusedTodoId, { sectionId: "later" }) : null),
+    description: "Move todo to later",
+    contexts: ["global"],
+  });
+
+  useShortcut({
+    key: "m t",
+    handler: () => (focusedTodoId ? todoStore.updateTodo(focusedTodoId, { sectionId: undefined }) : null),
+    description: "Move todo to today",
+    contexts: ["global"],
   });
 
   // Handle keyboard navigation between todos
