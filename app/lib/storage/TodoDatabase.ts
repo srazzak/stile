@@ -65,6 +65,7 @@ export class TodoDb {
       createdAt: new Date(),
       updatedAt: new Date(),
       completed: false,
+      completedAt: undefined,
     });
     return id;
   }

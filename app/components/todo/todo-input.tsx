@@ -14,7 +14,7 @@ export const TodoInput = React.forwardRef<
   return (
     <Input
       className={cn(
-        "text-foreground flex w-full items-center gap-1 p-1 outline-none",
+        "text-foreground flex w-full items-center gap-1 p-1 outline-none transition-colors duration-100",
         completed ? "text-foreground/50 line-through" : ""
       )}
       onKeyDown={onKeyDown}

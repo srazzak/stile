@@ -36,6 +36,20 @@ export function TodoList({ todos }: TodoListProps) {
     contexts: ["global"],
   });
 
+  useShortcut({
+    key: "d",
+    handler: () => (focusedTodoId ? todoStore.updateTodo(focusedTodoId, { completed: true, completedAt: new Date() }) : null),
+    description: "Complete todo",
+    contexts: ["global"],
+  })
+
+  useShortcut({
+    key: "u",
+    handler: () => (focusedTodoId ? todoStore.updateTodo(focusedTodoId, { completed: false, completedAt: undefined }) : null),
+    description: "Un-complete todo",
+    contexts: ["global"],
+  })
+
   // Handle keyboard navigation between todos
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLLIElement>,

@@ -23,6 +23,12 @@
   --color-background-900: oklch(0.911 0.01 67.7);
   --color-background-950: oklch(0.95 0.01 67.7);
 
+  --todo-background: radial-gradient(
+      circle at 60px 10px,
+      oklch(94.39% 0.015 70.88) 0%,
+      oklch(93.94% 0.013 71.33) 100%
+  );
+
   --color-background-gradient: radial-gradient(
     circle at top left,
     oklch(96.44% 0.009 62.59) 0%,

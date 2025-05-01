@@ -20,7 +20,7 @@ export default function LaterPage() {
       <div className="w-full h-full">
         <header className="flex flex-col gap-2 mb-12">
           <h1 className="font-serif text-2xl text-black">Later</h1>
-          <span className="font-serif text-neutral-500 ml-[3px]">
+          <span className="font-serif text-neutral-500">
             Things to get done later.
           </span>
         </header>
