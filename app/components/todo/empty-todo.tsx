@@ -4,6 +4,7 @@ import { type Todo } from "@/lib/storage/types";
 import { TodoInput } from "./todo-input";
 import { useLiveQuery } from "dexie-react-hooks";
 import { cn } from "@/lib/utils";
+import { useShortcut } from "@/hooks/useShortcut";
 
 interface EmptyTodoProps {
   sectionId?: string;
@@ -15,6 +16,13 @@ export const EmptyTodo = forwardRef<HTMLDivElement, EmptyTodoProps>(
     const [newTodoTitle, setNewTodoTitle] = useState("");
     const [deadline, setDeadline] = useState<Date | undefined>(undefined);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    useShortcut({
+      key: "c",
+      description: "Focus the todo input",
+      handler: () => inputRef.current?.focus(),
+      contexts: ["global"],
+    });
 
     const todos = useLiveQuery(
       () => todoStore.getPendingTodos(),
