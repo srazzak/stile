@@ -15,20 +15,22 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { useShortcut } from "@/hooks/useShortcut";
 
 interface TodoItemProps {
   todo: Todo;
   onKeyDown?: (e: React.KeyboardEvent<HTMLLIElement>) => void;
   "data-todo-id"?: string;
+  onFocusCapture: () => void;
 }
 
 export const TodoItem = ({
   todo,
   onKeyDown,
   "data-todo-id": dataTodoId,
+  onFocusCapture,
 }: TodoItemProps) => {
   const [title, setTitle] = useState(todo.title);
-  const [deadline, setDeadline] = useState(todo.deadline);
 
   const [isInnerFocusMode, setIsInnerFocusMode] = useState(false);
 
@@ -55,10 +57,6 @@ export const TodoItem = ({
     },
     [title, todo.id],
   );
-
-  useEffect(() => {
-    handleUpdate({ deadline: deadline });
-  }, [deadline, handleUpdate]);
 
   const handleDelete = async () => {
     todoStore.deleteTodo(todo.id);
@@ -130,6 +128,56 @@ export const TodoItem = ({
     }
   };
 
+  useShortcut({
+    key: "x",
+    handler: () =>
+      document.activeElement === todoRef.current ? handleDelete() : null,
+    description: "Delete a todo",
+  });
+
+  useShortcut({
+    key: "m l",
+    handler: () =>
+      document.activeElement === todoRef.current
+        ? todoStore.updateTodo(todo.id, { sectionId: "later" })
+        : null,
+    description: "Move todo to later",
+  });
+
+  useShortcut({
+    key: "m t",
+    handler: () =>
+      document.activeElement === todoRef.current
+        ? todoStore.updateTodo(todo.id, { sectionId: undefined })
+        : null,
+    description: "Move todo to today",
+  });
+
+  useShortcut({
+    key: "d",
+    handler: () =>
+      document.activeElement === todoRef.current
+        ? todoStore.updateTodo(todo.id, {
+            completed: true,
+            completedAt: new Date(),
+          })
+        : null,
+    description: "Complete todo",
+  });
+
+  useShortcut({
+    key: "u",
+    handler: () =>
+      document.activeElement === todoRef.current
+        ? todoStore.updateTodo(todo.id, {
+            completed: false,
+            completedAt: undefined,
+          })
+        : null,
+    description: "Un-complete todo",
+    contexts: ["global"],
+  });
+
   return (
     <li
       ref={todoRef}
@@ -138,6 +186,8 @@ export const TodoItem = ({
       onKeyDown={handleTodoKeyDown}
       aria-label={`Todo: ${todo.title}`}
       data-todo-id={dataTodoId}
+      onFocusCapture={onFocusCapture}
+      onFocus={onFocusCapture}
     >
       <TodoCheckbox
         ref={checkboxRef}

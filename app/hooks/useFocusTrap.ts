@@ -14,11 +14,13 @@ import { useEffect, type Ref, type RefObject } from "react";
 export function useFocusTrap({
   active,
   containerRef,
+  initialFocus,
   focusableSelector = "[tabindex]:not([tabindex='-1'])",
   onDeactivate,
 }: {
   active: boolean;
-  containerRef: RefObject<HTMLElement>;
+  containerRef: RefObject<HTMLElement | null>;
+  initialFocus?: RefObject<HTMLElement | null>;
   focusableSelector?: string;
   onDeactivate?: () => void;
 }) {
@@ -30,7 +32,9 @@ export function useFocusTrap({
       container.querySelectorAll<HTMLElement>(focusableSelector),
     );
 
-    const focusFirst = () => focusables[0]?.focus();
+    const focusFirst = () =>
+      initialFocus ? initialFocus.current?.focus() : focusables[0]?.focus();
+    // const focusFirst = () => focusables[0]?.focus();
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
