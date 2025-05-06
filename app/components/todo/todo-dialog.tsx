@@ -18,7 +18,7 @@ export function TodoDialog({ sectionId, section }: TodoDialogProps) {
   const [open, setOpen] = useState(false);
 
   useShortcut({
-    key: "c",
+    key: ["c"],
     description: "Create a new todo",
     handler: () => setOpen(true),
   });

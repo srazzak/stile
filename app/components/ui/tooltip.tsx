@@ -31,8 +31,8 @@ const TooltipPopup = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <TooltipPrimitive.Popup
     className={cn(
-      "z-50, rounded-md bg-gray-800 px-2 py-1 text-xs text-stone-100 duration-150 data-[ending-style]:opacity-100 data-[starting-style]:opacity-0",
-      className
+      "z-50, rounded-md bg-background-950 border border-background-800 px-2 py-1 text-xs font-medium text-stone-500 duration-150 transition-[transform,opacity] data-[ending-style]:opacity-100 data-[starting-style]:opacity-0 data-[ending-style]:translate-y-1 data-[starting-style]:translate-y-1",
+      className,
     )}
     {...props}
     ref={ref}

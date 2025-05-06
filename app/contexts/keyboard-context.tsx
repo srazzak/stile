@@ -6,13 +6,16 @@ import {
   useCallback,
   useMemo,
   type ReactNode,
+  useRef,
+  type RefObject,
 } from "react";
 
 // Define types for our shortcuts and contexts
 type ShortcutHandler = (e: KeyboardEvent) => void;
 
 interface ShortcutDefinition {
-  key: string; // e.g., 'g h' for pressing g then h
+  // key: string; // e.g., 'g h' for pressing g then h
+  key: string[]; // e.g., ["g", "h"] for pressing g then h
   description: string; // for help menus
   handler: ShortcutHandler;
   contexts: string[]; // which contexts this shortcut is active in
@@ -20,10 +23,11 @@ interface ShortcutDefinition {
 
 interface KeyboardContextType {
   registerShortcut: (shortcut: ShortcutDefinition) => void;
-  unregisterShortcut: (key: string) => void;
+  unregisterShortcut: (key: string[]) => void;
   setActiveContext: (context: string) => void;
   getActiveShortcuts: () => ShortcutDefinition[];
   activeContext: string;
+  keyBuffer: RefObject<string[]>;
 }
 
 const KeyboardContext = createContext<KeyboardContextType | undefined>(
@@ -33,10 +37,11 @@ const KeyboardContext = createContext<KeyboardContextType | undefined>(
 export function KeyboardProvider({ children }: { children: ReactNode }) {
   const [shortcuts, setShortcuts] = useState<ShortcutDefinition[]>([]);
   const [activeContext, setActiveContext] = useState<string>("global");
-  const [keySequence, setKeySequence] = useState<string[]>([]);
-  const [sequenceTimer, setSequenceTimer] = useState<NodeJS.Timeout | null>(
-    null,
+  const [activeShortcuts, setActiveShortcuts] = useState<ShortcutDefinition[]>(
+    [],
   );
+  const keyBuffer = useRef<string[]>([]);
+  const sequenceTimer = useRef<NodeJS.Timeout | null>(null);
 
   // Register a new shortcut - optimize to prevent unnecessary updates
   const registerShortcut = useCallback((shortcut: ShortcutDefinition) => {
@@ -56,17 +61,29 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // Unregister a shortcut
-  const unregisterShortcut = useCallback((key: string) => {
+  const unregisterShortcut = useCallback((key: string[]) => {
     setShortcuts((prev) => prev.filter((s) => s.key !== key));
   }, []);
 
   // Get shortcuts active in the current context
   const getActiveShortcuts = useCallback(() => {
-    return shortcuts.filter(
-      (s) =>
-        s.contexts.includes(activeContext) || s.contexts.includes("global"),
-    );
-  }, [shortcuts, activeContext]);
+    return shortcuts.filter((s) => {
+      // check to make sure buffer lines up
+      const bufferCheck = keyBuffer.current
+        .map((key, index) => key === s.key[index])
+        .every(Boolean);
+
+      return (
+        (s.contexts.includes(activeContext) || s.contexts.includes("global")) &&
+        bufferCheck
+      );
+    });
+  }, [shortcuts, activeContext, keyBuffer]);
+
+  function isShortcutMatch(input: string[], target: string[]) {
+    return input.length === target.length &&
+      input.every((key, i) => key === target[i]);
+  }
 
   // Handle keydown events
   useEffect(() => {
@@ -80,33 +97,37 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
       }
 
       // Add key to sequence
-      const newSequence = [...keySequence, e.key.toLowerCase()];
-      setKeySequence(newSequence);
+      keyBuffer.current.push(e.key.toLowerCase());
 
       // Reset sequence after 1 second of inactivity
-      if (sequenceTimer) clearTimeout(sequenceTimer);
-      const timer = setTimeout(() => setKeySequence([]), 1000);
-      setSequenceTimer(timer);
+      if (sequenceTimer.current) clearTimeout(sequenceTimer.current);
+      sequenceTimer.current = setTimeout(() => (keyBuffer.current = []), 1000);
 
-      // Check if sequence matches any shortcuts
-      const sequenceStr = newSequence.join(" ");
-      const matchingShortcut = getActiveShortcuts().find(
-        (s) => s.key === sequenceStr,
+      const activeShortcuts = getActiveShortcuts();
+
+      if (activeShortcuts.length === 0) {
+        keyBuffer.current = [];
+        if (sequenceTimer.current) clearTimeout(sequenceTimer.current);
+      }
+
+      const matchingShortcut = activeShortcuts.find(
+        (s) => isShortcutMatch(s.key, keyBuffer.current),
       );
 
+      // Check if sequence matches any shortcuts
       if (matchingShortcut) {
         e.preventDefault();
         matchingShortcut.handler(e);
-        setKeySequence([]); // Reset after successful match
+        keyBuffer.current = []; // Reset after successful match
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      if (sequenceTimer) clearTimeout(sequenceTimer);
+      if (sequenceTimer.current) clearTimeout(sequenceTimer.current);
     };
-  }, [keySequence, sequenceTimer, getActiveShortcuts]);
+  }, [keyBuffer, sequenceTimer, getActiveShortcuts]);
 
   // Memoize the context value to prevent unnecessary rerenders
   const contextValue = useMemo(
@@ -116,6 +137,7 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
       setActiveContext,
       getActiveShortcuts,
       activeContext,
+      keyBuffer,
     }),
     [
       registerShortcut,
@@ -123,6 +145,7 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
       setActiveContext,
       getActiveShortcuts,
       activeContext,
+      keyBuffer,
     ],
   );
 

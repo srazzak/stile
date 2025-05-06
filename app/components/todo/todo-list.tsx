@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { TodoItem } from "./todo";
 import { type Todo } from "@/lib/storage/types";
+import { useShortcut } from "@/hooks/useShortcut";
+import { todoStore } from "@/lib/storage";
+import { useKeyboard } from "@/contexts/keyboard-context";
 
 interface TodoListProps {
   todos: Todo[];
@@ -41,6 +44,58 @@ export function TodoList({ todos }: TodoListProps) {
     }
   }, [focusedTodoId]);
 
+  const { setActiveContext } = useKeyboard();
+
+  useShortcut({
+    key: ["x"],
+    handler: () => focusedTodoId && todoStore.deleteTodo(focusedTodoId),
+    description: "Delete a todo",
+    contexts: ["todo"],
+  });
+
+  useShortcut({
+    key: ["m", "l"],
+    handler: () =>
+      focusedTodoId &&
+      todoStore.updateTodo(focusedTodoId, { sectionId: "later" }),
+    description: "Move todo to later",
+    contexts: ["todo"],
+  });
+
+  useShortcut({
+    key: ["m", "t"],
+    handler: () =>
+      focusedTodoId &&
+      todoStore.updateTodo(focusedTodoId, { sectionId: undefined }),
+    description: "Move todo to today",
+    contexts: ["todo"],
+  });
+
+  useShortcut({
+    key: ["d"],
+    handler: () =>
+      focusedTodoId &&
+      todoStore.updateTodo(focusedTodoId, {
+        completed: true,
+        completedAt: new Date(),
+      }),
+    description: "Complete todo",
+    contexts: ["todo"],
+  });
+
+  useShortcut({
+    key: ["u"],
+    handler: () =>
+      focusedTodoId &&
+      todoStore.updateTodo(focusedTodoId, {
+        completed: false,
+        completedAt: undefined,
+      }),
+    description: "Un-complete todo",
+    contexts: ["todo"],
+  });
+
+
   return (
     <ul
       ref={listRef}
@@ -51,9 +106,15 @@ export function TodoList({ todos }: TodoListProps) {
         <TodoItem
           key={todo.id}
           todo={todo}
-          onKeyDown={(e) => handleKeyDown(e, index)}
           data-todo-id={todo.id}
-          onFocusCapture={() => setFocusedTodoId(todo.id)}
+          onFocus={() => {
+            setFocusedTodoId(todo.id);
+            setActiveContext("todo");
+          }}
+          onBlur={() => {
+            setFocusedTodoId(null);
+            setActiveContext("global");
+          }}
         />
       ))}
     </ul>

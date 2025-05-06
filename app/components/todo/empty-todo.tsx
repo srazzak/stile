@@ -18,10 +18,10 @@ export const EmptyTodo = forwardRef<HTMLDivElement, EmptyTodoProps>(
     const inputRef = useRef<HTMLInputElement>(null);
 
     useShortcut({
-      key: "c",
+      key: ["c"],
       description: "Focus the todo input",
       handler: () => inputRef.current?.focus(),
-      contexts: ["global"],
+      contexts: ["global", "todo"],
     });
 
     const todos = useLiveQuery(

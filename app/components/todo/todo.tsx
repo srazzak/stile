@@ -19,16 +19,16 @@ import { useShortcut } from "@/hooks/useShortcut";
 
 interface TodoItemProps {
   todo: Todo;
-  onKeyDown?: (e: React.KeyboardEvent<HTMLLIElement>) => void;
   "data-todo-id"?: string;
-  onFocusCapture: () => void;
+  onFocus: () => void;
+  onBlur: () => void;
 }
 
 export const TodoItem = ({
   todo,
-  onKeyDown,
   "data-todo-id": dataTodoId,
-  onFocusCapture,
+  onFocus,
+  onBlur,
 }: TodoItemProps) => {
   const [title, setTitle] = useState(todo.title);
 
@@ -84,10 +84,10 @@ export const TodoItem = ({
         todoRef.current?.blur();
       }
 
-      // Handle external list navigation
-      if (onKeyDown) {
-        onKeyDown(e);
-      }
+      // // Handle external list navigation
+      // if (onKeyDown) {
+      //   onKeyDown(e);
+      // }
 
       // Other keys are passed through to parent handlers when not in inner focus mode
       return;
@@ -128,75 +128,24 @@ export const TodoItem = ({
     }
   };
 
-  useShortcut({
-    key: "x",
-    handler: () =>
-      document.activeElement === todoRef.current ? handleDelete() : null,
-    description: "Delete a todo",
-  });
-
-  useShortcut({
-    key: "m l",
-    handler: () =>
-      document.activeElement === todoRef.current
-        ? todoStore.updateTodo(todo.id, { sectionId: "later" })
-        : null,
-    description: "Move todo to later",
-  });
-
-  useShortcut({
-    key: "m t",
-    handler: () =>
-      document.activeElement === todoRef.current
-        ? todoStore.updateTodo(todo.id, { sectionId: undefined })
-        : null,
-    description: "Move todo to today",
-  });
-
-  useShortcut({
-    key: "d",
-    handler: () =>
-      document.activeElement === todoRef.current
-        ? todoStore.updateTodo(todo.id, {
-            completed: true,
-            completedAt: new Date(),
-          })
-        : null,
-    description: "Complete todo",
-  });
-
-  useShortcut({
-    key: "u",
-    handler: () =>
-      document.activeElement === todoRef.current
-        ? todoStore.updateTodo(todo.id, {
-            completed: false,
-            completedAt: undefined,
-          })
-        : null,
-    description: "Un-complete todo",
-    contexts: ["global"],
-  });
-
   return (
     <li
       ref={todoRef}
       className={cn(styles.todo, isInnerFocusMode ? styles.innerFocusMode : "")}
       tabIndex={isInnerFocusMode ? -1 : 0}
-      onKeyDown={handleTodoKeyDown}
+      // onKeyDown={handleTodoKeyDown}
       aria-label={`Todo: ${todo.title}`}
       data-todo-id={dataTodoId}
-      onFocusCapture={onFocusCapture}
-      onFocus={onFocusCapture}
+      onFocus={onFocus}
+      onBlur={onBlur}
     >
       <TodoCheckbox
         ref={checkboxRef}
         checked={todo.completed}
         onCheckedChange={(checked) =>
-          handleUpdate({
-            completed: checked,
-            completedAt: checked ? new Date() : undefined,
-          })
+          checked
+            ? handleUpdate({ completed: true, completedAt: new Date() })
+            : handleUpdate({ completed: false, completedAt: undefined })
         }
         tabIndex={isInnerFocusMode ? 0 : -1}
       />
@@ -212,7 +161,7 @@ export const TodoItem = ({
         tabIndex={isInnerFocusMode ? 0 : -1}
         onFocus={() => setIsInnerFocusMode(true)}
       />
-      <TooltipProvider>
+      <TooltipProvider delay={100}>
         <Tooltip>
           <TooltipTrigger
             render={

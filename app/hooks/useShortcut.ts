@@ -2,7 +2,7 @@ import { useEffect, useCallback, useRef } from "react";
 import { useKeyboard } from "@/contexts/keyboard-context";
 
 interface UseShortcutProps {
-  key: string;
+  key: string[];
   handler: (e: KeyboardEvent) => void;
   description: string;
   contexts?: string[];

@@ -19,7 +19,7 @@ export function SettingsButton() {
   const [open, setOpen] = useState(false);
 
   useShortcut({
-    key: "o",
+    key: ["o"],
     handler: (e) => setOpen(true),
     description: "Open options",
   });
