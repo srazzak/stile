@@ -100,19 +100,19 @@ export function TodoList({ todos }: TodoListProps) {
       const activeEl = document.activeElement;
 
       if (dir === "prev") {
-        const prevSibling = activeEl?.previousElementSibling;
+        const prevSibling = activeEl?.previousElementSibling as HTMLElement;
 
         if (prevSibling?.tagName === "LI") {
           prevSibling.focus();
         }
       } else {
-        const nextSibling = activeEl?.nextElementSibling;
+        const nextSibling = activeEl?.nextElementSibling as HTMLElement;
         if (nextSibling?.tagName === "LI") {
           nextSibling.focus();
         }
       }
     } else {
-      listRef.current?.firstElementChild?.focus();
+      (listRef.current?.firstElementChild as HTMLElement)?.focus();
     }
   }
 
