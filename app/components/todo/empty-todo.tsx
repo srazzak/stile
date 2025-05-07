@@ -64,7 +64,7 @@ export const EmptyTodo = forwardRef<HTMLDivElement, EmptyTodoProps>(
         ref={ref}
         className={cn("flex items-center justify-center py-2 pr-11 pl-10")}
       >
-        {todos.length <= 10 ? (
+        {todos.length < 10 || sectionId ? (
           <TodoInput
             type="text"
             ref={inputRef}

@@ -95,6 +95,40 @@ export function TodoList({ todos }: TodoListProps) {
     contexts: ["todo"],
   });
 
+  function handleNavigate(dir: "next" | "prev") {
+    if (focusedTodoId) {
+      const activeEl = document.activeElement;
+
+      if (dir === "prev") {
+        const prevSibling = activeEl?.previousElementSibling;
+
+        if (prevSibling?.tagName === "LI") {
+          prevSibling.focus();
+        }
+      } else {
+        const nextSibling = activeEl?.nextElementSibling;
+        if (nextSibling?.tagName === "LI") {
+          nextSibling.focus();
+        }
+      }
+    } else {
+      listRef.current?.firstElementChild?.focus();
+    }
+  }
+
+  useShortcut({
+    key: ["j"],
+    handler: () => handleNavigate("next"),
+    description: "Go to next todo",
+    contexts: ["todo"],
+  });
+
+  useShortcut({
+    key: ["k"],
+    handler: () => handleNavigate("prev"),
+    description: "Go to previous todo",
+    contexts: ["todo"],
+  });
 
   return (
     <ul
