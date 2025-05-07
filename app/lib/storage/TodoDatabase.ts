@@ -116,6 +116,16 @@ export class TodoDb {
       .sortBy("createdAt");
   }
 
+  async getTodoCount(): Promise<{ pending: number; later: number }> {
+    const pendingTodos = await this.getPendingTodos();
+    const laterTodos = await this.getTodosBySectionId("later");
+
+    return {
+      pending: pendingTodos.length,
+      later: laterTodos.length,
+    };
+  }
+
   async getTodosBySectionId(sectionId: string): Promise<Todo[]> {
     const startOfToday = new Date();
     startOfToday.setHours(0, 0, 0, 0);

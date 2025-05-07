@@ -1,6 +1,7 @@
 import { Outlet, useNavigate } from "react-router";
 import { useShortcut } from "./hooks/useShortcut";
 import { useKeyboard } from "./contexts/keyboard-context";
+import { Navbar } from "./components/navbar";
 
 export default function Layout() {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ export default function Layout() {
 
   return (
     <main className="mx-auto flex h-full w-full max-w-4xl flex-col p-4 pt-32 xl:max-w-3xl">
+      <Navbar />
       <Outlet />
     </main>
   );
