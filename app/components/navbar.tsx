@@ -18,7 +18,7 @@ export function Navbar() {
         )}
       >
         TODAY
-        <span className="ml-2 px-1 rounded bg-background-900">
+        <span className="ml-1 px-1 rounded bg-background-900">
           {todoCount?.pending}
         </span>
       </Link>
@@ -31,7 +31,7 @@ export function Navbar() {
         )}
       >
         LATER
-        <span className={cn("ml-2 px-1 rounded bg-background-900")}>
+        <span className={cn("ml-1 px-1 rounded bg-background-900")}>
           {todoCount?.later}
         </span>
       </Link>
