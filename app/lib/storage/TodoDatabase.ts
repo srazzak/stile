@@ -132,7 +132,7 @@ export class TodoDb {
             todo.completedAt >= startOfToday &&
             todo.completedAt <= endOfToday),
       )
-      .toArray();
+      .sortBy("createdAt");
   }
 
   async getAllSections(): Promise<Section[]> {
