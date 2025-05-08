@@ -21,7 +21,7 @@ export const EmptyTodo = forwardRef<HTMLDivElement, EmptyTodoProps>(
       key: ["c"],
       description: "Focus the todo input",
       handler: () => inputRef.current?.focus(),
-      contexts: ["global", "todo"],
+      contexts: ["global"],
     });
 
     const todos = useLiveQuery(

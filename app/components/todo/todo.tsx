@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useShortcut } from "@/hooks/useShortcut";
+import { Kbd } from "../ui/kbd";
 
 interface TodoItemProps {
   todo: Todo;
@@ -161,7 +162,7 @@ export const TodoItem = ({
         tabIndex={isInnerFocusMode ? 0 : -1}
         onFocus={() => setIsInnerFocusMode(true)}
       />
-      <TooltipProvider delay={100}>
+      <TooltipProvider delay={200}>
         <Tooltip>
           <TooltipTrigger
             render={
@@ -177,8 +178,13 @@ export const TodoItem = ({
               </Button>
             }
           />
-          <TooltipPositioner>
-            <TooltipPopup>Delete</TooltipPopup>
+          <TooltipPositioner sideOffset={8} side="right">
+            <TooltipPopup className="inline-flex gap-2">
+              Delete
+              <span>
+                <Kbd>D</Kbd>
+              </span>
+            </TooltipPopup>
           </TooltipPositioner>
         </Tooltip>
       </TooltipProvider>
