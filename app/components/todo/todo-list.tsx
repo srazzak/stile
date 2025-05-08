@@ -46,6 +46,14 @@ export function TodoList({ todos }: TodoListProps) {
 
   const { setActiveContext } = useKeyboard();
 
+  function handleMove(sectionId: string | undefined) {
+    if (focusedTodoId) {
+      todoStore.updateTodo(focusedTodoId, { sectionId: sectionId });
+    }
+
+    handleNavigate("next");
+  }
+
   useShortcut({
     key: ["x"],
     handler: () => focusedTodoId && todoStore.deleteTodo(focusedTodoId),
@@ -55,18 +63,14 @@ export function TodoList({ todos }: TodoListProps) {
 
   useShortcut({
     key: ["m", "l"],
-    handler: () =>
-      focusedTodoId &&
-      todoStore.updateTodo(focusedTodoId, { sectionId: "later" }),
+    handler: () => handleMove("later"),
     description: "Move todo to later",
     contexts: ["todo"],
   });
 
   useShortcut({
     key: ["m", "t"],
-    handler: () =>
-      focusedTodoId &&
-      todoStore.updateTodo(focusedTodoId, { sectionId: undefined }),
+    handler: () => handleMove(undefined),
     description: "Move todo to today",
     contexts: ["todo"],
   });
@@ -112,7 +116,13 @@ export function TodoList({ todos }: TodoListProps) {
         }
       }
     } else {
-      (listRef.current?.firstElementChild as HTMLElement)?.focus();
+      const firstEl = listRef.current?.firstElementChild as HTMLElement;
+
+      if (firstEl) {
+        firstEl.focus();
+      } else {
+        setActiveContext("global");
+      }
     }
   }
 
@@ -120,14 +130,14 @@ export function TodoList({ todos }: TodoListProps) {
     key: ["j"],
     handler: () => handleNavigate("next"),
     description: "Go to next todo",
-    contexts: ["todo"],
+    contexts: ["global"],
   });
 
   useShortcut({
     key: ["k"],
     handler: () => handleNavigate("prev"),
     description: "Go to previous todo",
-    contexts: ["todo"],
+    contexts: ["global"],
   });
 
   return (
@@ -136,7 +146,7 @@ export function TodoList({ todos }: TodoListProps) {
       className="flex h-full w-full flex-col space-y-[1px]"
       role="list"
     >
-      {todos.map((todo, index) => (
+      {todos.map((todo) => (
         <TodoItem
           key={todo.id}
           todo={todo}

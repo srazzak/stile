@@ -28,6 +28,7 @@ interface KeyboardContextType {
   getActiveShortcuts: () => ShortcutDefinition[];
   activeContext: string;
   keyBuffer: RefObject<string[]>;
+  debugKeyBuffer: string[];
 }
 
 const KeyboardContext = createContext<KeyboardContextType | undefined>(
@@ -37,10 +38,8 @@ const KeyboardContext = createContext<KeyboardContextType | undefined>(
 export function KeyboardProvider({ children }: { children: ReactNode }) {
   const [shortcuts, setShortcuts] = useState<ShortcutDefinition[]>([]);
   const [activeContext, setActiveContext] = useState<string>("global");
-  const [activeShortcuts, setActiveShortcuts] = useState<ShortcutDefinition[]>(
-    [],
-  );
   const keyBuffer = useRef<string[]>([]);
+  const [debugKeyBuffer, setDebugKeyBuffer] = useState<string[]>([]);
   const sequenceTimer = useRef<NodeJS.Timeout | null>(null);
 
   // Register a new shortcut - optimize to prevent unnecessary updates
@@ -81,8 +80,10 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
   }, [shortcuts, activeContext, keyBuffer]);
 
   function isShortcutMatch(input: string[], target: string[]) {
-    return input.length === target.length &&
-      input.every((key, i) => key === target[i]);
+    return (
+      input.length === target.length &&
+      input.every((key, i) => key === target[i])
+    );
   }
 
   // Handle keydown events
@@ -99,19 +100,33 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
       // Add key to sequence
       keyBuffer.current.push(e.key.toLowerCase());
 
+      if (import.meta.env.DEV) {
+        setDebugKeyBuffer(keyBuffer.current);
+      }
+
       // Reset sequence after 1 second of inactivity
       if (sequenceTimer.current) clearTimeout(sequenceTimer.current);
-      sequenceTimer.current = setTimeout(() => (keyBuffer.current = []), 1000);
+      sequenceTimer.current = setTimeout(() => {
+        keyBuffer.current = [];
+        if (import.meta.env.DEV) {
+          setDebugKeyBuffer(keyBuffer.current);
+        }
+      }, 1000);
 
       const activeShortcuts = getActiveShortcuts();
 
       if (activeShortcuts.length === 0) {
         keyBuffer.current = [];
         if (sequenceTimer.current) clearTimeout(sequenceTimer.current);
+
+        // debug keyBuffer
+        if (import.meta.env.DEV) {
+          setDebugKeyBuffer(keyBuffer.current);
+        }
       }
 
-      const matchingShortcut = activeShortcuts.find(
-        (s) => isShortcutMatch(s.key, keyBuffer.current),
+      const matchingShortcut = activeShortcuts.find((s) =>
+        isShortcutMatch(s.key, keyBuffer.current),
       );
 
       // Check if sequence matches any shortcuts
@@ -138,6 +153,7 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
       getActiveShortcuts,
       activeContext,
       keyBuffer,
+      debugKeyBuffer,
     }),
     [
       registerShortcut,
@@ -146,6 +162,7 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
       getActiveShortcuts,
       activeContext,
       keyBuffer,
+      debugKeyBuffer,
     ],
   );
 

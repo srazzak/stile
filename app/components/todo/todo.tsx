@@ -17,6 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useShortcut } from "@/hooks/useShortcut";
 import { Kbd } from "../ui/kbd";
+import { useKeyboard } from "@/contexts/keyboard-context";
 
 interface TodoItemProps {
   todo: Todo;
@@ -32,8 +33,9 @@ export const TodoItem = ({
   onBlur,
 }: TodoItemProps) => {
   const [title, setTitle] = useState(todo.title);
-
   const [isInnerFocusMode, setIsInnerFocusMode] = useState(false);
+
+  const { setActiveContext } = useKeyboard();
 
   const todoRef = useRef<HTMLLIElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -115,7 +117,6 @@ export const TodoItem = ({
 
   const exitInnerFocusMode = () => {
     setIsInnerFocusMode(false);
-    // setIsEditing is handled by the useEffect
     if (todoRef.current) {
       todoRef.current.focus();
     }
@@ -127,6 +128,8 @@ export const TodoItem = ({
     } else {
       setTitle(todo.title);
     }
+
+    setActiveContext("global");
   };
 
   return (
@@ -134,7 +137,7 @@ export const TodoItem = ({
       ref={todoRef}
       className={cn(styles.todo, isInnerFocusMode ? styles.innerFocusMode : "")}
       tabIndex={isInnerFocusMode ? -1 : 0}
-      // onKeyDown={handleTodoKeyDown}
+      onKeyDown={handleTodoKeyDown}
       aria-label={`Todo: ${todo.title}`}
       data-todo-id={dataTodoId}
       onFocus={onFocus}
@@ -158,7 +161,6 @@ export const TodoItem = ({
         onBlur={handleBlur}
         onKeyDown={handleInputKeyDown}
         completed={todo.completed}
-        disabled={todo.completed}
         tabIndex={isInnerFocusMode ? 0 : -1}
         onFocus={() => setIsInnerFocusMode(true)}
       />
