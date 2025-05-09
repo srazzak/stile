@@ -20,8 +20,8 @@ export function Navbar() {
   const location = useLocation();
 
   return (
-    <div className="flex flex-row justify-between items-center mb-8">
-      <div className="inline-flex gap-2 text-xs py-1 px-2 rounded-lg outline outline-foreground/10 w-fit shadow-sm">
+    <div className="flex flex-row justify-between items-center mb-12">
+      <div className="inline-flex gap-2 text-xs p-1 rounded-lg outline outline-foreground/10 w-fit shadow-sm">
         <TooltipProvider delay={200}>
           <Tooltip>
             <TooltipTrigger
@@ -29,7 +29,7 @@ export function Navbar() {
                 <Link
                   to="/"
                   className={cn(
-                    "font-mono inline-flex w-fit items-center duration-150",
+                    "font-mono inline-flex w-fit items-center duration-150 rounded-l pl-1",
                     location.pathname === "/"
                       ? ""
                       : "text-neutral-400 hover:text-neutral-500",
@@ -58,7 +58,7 @@ export function Navbar() {
                 <Link
                   to="/later"
                   className={cn(
-                    "font-mono inline-flex w-fit items-center duration-150",
+                    "font-mono inline-flex w-fit items-center duration-150 rounded-r pr-px",
                     location.pathname === "/later"
                       ? ""
                       : "text-neutral-400 hover:text-neutral-500",

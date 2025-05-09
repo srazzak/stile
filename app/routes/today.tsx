@@ -6,7 +6,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { EmptyTodo } from "@/components/todo/empty-todo";
 import { format } from "date-fns";
 
-export function meta({ }: Route.MetaArgs) {
+export function meta({}: Route.MetaArgs) {
   return [
     { title: "Verdigris" },
     { name: "description", content: "A simple todo app" },
@@ -19,7 +19,7 @@ export default function Today() {
   if (todos) {
     return (
       <div className="w-full h-full">
-        <header className="flex flex-col gap-2 mb-12">
+        <header className="flex flex-col gap-2 mb-8">
           <h1 className="font-serif text-2xl text-black">Today</h1>
           <span className="font-serif text-neutral-500 ml-[3px]">
             {format(new Date(), "eeee, MMMM d")}
@@ -33,4 +33,3 @@ export default function Today() {
     );
   }
 }
-

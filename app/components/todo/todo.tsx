@@ -15,7 +15,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { useShortcut } from "@/hooks/useShortcut";
 import { Kbd } from "../ui/kbd";
 import { useKeyboard } from "@/contexts/keyboard-context";
 

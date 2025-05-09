@@ -5,6 +5,8 @@ import { TodoInput } from "./todo-input";
 import { useLiveQuery } from "dexie-react-hooks";
 import { cn } from "@/lib/utils";
 import { useShortcut } from "@/hooks/useShortcut";
+import styles from "./todo.module.css";
+import { Checkbox } from "../ui/checkbox";
 
 interface EmptyTodoProps {
   sectionId?: string;
@@ -59,12 +61,13 @@ export const EmptyTodo = forwardRef<HTMLDivElement, EmptyTodoProps>(
       }
     };
 
-    return (
-      <div
-        ref={ref}
-        className={cn("flex items-center justify-center py-2 pr-11 pl-10")}
-      >
-        {todos.length < 10 || sectionId ? (
+    if (todos.length < 10 || sectionId) {
+      return (
+        <div
+          ref={ref}
+          className="flex items-center w-full gap-2 py-2 pr-1 pl-3"
+        >
+          <Checkbox disabled />
           <TodoInput
             type="text"
             ref={inputRef}
@@ -74,13 +77,15 @@ export const EmptyTodo = forwardRef<HTMLDivElement, EmptyTodoProps>(
             placeholder="Add a new todo..."
             completed={false}
           />
-        ) : (
-          <div className="text-neutral-400">
-            There's too many todos, delete some to add more.
-          </div>
-        )}
-      </div>
-    );
+        </div>
+      );
+    } else {
+      return (
+        <div className="w-full text-center text-neutral-400 mt-4">
+          There's too many todos, delete some to add more.
+        </div>
+      );
+    }
   },
 );
 

@@ -5,7 +5,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { todoStore } from "@/lib/storage";
 import { EmptyTodo } from "@/components/todo/empty-todo";
 
-export function meta({ }: Route.MetaArgs) {
+export function meta({}: Route.MetaArgs) {
   return [
     { title: "Verdigris | Later" },
     { name: "description", content: "A simple todo app" },
@@ -18,7 +18,7 @@ export default function LaterPage() {
   if (todos) {
     return (
       <div className="w-full h-full">
-        <header className="flex flex-col gap-2 mb-12">
+        <header className="flex flex-col gap-2 mb-8">
           <h1 className="font-serif text-2xl text-black">Later</h1>
           <span className="font-serif text-neutral-500">
             Things to get done later.
