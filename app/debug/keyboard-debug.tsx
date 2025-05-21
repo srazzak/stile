@@ -1,3 +1,4 @@
+import { Kbd } from "@/components/ui/kbd";
 import { useKeyboard } from "@/contexts/keyboard-context";
 
 export function KeyboardDebug() {
@@ -12,9 +13,9 @@ export function KeyboardDebug() {
           active shortcuts:
           <ul className="inline-flex gap-2 flex-wrap">
             {getActiveShortcuts().map((k) => (
-              <div className="bg-background-800 px-1 rounded py-0.5">
+              <div className="bg-gray-200 p-1 rounded inline-flex gap-1">
                 {k.key.map((v) => (
-                  <span>{v}</span>
+                  <Kbd>{v}</Kbd>
                 ))}
               </div>
             ))}
