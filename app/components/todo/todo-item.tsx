@@ -44,13 +44,6 @@ export const TodoItem = ({ todo, onFocus, onBlur }: TodoItemProps) => {
     }
   }, [isInnerFocusMode]);
 
-  useShortcut({
-    key: ["e"],
-    handler: () => inputRef.current?.focus(),
-    description: "Focus the todo",
-    contexts: ["todo"],
-  });
-
   const handleUpdate = useCallback(
     async (data: Partial<Todo>) => {
       if (title.trim()) {

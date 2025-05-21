@@ -124,6 +124,32 @@ export function TodoList({ todos }: TodoListProps) {
     contexts: ["global"],
   });
 
+  function handleFocusActive() {
+    if (focusedTodoId) {
+      const activeTodoEl = document.querySelector(
+        `[data-todo-id="${focusedTodoId}"]`,
+      ) as HTMLElement | null;
+
+      if (activeTodoEl) {
+        // Find the input element within the focused todo item
+        const inputElement = activeTodoEl.querySelector(
+          "input[type='text']",
+        ) as HTMLInputElement | null;
+
+        if (inputElement) {
+          inputElement.select();
+        }
+      }
+    }
+  }
+
+  useShortcut({
+    key: ["e"],
+    handler: handleFocusActive,
+    description: "Focus active todo input",
+    contexts: ["todo"],
+  });
+
   return (
     <ul
       ref={listRef}
