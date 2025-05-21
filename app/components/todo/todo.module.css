@@ -13,14 +13,11 @@
 }
 
 .todo:focus-visible,
-.todo:focus-within {
+.todo:focus-within,
+.todo:hover {
   outline: none;
-  /* background: var(--color-background-todo); */
-  background: radial-gradient(
-    circle at 60px 10px,
-    oklch(94.39% 0.015 70.88) 0%,
-    oklch(93.94% 0.013 71.33) 100%
-  );
+  background-color: oklch(93.94% 0.013 71.33);
+  transition: background-color 75ms ease-in-out;
   /* background: radial-gradient( */
   /*   circle at 60px 10px, */
   /*   oklch(94.39% 0.015 70.88) 0%, */
@@ -28,7 +25,7 @@
   /* ); */
 }
 
-.todo::before {
+/* .todo::before {
   position: absolute;
   content: "";
   top: 0;
@@ -38,13 +35,13 @@
   background: radial-gradient(
     circle at 60px 10px,
     oklch(94.39% 0.015 70.88) 0%,
-    /* oklch(92.32% 0.021 74.65) 100% */ oklch(94.94% 0.013 71.33) 100%
+    oklch(94.94% 0.013 71.33) 100%
   );
   opacity: 0;
   z-index: -1;
   border-radius: inherit;
   transition: opacity 75ms ease-in-out;
-}
+} */
 
 .todo::after {
   position: absolute;

@@ -17,20 +17,15 @@ import {
 import { cn } from "@/lib/utils";
 import { Kbd } from "../ui/kbd";
 import { useKeyboard } from "@/contexts/keyboard-context";
+import { useShortcut } from "@/hooks/useShortcut";
 
 interface TodoItemProps {
   todo: Todo;
-  "data-todo-id"?: string;
   onFocus: () => void;
   onBlur: () => void;
 }
 
-export const TodoItem = ({
-  todo,
-  "data-todo-id": dataTodoId,
-  onFocus,
-  onBlur,
-}: TodoItemProps) => {
+export const TodoItem = ({ todo, onFocus, onBlur }: TodoItemProps) => {
   const [title, setTitle] = useState(todo.title);
   const [isInnerFocusMode, setIsInnerFocusMode] = useState(false);
 
@@ -38,8 +33,6 @@ export const TodoItem = ({
 
   const todoRef = useRef<HTMLLIElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const deleteButtonRef = useRef<HTMLButtonElement>(null);
-  const checkboxRef = useRef<HTMLButtonElement>(null);
 
   // Initialize the focus navigation hook
   const { navigate } = useFocusNavigation(todoRef);
@@ -50,6 +43,13 @@ export const TodoItem = ({
       inputRef.current?.focus();
     }
   }, [isInnerFocusMode]);
+
+  useShortcut({
+    key: ["e"],
+    handler: () => inputRef.current?.focus(),
+    description: "Focus the todo",
+    contexts: ["todo"],
+  });
 
   const handleUpdate = useCallback(
     async (data: Partial<Todo>) => {
@@ -134,24 +134,37 @@ export const TodoItem = ({
   return (
     <li
       ref={todoRef}
-      className={cn(styles.todo, isInnerFocusMode ? styles.innerFocusMode : "")}
-      tabIndex={isInnerFocusMode ? -1 : 0}
-      onKeyDown={handleTodoKeyDown}
+      className={cn(styles.todo)}
       aria-label={`Todo: ${todo.title}`}
-      data-todo-id={dataTodoId}
+      data-todo-id={todo.id}
+      tabIndex={0}
       onFocus={onFocus}
       onBlur={onBlur}
     >
-      <TodoCheckbox
-        ref={checkboxRef}
-        checked={todo.completed}
-        onCheckedChange={(checked) =>
-          checked
-            ? handleUpdate({ completed: true, completedAt: new Date() })
-            : handleUpdate({ completed: false, completedAt: undefined })
-        }
-        tabIndex={isInnerFocusMode ? 0 : -1}
-      />
+      <TooltipProvider delay={200}>
+        <Tooltip>
+          <TooltipTrigger
+            render={
+              <TodoCheckbox
+                checked={todo.completed}
+                onCheckedChange={(checked) =>
+                  checked
+                    ? handleUpdate({ completed: true, completedAt: new Date() })
+                    : handleUpdate({ completed: false, completedAt: undefined })
+                }
+              />
+            }
+          />
+          <TooltipPositioner sideOffset={8} side="left">
+            <TooltipPopup className="inline-flex gap-2">
+              Toggle complete
+              <span>
+                <Kbd>T</Kbd>
+              </span>
+            </TooltipPopup>
+          </TooltipPositioner>
+        </Tooltip>
+      </TooltipProvider>
       <TodoInput
         type="text"
         ref={inputRef}
@@ -160,19 +173,15 @@ export const TodoItem = ({
         onBlur={handleBlur}
         onKeyDown={handleInputKeyDown}
         completed={todo.completed}
-        tabIndex={isInnerFocusMode ? 0 : -1}
-        onFocus={() => setIsInnerFocusMode(true)}
       />
       <TooltipProvider delay={200}>
         <Tooltip>
           <TooltipTrigger
             render={
               <Button
-                ref={deleteButtonRef}
                 variant="red"
                 onClick={handleDelete}
                 aria-label="Delete todo"
-                tabIndex={isInnerFocusMode ? 0 : -1}
                 className="p-[6px]"
               >
                 <TrashIcon className="h-4 w-4 text-white" />

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { TodoItem } from "./todo";
+import { TodoItem } from "./todo-item";
 import { type Todo } from "@/lib/storage/types";
 import { useShortcut } from "@/hooks/useShortcut";
 import { todoStore } from "@/lib/storage";
@@ -14,36 +14,6 @@ export function TodoList({ todos }: TodoListProps) {
   const [focusedTodoId, setFocusedTodoId] = useState<string | null>(null);
   const listRef = useRef<HTMLUListElement>(null);
 
-  // Handle keyboard navigation between todos
-  const handleKeyDown = (
-    e: React.KeyboardEvent<HTMLLIElement>,
-    index: number,
-  ) => {
-    if ((e.key === "ArrowDown" || e.key === "j") && index < todos.length - 1) {
-      e.preventDefault();
-      const nextIndex = index + 1;
-      setFocusedTodoId(todos[nextIndex].id);
-    } else if ((e.key === "ArrowUp" || e.key === "k") && index > 0) {
-      e.preventDefault();
-      const prevIndex = index - 1;
-      setFocusedTodoId(todos[prevIndex].id);
-    } else if (e.key === "Escape") {
-      setFocusedTodoId(null);
-    }
-  };
-
-  // Focus the todo item when focusedTodoId changes
-  useEffect(() => {
-    if (focusedTodoId && listRef.current) {
-      const todoElement = listRef.current.querySelector(
-        `[data-todo-id="${focusedTodoId}"]`,
-      ) as HTMLElement;
-      if (todoElement) {
-        todoElement.focus();
-      }
-    }
-  }, [focusedTodoId]);
-
   const { setActiveContext } = useKeyboard();
 
   function handleMove(sectionId: string | undefined) {
@@ -54,9 +24,17 @@ export function TodoList({ todos }: TodoListProps) {
     handleNavigate("next");
   }
 
+  function handleDelete() {
+    if (focusedTodoId) {
+      todoStore.deleteTodo(focusedTodoId);
+    }
+
+    handleNavigate("next");
+  }
+
   useShortcut({
-    key: ["x"],
-    handler: () => focusedTodoId && todoStore.deleteTodo(focusedTodoId),
+    key: ["d"],
+    handler: handleDelete,
     description: "Delete a todo",
     contexts: ["todo"],
   });
@@ -75,42 +53,48 @@ export function TodoList({ todos }: TodoListProps) {
     contexts: ["todo"],
   });
 
-  useShortcut({
-    key: ["d"],
-    handler: () =>
-      focusedTodoId &&
-      todoStore.updateTodo(focusedTodoId, {
-        completed: true,
-        completedAt: new Date(),
-      }),
-    description: "Complete todo",
-    contexts: ["todo"],
-  });
+  function handleComplete() {
+    if (focusedTodoId) {
+      const focusedTodo = todos.find((t) => t.id === focusedTodoId);
+
+      if (!focusedTodo) return;
+
+      if (focusedTodo.completed) {
+        todoStore.updateTodo(focusedTodoId, {
+          completed: false,
+          completedAt: undefined,
+        });
+      } else {
+        todoStore.updateTodo(focusedTodoId, {
+          completed: true,
+          completedAt: new Date(),
+        });
+      }
+    }
+  }
 
   useShortcut({
-    key: ["u"],
-    handler: () =>
-      focusedTodoId &&
-      todoStore.updateTodo(focusedTodoId, {
-        completed: false,
-        completedAt: undefined,
-      }),
-    description: "Un-complete todo",
+    key: ["t"],
+    handler: handleComplete,
+    description: "Toggle complete",
     contexts: ["todo"],
   });
 
   function handleNavigate(dir: "next" | "prev") {
     if (focusedTodoId) {
-      const activeEl = document.activeElement;
+      const activeTodoEl = document.querySelector(
+        `[data-todo-id="${focusedTodoId}"]`,
+      );
 
       if (dir === "prev") {
-        const prevSibling = activeEl?.previousElementSibling as HTMLElement;
+        const prevSibling = activeTodoEl?.previousElementSibling as HTMLElement;
 
         if (prevSibling?.tagName === "LI") {
           prevSibling.focus();
         }
       } else {
-        const nextSibling = activeEl?.nextElementSibling as HTMLElement;
+        const nextSibling = activeTodoEl?.nextElementSibling as HTMLElement;
+        console.log(nextSibling);
         if (nextSibling?.tagName === "LI") {
           nextSibling.focus();
         }
@@ -150,7 +134,6 @@ export function TodoList({ todos }: TodoListProps) {
         <TodoItem
           key={todo.id}
           todo={todo}
-          data-todo-id={todo.id}
           onFocus={() => {
             setFocusedTodoId(todo.id);
             setActiveContext("todo");
