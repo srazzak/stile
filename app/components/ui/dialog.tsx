@@ -34,7 +34,7 @@ const DialogPopup = React.forwardRef<
     <BaseDialog.Popup
       ref={ref}
       className={cn(
-        "shadow-background-100/30 fixed top-1/3 left-1/2 -mt-8 w-[650px] max-w-[calc(100vw-3rem)] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-[#F0E9E0ae] bg-white/10 p-2 text-gray-900 shadow-2xl backdrop-blur-xs",
+        "shadow-background-100/30 fixed top-1/2 left-1/2 -mt-8 w-[650px] max-w-[calc(100vw-3rem)] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-[#F0E9E0ae] bg-white/10 p-2 text-gray-900 shadow-2xl backdrop-blur-xs",
         "transition-[translate,scale,opacity,shadow] duration-150 data-[ending-style]:scale-90 data-[ending-style]:opacity-0 data-[starting-style]:scale-90 data-[starting-style]:opacity-0",
         className,
       )}
