@@ -11,8 +11,9 @@ import {
 } from "@/components/ui/tooltip";
 import { Kbd } from "@/components/ui/kbd";
 import { Dialog, DialogPopup, DialogTrigger } from "./ui/dialog";
-import { Button } from "./ui/button";
 import { BookOpenIcon } from "@heroicons/react/16/solid";
+import { Separator } from "./ui/separator";
+import { IconButton } from "./ui/icon-button/icon-button";
 
 export function Navbar() {
   const todoCount = useLiveQuery(() => todoStore.getTodoCount(), []);
@@ -92,12 +93,13 @@ function HowToDialog() {
     <Dialog>
       <DialogTrigger
         render={
-          <button
+          <IconButton
             className="p-2 hover:bg-background-900 duration-75 rounded-lg"
+            variant="default"
             aria-label="How To Dialog"
           >
-            <BookOpenIcon className="h-4 w-4" />
-          </button>
+            <BookOpenIcon className="h-4 w-4 text-foreground/85" />
+          </IconButton>
         }
       ></DialogTrigger>
       <DialogPopup>
@@ -105,24 +107,29 @@ function HowToDialog() {
           <div className="font-serif text-stone-400 text-xl font-bold">
             How to use
           </div>
-          <div className="text-stone-500 text-sm *:mt-3 *:mb-3">
+          <div className="text-stone-500 text-sm *:my-3">
             <p>
-              Verdigris aims to be the calmest todo app you've used. It's
-              offline-only so that the work doesn't follow you and it's (really)
-              fast.
+              There are two pages you need to know: <b>Today</b> and{" "}
+              <b>Later</b>.
             </p>
             <p>
-              There are only two pages you need to know: Today and Later. Today
-              where are all the tasks you want to get done today are. Later is
-              where all the tasks that can wait and get done later are. That's
-              it.
+              <b>Today</b> where are all the tasks you want to get done today
+              are.
             </p>
-            <div className="w-full h-px bg-stone-300"></div>
+            <p>
+              <b>Later</b> is where all the tasks that can wait and get done
+              later are.
+            </p>
+            <p>
+              Complete tasks today or move them to later. Move tasks from later
+              to today when you're ready to do them.
+            </p>
+            <Separator />
             <div className="font-serif text-stone-400 text-xl font-bold">
               Shortcuts
             </div>
             <span className="font-medium text-stone-400 italic">
-              When on a todo list page
+              At any time
             </span>
             <ul className="*:my-2">
               <li>
@@ -136,6 +143,9 @@ function HowToDialog() {
               </li>
               <li>
                 <Kbd>K</Kbd> - Navigate up the todo list
+              </li>
+              <li>
+                <Kbd>C</Kbd> - Create new todo
               </li>
             </ul>
             <span className="font-medium text-stone-400 italic">

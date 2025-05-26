@@ -1,86 +1,143 @@
 .iconButton {
-    position: relative;
-    z-index: 1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border: none;
-    border-radius: 8px;
-    width: 2rem;
-    height: 2rem;
-    padding: 0;
-    cursor: pointer;
-    box-shadow:
-        0 1px 1px 0 oklch(0% 0 0 / 0.14),
-        inset -0.5px -0.5px 0.2px oklch(89.26% 0.077 80.8 / 0.75),
-        inset -1px -1px 4px oklch(0% 0 0 / 0.07),
-        inset 0.5px 0.5px 0.1px oklch(81.03% 0.132 78.69 / 0.5),
-        inset 1px 1px 0.1px oklch(95.09% 0.035 81.28);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 8px;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  cursor: pointer;
+  background-color: oklch(95.02% 0.014 67.66);
+  border: 1px solid oklch(89.55% 0.018 59.46);
+  box-shadow:
+    0 1px oklch(100% 0 106.37),
+    inset 0px 2px 0.5px oklch(0% 0 0 / 0.02);
 }
 
-.iconButton::before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    border-radius: inherit;
-    content: "";
-    transition: opacity 100ms ease-in-out;
-    opacity: 0;
-}
-
-.iconButton:hover::before {
-    opacity: 1;
-    transition: opacity 150ms ease-in-out;
-}
-
-.withText {
-    width: auto;
-    padding: 8px 7px;
-    background: transparent;
-}
-
-.default {
-    background: radial-gradient(
-        circle at 90% 90%,
-        oklch(49.98% 0.196 28.28 / 0.5),
-        oklch(62.16% 0.219 26.43 / 0.5)
-    );
-    box-shadow:
-        0 1px 1px 0 oklch(0% 0 0 / 0.14),
-        inset -0.5px -0.5px 0.2px oklch(82.51% 0.085 19.03),
-        inset -1px -1px 4px oklch(0% 0 0 / 0.07),
-        inset 1px 1px 0.1px oklch(91.83% 0.032 17.75 / 0.55),
-        inset 0.5px 0.5px 0.1px oklch(53.13% 0.198 27.32);
+.iconButton:hover {
+  background-color: oklch(93.02% 0.014 67.66);
 }
 
 .red {
-    background: radial-gradient(
-        circle at 90% 90%,
-        oklch(49.98% 0.196 28.28 / 0.5),
-        oklch(62.16% 0.219 26.43 / 0.5)
-    );
-    box-shadow:
-        0 1px 1px 0 oklch(0% 0 0 / 0.14),
-        inset -0.5px -0.5px 0.2px oklch(82.51% 0.085 19.03),
-        inset -1px -1px 4px oklch(0% 0 0 / 0.07),
-        inset 1px 1px 0.1px oklch(91.83% 0.032 17.75 / 0.55),
-        inset 0.5px 0.5px 0.1px oklch(53.13% 0.198 27.32);
+  background: oklch(94.3% 0.029 17.7);
+  border: 1px solid oklch(89.46% 0.021 17.55);
 }
 
-.red::before {
-    background: radial-gradient(
-        circle at 90% 90%,
-        oklch(49.98% 0.196 28.28 / 0.85),
-        oklch(62.16% 0.219 26.43 / 0.85)
-    );
-    box-shadow:
-        0 1px 1px 0 oklch(0% 0 0 / 0.14),
-        inset -0.5px -0.5px 0.2px oklch(65.44% 0.192 24.12),
-        inset -1px -1px 4px oklch(0% 0 0 / 0.07),
-        inset 1px 1px 0.1px oklch(91.83% 0.032 17.75 / 0.55),
-        inset 0.5px 0.5px 0.1px oklch(53.13% 0.198 27.32);
+.red:hover {
+  background: oklch(92.3% 0.029 17.7);
+  border: 1px solid oklch(89.46% 0.021 17.55);
+}
+
+.green {
+  background: oklch(94.94% 0.02 177.45);
+  border: 1px solid oklch(91.85% 0.029 150.08);
+}
+
+.green:hover {
+  background: oklch(92.94% 0.02 177.45);
+  border: 1px solid oklch(91.85% 0.029 150.08);
+}
+
+.old-iconButton {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 8px;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  cursor: pointer;
+  box-shadow:
+    0 1px 1px 0 oklch(0% 0 0 / 0.14),
+    inset -0.5px -0.5px 0.2px oklch(89.26% 0.077 80.8 / 0.75),
+    inset -1px -1px 4px oklch(0% 0 0 / 0.07),
+    inset 0.5px 0.5px 0.1px oklch(81.03% 0.132 78.69 / 0.5),
+    inset 1px 1px 0.1px oklch(95.09% 0.035 81.28);
+}
+
+.old-iconButton::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  border-radius: inherit;
+  content: "";
+  transition: opacity 100ms ease-in-out;
+  opacity: 0;
+}
+
+.old-iconButton:hover::before {
+  opacity: 1;
+  transition: opacity 150ms ease-in-out;
+}
+
+.withText {
+  width: auto;
+  padding: 8px 7px;
+  background: transparent;
+}
+
+.old-default {
+  background: radial-gradient(
+    circle at 90% 90%,
+    oklch(81.47% 0.108 67.57 / 0.4),
+    oklch(85.24% 0.04 59.79 / 0.4)
+  );
+  box-shadow:
+    0 1px 1px 0 oklch(0% 0 0 / 0.14),
+    inset -0.5px -0.5px 0.2px oklch(96.4% 0.009 62.595 / 0.7),
+    inset -1px -1px 4px oklch(0% 0 0 / 0.07),
+    inset 1px 1px 0.1px oklch(91.8% 0.014 60.56),
+    inset 0.5px 0.5px 0.1px oklch(96.69% 0.023 82.12);
+}
+
+.old-default:before {
+  background: radial-gradient(
+    circle at 90% 90%,
+    oklch(81.47% 0.108 67.57 / 0.5),
+    oklch(85.24% 0.04 59.79 / 0.5)
+  );
+  box-shadow:
+    0 1px 1px 0 oklch(0% 0 0 / 0.14),
+    inset -0.5px -0.5px 0.2px oklch(96.4% 0.009 62.595 / 0.7),
+    inset -1px -1px 4px oklch(0% 0 0 / 0.07),
+    inset 1px 1px 0.1px oklch(91.8% 0.014 60.56),
+    inset 0.5px 0.5px 0.1px oklch(96.69% 0.023 82.12);
+}
+
+.old-red {
+  background: radial-gradient(
+    circle at 90% 90%,
+    oklch(49.98% 0.196 28.28 / 0.5),
+    oklch(62.16% 0.219 26.43 / 0.5)
+  );
+  box-shadow:
+    0 1px 1px 0 oklch(0% 0 0 / 0.14),
+    inset -0.5px -0.5px 0.2px oklch(82.51% 0.085 19.03),
+    inset -1px -1px 4px oklch(0% 0 0 / 0.07),
+    inset 1px 1px 0.1px oklch(91.83% 0.032 17.75 / 0.55),
+    inset 0.5px 0.5px 0.1px oklch(53.13% 0.198 27.32);
+}
+
+.old-red::before {
+  background: radial-gradient(
+    circle at 90% 90%,
+    oklch(49.98% 0.196 28.28 / 0.85),
+    oklch(62.16% 0.219 26.43 / 0.85)
+  );
+  box-shadow:
+    0 1px 1px 0 oklch(0% 0 0 / 0.14),
+    inset -0.5px -0.5px 0.2px oklch(65.44% 0.192 24.12),
+    inset -1px -1px 4px oklch(0% 0 0 / 0.07),
+    inset 1px 1px 0.1px oklch(91.83% 0.032 17.75 / 0.55),
+    inset 0.5px 0.5px 0.1px oklch(53.13% 0.198 27.32);
 }

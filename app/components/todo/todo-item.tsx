@@ -1,10 +1,21 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  type FormEvent,
+} from "react";
 import { todoStore } from "@/lib/storage";
 import { useFocusNavigation } from "@/hooks/useFocusNavigation";
 import { type Todo } from "@/lib/storage/types";
 import { TodoCheckbox } from "./todo-checkbox";
 import { TodoInput } from "./todo-input";
-import { TrashIcon } from "@heroicons/react/16/solid";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  CheckIcon,
+  TrashIcon,
+} from "@heroicons/react/16/solid";
 import styles from "./todo.module.css";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +29,7 @@ import { cn } from "@/lib/utils";
 import { Kbd } from "../ui/kbd";
 import { useKeyboard } from "@/contexts/keyboard-context";
 import { useShortcut } from "@/hooks/useShortcut";
+import { IconButton } from "../ui/icon-button/icon-button";
 
 interface TodoItemProps {
   todo: Todo;
@@ -56,6 +68,12 @@ export const TodoItem = ({ todo, onFocus, onBlur }: TodoItemProps) => {
   const handleDelete = async () => {
     todoStore.deleteTodo(todo.id);
   };
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    handleUpdate({ title: title.trim() });
+    todoRef.current?.focus();
+  }
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -158,39 +176,94 @@ export const TodoItem = ({ todo, onFocus, onBlur }: TodoItemProps) => {
           </TooltipPositioner>
         </Tooltip>
       </TooltipProvider>
-      <TodoInput
-        type="text"
-        ref={inputRef}
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        onBlur={handleBlur}
-        onKeyDown={handleInputKeyDown}
-        completed={todo.completed}
-      />
-      <TooltipProvider delay={200}>
-        <Tooltip>
-          <TooltipTrigger
-            render={
-              <Button
-                variant="red"
-                onClick={handleDelete}
-                aria-label="Delete todo"
-                className="p-[6px]"
-              >
-                <TrashIcon className="h-4 w-4 text-white" />
-              </Button>
-            }
-          />
-          <TooltipPositioner sideOffset={8} side="right">
-            <TooltipPopup className="inline-flex gap-2">
-              Delete
-              <span>
-                <Kbd>D</Kbd>
-              </span>
-            </TooltipPopup>
-          </TooltipPositioner>
-        </Tooltip>
-      </TooltipProvider>
+      <form
+        className="inline-flex justify-between w-full"
+        onSubmit={handleSubmit}
+      >
+        <TodoInput
+          type="text"
+          id="todo-title"
+          ref={inputRef}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          completed={todo.completed}
+        />
+        {title !== todo.title ? (
+          <IconButton type="submit" variant="green">
+            <CheckIcon className="h-4 w-4 text-green-600" />
+          </IconButton>
+        ) : null}
+      </form>
+      <MoveTodoButton todo={todo} />
+      <DeleteTodoButton todo={todo} />
     </li>
   );
 };
+
+function MoveTodoButton({ todo }: { todo: Todo }) {
+  function handleMove() {
+    if (todo.sectionId) {
+      todoStore.updateTodo(todo.id, { sectionId: undefined });
+    } else {
+      todoStore.updateTodo(todo.id, { sectionId: "later" });
+    }
+  }
+
+  return (
+    <TooltipProvider delay={200}>
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <IconButton onClick={handleMove} aria-label="Move todo">
+              {todo.sectionId ? (
+                <ArrowLeftIcon className="h-4 w-4 text-foreground" />
+              ) : (
+                <ArrowRightIcon className="h-4 w-4 text-foreground/85" />
+              )}
+            </IconButton>
+          }
+        />
+        <TooltipPositioner sideOffset={8}>
+          <TooltipPopup className="inline-flex gap-2">
+            Move to {todo.sectionId ? "Today" : "Later"}
+            <span>
+              <Kbd>M</Kbd> then <Kbd>{todo.sectionId ? "T" : "L"}</Kbd>
+            </span>
+          </TooltipPopup>
+        </TooltipPositioner>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+
+function DeleteTodoButton({ todo }: { todo: Todo }) {
+  function handleDelete() {
+    todoStore.deleteTodo(todo.id);
+  }
+
+  return (
+    <TooltipProvider delay={200}>
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <IconButton
+              variant="red"
+              onClick={handleDelete}
+              aria-label="Delete todo"
+            >
+              <TrashIcon className="h-4 w-4 text-[oklch(0.612_0.18_28.035_/_0.85)]" />
+            </IconButton>
+          }
+        />
+        <TooltipPositioner sideOffset={8}>
+          <TooltipPopup className="inline-flex gap-2">
+            Delete
+            <span>
+              <Kbd>D</Kbd>
+            </span>
+          </TooltipPopup>
+        </TooltipPositioner>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}

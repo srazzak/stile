@@ -1,4 +1,10 @@
-import { useState, type KeyboardEvent, useRef, forwardRef } from "react";
+import {
+  useState,
+  type KeyboardEvent,
+  useRef,
+  forwardRef,
+  type FormEvent,
+} from "react";
 import { todoStore } from "@/lib/storage";
 import { type Todo } from "@/lib/storage/types";
 import { TodoInput } from "./todo-input";
@@ -7,13 +13,15 @@ import { cn } from "@/lib/utils";
 import { useShortcut } from "@/hooks/useShortcut";
 import styles from "./todo.module.css";
 import { Checkbox } from "../ui/checkbox";
+import { IconButton } from "../ui/icon-button/icon-button";
+import { CheckIcon } from "@heroicons/react/16/solid";
 
 interface EmptyTodoProps {
   sectionId?: string;
   onNavigateToTodos?: () => void;
 }
 
-export const EmptyTodo = forwardRef<HTMLDivElement, EmptyTodoProps>(
+export const EmptyTodo = forwardRef<HTMLFormElement, EmptyTodoProps>(
   ({ sectionId, onNavigateToTodos }, ref) => {
     const [newTodoTitle, setNewTodoTitle] = useState("");
     const [deadline, setDeadline] = useState<Date | undefined>(undefined);
@@ -61,11 +69,17 @@ export const EmptyTodo = forwardRef<HTMLDivElement, EmptyTodoProps>(
       }
     };
 
+    function handleSubmit(e: FormEvent) {
+      e.preventDefault();
+      createTodo();
+    }
+
     if (todos.length < 10 || sectionId) {
       return (
-        <div
+        <form
           ref={ref}
-          className="flex items-center w-full gap-2 py-2 pr-1 pl-3"
+          className="flex items-center w-full gap-1 py-1 pr-1 pl-3"
+          onSubmit={handleSubmit}
         >
           <Checkbox disabled />
           <TodoInput
@@ -73,11 +87,15 @@ export const EmptyTodo = forwardRef<HTMLDivElement, EmptyTodoProps>(
             ref={inputRef}
             value={newTodoTitle}
             onChange={(e) => setNewTodoTitle(e.target.value)}
-            onKeyDown={handleKeyDown}
             placeholder="Add a new todo..."
             completed={false}
           />
-        </div>
+          {newTodoTitle.length > 0 ? (
+            <IconButton type="submit" variant="green">
+              <CheckIcon className="h-4 w-4 text-green-600" />
+            </IconButton>
+          ) : null}
+        </form>
       );
     } else {
       return (

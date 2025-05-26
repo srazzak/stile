@@ -24,9 +24,9 @@
   --color-background-950: oklch(0.95 0.01 67.7);
 
   --todo-background: radial-gradient(
-      circle at 60px 10px,
-      oklch(94.39% 0.015 70.88) 0%,
-      oklch(93.94% 0.013 71.33) 100%
+    circle at 60px 10px,
+    oklch(94.39% 0.015 70.88) 0%,
+    oklch(93.94% 0.013 71.33) 100%
   );
 
   --color-background-gradient: radial-gradient(
@@ -152,4 +152,8 @@ input {
 
 .checkbox[data-unchecked] {
   background: radial-gradient(at 0% 50%, #f6f0e9, #f5ede6 58%, #f0e5db 100%);
+}
+
+.checkbox:disabled {
+  background: transparent;
 }
