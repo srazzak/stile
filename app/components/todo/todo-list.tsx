@@ -124,6 +124,20 @@ export function TodoList({ todos }: TodoListProps) {
     contexts: ["global"],
   });
 
+  useShortcut({
+    key: ["arrowdown"],
+    handler: () => handleNavigate("next"),
+    description: "Go to next todo",
+    contexts: ["global"],
+  });
+
+  useShortcut({
+    key: ["arrowup"],
+    handler: () => handleNavigate("prev"),
+    description: "Go to previous todo",
+    contexts: ["global"],
+  });
+
   function handleFocusActive() {
     if (focusedTodoId) {
       const activeTodoEl = document.querySelector(

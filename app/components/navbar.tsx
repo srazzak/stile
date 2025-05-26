@@ -139,10 +139,11 @@ function HowToDialog() {
                 <Kbd>G</Kbd> then <Kbd>L</Kbd> - Go to Later page
               </li>
               <li>
-                <Kbd>J</Kbd> - Navigate down the todo list
+                <Kbd>J</Kbd> or <Kbd>ArrowDown</Kbd> - Navigate down the todo
+                list
               </li>
               <li>
-                <Kbd>K</Kbd> - Navigate up the todo list
+                <Kbd>K</Kbd> or <Kbd>ArrowUp</Kbd> - Navigate up the todo list
               </li>
               <li>
                 <Kbd>C</Kbd> - Create new todo
