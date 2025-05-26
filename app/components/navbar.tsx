@@ -104,7 +104,7 @@ function HowToDialog() {
       ></DialogTrigger>
       <DialogPopup>
         <div className="flex flex-col p-3">
-          <div className="font-serif text-stone-400 text-xl font-bold">
+          <div className="font-serif text-stone-400 font-medium">
             How to use
           </div>
           <div className="text-stone-500 text-sm *:my-3">
@@ -124,13 +124,13 @@ function HowToDialog() {
               Complete tasks today or move them to later. Move tasks from later
               to today when you're ready to do them.
             </p>
-            <Separator />
-            <div className="font-serif text-stone-400 text-xl font-bold">
-              Shortcuts
-            </div>
-            <span className="font-medium text-stone-400 italic">
-              At any time
-            </span>
+          </div>
+          <Separator />
+          <div className="font-serif text-stone-400 font-medium mt-3">
+            Shortcuts
+          </div>
+          <div className="text-stone-500 text-sm *:my-3">
+            <div className="font-medium text-stone-400 italic">At any time</div>
             <ul className="*:my-2">
               <li>
                 <Kbd>G</Kbd> then <Kbd>T</Kbd> - Go to Today page
