@@ -14,7 +14,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Today() {
-  const todos = useLiveQuery(() => todoStore.getPendingTodos(), []);
+  const todos = useLiveQuery(() => todoStore.getPendingTodos("today"), []);
 
   if (todos) {
     return (
@@ -27,7 +27,7 @@ export default function Today() {
         </header>
         <div>
           <TodoList todos={todos} />
-          <EmptyTodo />
+          <EmptyTodo sectionId="today" />
         </div>
       </div>
     );

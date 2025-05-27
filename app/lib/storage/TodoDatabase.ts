@@ -3,6 +3,7 @@ import { type Todo, type Section } from "./types";
 import { generateId } from "../utils";
 import { upgradeToV3 } from "./v3-upgrade";
 import { upgradeToV4 } from "./v4-upgrade";
+import { upgradeToV5 } from "./v5-upgrade";
 
 class TodoDatabase extends Dexie {
   todos!: Table<Todo>;
@@ -38,6 +39,13 @@ class TodoDatabase extends Dexie {
           "id, completed, deadline, createdAt, updatedAt, completedAt, sectionId",
       })
       .upgrade(upgradeToV4);
+
+    this.version(5)
+      .stores({
+        todos:
+          "id, completed, deadline, createdAt, updatedAt, completedAt, sectionId",
+      })
+      .upgrade(upgradeToV5);
   }
 }
 
@@ -117,12 +125,20 @@ export class TodoDb {
   }
 
   async getTodoCount(): Promise<{ pending: number; later: number }> {
-    const pendingTodos = await this.getPendingTodos();
-    const laterTodos = await this.getTodosBySectionId("later");
+    const pendingTodosCount = await this.db.todos
+      .where("sectionId")
+      .notEqual("later")
+      .and((todo) => !todo.completed)
+      .count();
+    const laterTodosCount = await this.db.todos
+      .where("sectionId")
+      .equals("later")
+      .and((todo) => !todo.completed)
+      .count();
 
     return {
-      pending: pendingTodos.length,
-      later: laterTodos.length,
+      pending: pendingTodosCount,
+      later: laterTodosCount,
     };
   }
 

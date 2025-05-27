@@ -9,6 +9,8 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { Analytics } from "@vercel/analytics/next";
+
 import { KeyboardProvider } from "./contexts/keyboard-context";
 
 export const links: Route.LinksFunction = () => [
@@ -38,6 +40,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <KeyboardProvider>{children}</KeyboardProvider>
         <ScrollRestoration />
         <Scripts />
+        <Analytics />
       </body>
     </html>
   );
