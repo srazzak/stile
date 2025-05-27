@@ -17,7 +17,7 @@ import { IconButton } from "../ui/icon-button/icon-button";
 import { CheckIcon } from "@heroicons/react/16/solid";
 
 interface EmptyTodoProps {
-  sectionId?: string;
+  sectionId: string;
   onNavigateToTodos?: () => void;
 }
 
@@ -35,7 +35,7 @@ export const EmptyTodo = forwardRef<HTMLFormElement, EmptyTodoProps>(
     });
 
     const todos = useLiveQuery(
-      () => todoStore.getPendingTodos(),
+      () => todoStore.getPendingTodos(sectionId),
       [sectionId],
       [],
     );

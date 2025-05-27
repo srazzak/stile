@@ -16,7 +16,7 @@ export function TodoList({ todos }: TodoListProps) {
 
   const { setActiveContext } = useKeyboard();
 
-  function handleMove(sectionId: string | undefined) {
+  function handleMove(sectionId: string) {
     if (focusedTodoId) {
       todoStore.updateTodo(focusedTodoId, { sectionId: sectionId });
     }
@@ -48,7 +48,7 @@ export function TodoList({ todos }: TodoListProps) {
 
   useShortcut({
     key: ["m", "t"],
-    handler: () => handleMove(undefined),
+    handler: () => handleMove("today"),
     description: "Move todo to today",
     contexts: ["todo"],
   });

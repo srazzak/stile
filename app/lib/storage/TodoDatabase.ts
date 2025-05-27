@@ -96,27 +96,22 @@ export class TodoDb {
     await this.db.todos.delete(id);
   }
 
-  async getAllTodos(sectionId?: string): Promise<Todo[]> {
-    return this.db.todos
-      .filter((todo) =>
-        sectionId ? todo.sectionId === sectionId : todo.sectionId === undefined,
-      )
-      .toArray();
+  async getAllTodos(sectionId: string): Promise<Todo[]> {
+    return this.db.todos.where("sectionId").equals(sectionId).toArray();
   }
 
-  async getPendingTodos(sectionId?: string): Promise<Todo[]> {
+  async getPendingTodos(sectionId: string): Promise<Todo[]> {
     const startOfToday = new Date();
     startOfToday.setHours(0, 0, 0, 0);
     const endOfToday = new Date();
     endOfToday.setHours(23, 59, 59, 999);
 
     return this.db.todos
+      .where("sectionId")
+      .equals(sectionId)
       .filter(
         (todo) =>
-          ((sectionId
-            ? todo.sectionId === sectionId
-            : todo.sectionId === undefined) &&
-            !todo.completed) ||
+          !todo.completed ||
           (todo.completed &&
             todo.completedAt >= startOfToday &&
             todo.completedAt <= endOfToday),
@@ -127,7 +122,7 @@ export class TodoDb {
   async getTodoCount(): Promise<{ pending: number; later: number }> {
     const pendingTodosCount = await this.db.todos
       .where("sectionId")
-      .notEqual("later")
+      .equals("today")
       .and((todo) => !todo.completed)
       .count();
     const laterTodosCount = await this.db.todos

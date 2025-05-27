@@ -202,8 +202,8 @@ export const TodoItem = ({ todo, onFocus, onBlur }: TodoItemProps) => {
 
 function MoveTodoButton({ todo }: { todo: Todo }) {
   function handleMove() {
-    if (todo.sectionId) {
-      todoStore.updateTodo(todo.id, { sectionId: undefined });
+    if (todo.sectionId === "later") {
+      todoStore.updateTodo(todo.id, { sectionId: "today" });
     } else {
       todoStore.updateTodo(todo.id, { sectionId: "later" });
     }
@@ -225,7 +225,7 @@ function MoveTodoButton({ todo }: { todo: Todo }) {
         />
         <TooltipPositioner sideOffset={8}>
           <TooltipPopup className="inline-flex gap-2">
-            Move to {todo.sectionId ? "Today" : "Later"}
+            Move to {todo.sectionId === "today" ? "Today" : "Later"}
             <span>
               <Kbd>M</Kbd> then <Kbd>{todo.sectionId ? "T" : "L"}</Kbd>
             </span>
