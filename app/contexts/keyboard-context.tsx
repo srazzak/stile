@@ -73,6 +73,7 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
         .every(Boolean);
 
       return (
+        activeContext !== "modal" &&
         (s.contexts.includes(activeContext) || s.contexts.includes("global")) &&
         bufferCheck
       );

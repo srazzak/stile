@@ -14,6 +14,10 @@ import { Dialog, DialogPopup, DialogTrigger } from "./ui/dialog";
 import { BookOpenIcon } from "@heroicons/react/16/solid";
 import { Separator } from "./ui/separator";
 import { IconButton } from "./ui/icon-button/icon-button";
+import { ShortcutTooltip } from "./ui/shortcut-tooltip";
+import { useEffect, useState } from "react";
+import { useShortcut } from "@/hooks/useShortcut";
+import { useKeyboard } from "@/contexts/keyboard-context";
 
 export function Navbar() {
   const todoCount = useLiveQuery(() => todoStore.getTodoCount(), []);
@@ -24,7 +28,7 @@ export function Navbar() {
     <nav className="flex flex-row justify-between items-center mb-12">
       <div className="inline-flex gap-2 text-xs p-1 rounded-lg outline outline-foreground/10 w-fit shadow-sm">
         <TooltipProvider delay={200}>
-          <Tooltip>
+          <ShortcutTooltip content="Go to Today" shortcut={["G", "T"]}>
             <TooltipTrigger
               render={
                 <Link
@@ -43,17 +47,9 @@ export function Navbar() {
                 </Link>
               }
             />
-            <TooltipPositioner sideOffset={8}>
-              <TooltipPopup className="inline-flex gap-2">
-                Go to Today
-                <span>
-                  <Kbd>G</Kbd> then <Kbd>T</Kbd>
-                </span>
-              </TooltipPopup>
-            </TooltipPositioner>
-          </Tooltip>
+          </ShortcutTooltip>
           <div className="w-px h-auto bg-background-900 my-0.5"></div>
-          <Tooltip>
+          <ShortcutTooltip content="Go to Later" shortcut={["G", "L"]}>
             <TooltipTrigger
               render={
                 <Link
@@ -72,15 +68,7 @@ export function Navbar() {
                 </Link>
               }
             />
-            <TooltipPositioner sideOffset={8}>
-              <TooltipPopup className="inline-flex gap-2">
-                Go to Later
-                <span>
-                  <Kbd>G</Kbd> then <Kbd>L</Kbd>
-                </span>
-              </TooltipPopup>
-            </TooltipPositioner>
-          </Tooltip>
+          </ShortcutTooltip>
         </TooltipProvider>
       </div>
       <HowToDialog />
@@ -89,19 +77,44 @@ export function Navbar() {
 }
 
 function HowToDialog() {
+  const [open, setOpen] = useState(false);
+
+  const { setActiveContext } = useKeyboard();
+
+  useShortcut({
+    key: ["h"],
+    description: "Open How To modal",
+    handler: () => setOpen(true),
+    contexts: ["global"],
+  });
+
+  useEffect(() => {
+    if (open) {
+      setActiveContext("modal");
+    } else {
+      setActiveContext("global");
+    }
+  }, [open]);
+
   return (
-    <Dialog>
-      <DialogTrigger
-        render={
-          <IconButton
-            className="p-2 hover:bg-background-900 duration-75 rounded-lg"
-            variant="default"
-            aria-label="How To Dialog"
-          >
-            <BookOpenIcon className="h-4 w-4 text-foreground/85" />
-          </IconButton>
-        }
-      ></DialogTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <ShortcutTooltip content="How to" shortcut={["H"]}>
+        <TooltipTrigger
+          render={
+            <DialogTrigger
+              render={
+                <IconButton
+                  className="p-2 hover:bg-background-900 duration-75 rounded-lg"
+                  variant="default"
+                  aria-label="How To Dialog"
+                >
+                  <BookOpenIcon className="h-4 w-4 text-foreground/85" />
+                </IconButton>
+              }
+            />
+          }
+        />
+      </ShortcutTooltip>
       <DialogPopup>
         <div className="flex flex-col p-3">
           <div className="font-serif text-stone-400 font-medium">
@@ -147,6 +160,9 @@ function HowToDialog() {
               </li>
               <li>
                 <Kbd>C</Kbd> - Create new todo
+              </li>
+              <li>
+                <Kbd>H</Kbd> - View How To modal
               </li>
             </ul>
             <span className="font-medium text-stone-400 italic">
