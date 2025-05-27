@@ -194,8 +194,10 @@ export const TodoItem = ({ todo, onFocus, onBlur }: TodoItemProps) => {
           </IconButton>
         ) : null}
       </form>
-      <MoveTodoButton todo={todo} />
-      <DeleteTodoButton todo={todo} />
+      <TooltipProvider delay={200}>
+        <MoveTodoButton todo={todo} />
+        <DeleteTodoButton todo={todo} />
+      </TooltipProvider>
     </li>
   );
 };
@@ -210,29 +212,27 @@ function MoveTodoButton({ todo }: { todo: Todo }) {
   }
 
   return (
-    <TooltipProvider delay={200}>
-      <Tooltip>
-        <TooltipTrigger
-          render={
-            <IconButton onClick={handleMove} aria-label="Move todo">
-              {todo.sectionId ? (
-                <ArrowLeftIcon className="h-4 w-4 text-foreground" />
-              ) : (
-                <ArrowRightIcon className="h-4 w-4 text-foreground/85" />
-              )}
-            </IconButton>
-          }
-        />
-        <TooltipPositioner sideOffset={8}>
-          <TooltipPopup className="inline-flex gap-2">
-            Move to {todo.sectionId === "today" ? "Today" : "Later"}
-            <span>
-              <Kbd>M</Kbd> then <Kbd>{todo.sectionId ? "T" : "L"}</Kbd>
-            </span>
-          </TooltipPopup>
-        </TooltipPositioner>
-      </Tooltip>
-    </TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger
+        render={
+          <IconButton onClick={handleMove} aria-label="Move todo">
+            {todo.sectionId ? (
+              <ArrowLeftIcon className="h-4 w-4 text-foreground" />
+            ) : (
+              <ArrowRightIcon className="h-4 w-4 text-foreground/85" />
+            )}
+          </IconButton>
+        }
+      />
+      <TooltipPositioner sideOffset={8}>
+        <TooltipPopup className="inline-flex gap-2">
+          Move to {todo.sectionId === "today" ? "Today" : "Later"}
+          <span>
+            <Kbd>M</Kbd> then <Kbd>{todo.sectionId ? "T" : "L"}</Kbd>
+          </span>
+        </TooltipPopup>
+      </TooltipPositioner>
+    </Tooltip>
   );
 }
 
@@ -242,28 +242,26 @@ function DeleteTodoButton({ todo }: { todo: Todo }) {
   }
 
   return (
-    <TooltipProvider delay={200}>
-      <Tooltip>
-        <TooltipTrigger
-          render={
-            <IconButton
-              variant="red"
-              onClick={handleDelete}
-              aria-label="Delete todo"
-            >
-              <TrashIcon className="h-4 w-4 text-[oklch(0.612_0.18_28.035_/_0.85)]" />
-            </IconButton>
-          }
-        />
-        <TooltipPositioner sideOffset={8}>
-          <TooltipPopup className="inline-flex gap-2">
-            Delete
-            <span>
-              <Kbd>D</Kbd>
-            </span>
-          </TooltipPopup>
-        </TooltipPositioner>
-      </Tooltip>
-    </TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger
+        render={
+          <IconButton
+            variant="red"
+            onClick={handleDelete}
+            aria-label="Delete todo"
+          >
+            <TrashIcon className="h-4 w-4 text-[oklch(0.612_0.18_28.035_/_0.85)]" />
+          </IconButton>
+        }
+      />
+      <TooltipPositioner sideOffset={8}>
+        <TooltipPopup className="inline-flex gap-2">
+          Delete
+          <span>
+            <Kbd>D</Kbd>
+          </span>
+        </TooltipPopup>
+      </TooltipPositioner>
+    </Tooltip>
   );
 }
