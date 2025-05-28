@@ -1,5 +1,5 @@
 import type { Transaction } from "dexie";
-import type { Todo } from "./types";
+import type { Todo } from "../types";
 
 export function upgradeToV3(transaction: Transaction) {
   return transaction
