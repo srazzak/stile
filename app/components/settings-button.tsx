@@ -4,38 +4,44 @@ import {
   Cog6ToothIcon,
 } from "@heroicons/react/16/solid";
 import { useView, type ViewType } from "@/contexts/view-context";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverPopup,
-  PopoverPositioner,
-} from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
 import { useTodoFilters } from "@/contexts/todo-filters-context";
 import { useShortcut } from "@/hooks/useShortcut";
 import { useState } from "react";
+import {
+  Menu,
+  MenuPopup,
+  MenuPositioner,
+  MenuTrigger,
+  MenuItem,
+} from "./ui/menu";
+import { IconButton } from "./ui/icon-button/icon-button";
+import { exportTodosToJson } from "@/lib/export";
 
 export function SettingsButton() {
   const [open, setOpen] = useState(false);
 
   useShortcut({
-    key: ["o"],
-    handler: (e) => setOpen(true),
-    description: "Open options",
+    key: ["m"],
+    handler: () => setOpen(true),
+    description: "Open menu",
   });
 
   return (
-    <Popover open={open} onOpenChange={setOpen} modal>
-      <PopoverTrigger className="inline-flex w-8 h-8 rounded hover:bg-[#EFD7BF] duration-100 justify-center items-center">
-        <Cog6ToothIcon className="h-4 w-4" />
-      </PopoverTrigger>
-      <PopoverPositioner>
-        <PopoverPopup className="flex flex-col gap-4">
-          <ViewSettings />
-          <OptionsSettings />
-        </PopoverPopup>
-      </PopoverPositioner>
-    </Popover>
+    <Menu open={open} onOpenChange={setOpen}>
+      <MenuTrigger
+        render={
+          <IconButton>
+            <Cog6ToothIcon className="h-4 w-4" />
+          </IconButton>
+        }
+      />
+      <MenuPositioner>
+        <MenuPopup>
+          <MenuItem onClick={exportTodosToJson}>Export todos</MenuItem>
+        </MenuPopup>
+      </MenuPositioner>
+    </Menu>
   );
 }
 

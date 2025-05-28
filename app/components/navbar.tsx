@@ -12,6 +12,7 @@ import { ShortcutTooltip } from "./ui/shortcut-tooltip";
 import { useEffect, useState } from "react";
 import { useShortcut } from "@/hooks/useShortcut";
 import { useKeyboard } from "@/contexts/keyboard-context";
+import { SettingsButton } from "./settings-button";
 
 export function Navbar() {
   const todoCount = useLiveQuery(() => todoStore.getIncompletedTodoCount(), []);
@@ -65,7 +66,10 @@ export function Navbar() {
           </ShortcutTooltip>
         </TooltipProvider>
       </div>
-      <HowToDialog />
+      <div className="inline-flex gap-1">
+        <HowToDialog />
+        <SettingsButton />
+      </div>
     </nav>
   );
 }

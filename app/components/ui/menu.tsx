@@ -40,7 +40,7 @@ const MenuPopup = forwardRef<
   <BaseMenu.Popup
     ref={ref}
     className={cn(
-      "w-60 origin-[var(--transform-origin)] rounded-xl border border-gray-200 shadow bg-background-950 p-4 duration-150 outline-none",
+      "origin-[var(--transform-origin)] rounded-md bg-background-950/80 py-1 text-gray-500 shadow-lg shadow-gray-200 outline-1 outline-gray-200 min-w-24",
       "transition-[scale,opacity]",
       "data-[ending-style]:scale-90 data-[starting-style]:scale-90",
       "data-[ending-style]:opacity-0 data-[starting-style]:opacity-0",
@@ -69,6 +69,20 @@ const MenuGroupLabel = forwardRef<
 ));
 MenuGroupLabel.displayName = "MenuGroupLabel";
 
+const MenuItem = forwardRef<
+  ComponentRef<typeof BaseMenu.Item>,
+  ComponentPropsWithoutRef<typeof BaseMenu.Item>
+>(({ className, ...props }, ref) => (
+  <BaseMenu.Item
+    ref={ref}
+    className={cn(
+      "flex cursor-default py-2 pr-8 pl-3 text-sm leading-4 outline-none select-none data-[highlighted]:relative data-[highlighted]:z-0 data-[highlighted]:text-gray-500 data-[highlighted]:before:absolute data-[highlighted]:before:inset-x-1 data-[highlighted]:before:inset-y-0 data-[highlighted]:before:z-[-1] data-[highlighted]:before:rounded-sm data-[highlighted]:before:bg-background-900",
+      className,
+    )}
+    {...props}
+  />
+));
+
 export {
   Menu,
   MenuTrigger,
@@ -76,4 +90,5 @@ export {
   MenuPopup,
   MenuGroup,
   MenuGroupLabel,
+  MenuItem,
 };

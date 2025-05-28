@@ -1,4 +1,4 @@
-import React, { type ComponentProps } from "react";
+import { forwardRef, type ComponentProps } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import styles from "./icon-button.module.css";
 import { cn } from "@/lib/utils";
@@ -23,11 +23,9 @@ const iconButtonVariants = cva(
 
 interface IconButtonProps
   extends ComponentProps<"button">,
-    VariantProps<typeof iconButtonVariants> {
-  // Additional props can be added here
-}
+    VariantProps<typeof iconButtonVariants> {}
 
-const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
+const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   ({ children, className, variant, ...props }, ref) => {
     return (
       <button
