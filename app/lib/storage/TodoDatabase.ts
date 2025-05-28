@@ -96,7 +96,11 @@ export class TodoDb {
     await this.db.todos.delete(id);
   }
 
-  async getAllTodos(sectionId: string): Promise<Todo[]> {
+  async getAllTodos(): Promise<Todo[]> {
+    return this.db.todos.toArray();
+  }
+
+  async getTodos(sectionId: string) {
     return this.db.todos.where("sectionId").equals(sectionId).toArray();
   }
 
@@ -119,8 +123,8 @@ export class TodoDb {
       .sortBy("createdAt");
   }
 
-  async getTodoCount(): Promise<{ pending: number; later: number }> {
-    const pendingTodosCount = await this.db.todos
+  async getIncompletedTodoCount(): Promise<{ today: number; later: number }> {
+    const todayTodosCount = await this.db.todos
       .where("sectionId")
       .equals("today")
       .and((todo) => !todo.completed)
@@ -132,7 +136,7 @@ export class TodoDb {
       .count();
 
     return {
-      pending: pendingTodosCount,
+      today: todayTodosCount,
       later: laterTodosCount,
     };
   }
@@ -154,48 +158,5 @@ export class TodoDb {
             todo.completedAt <= endOfToday),
       )
       .sortBy("createdAt");
-  }
-
-  async getAllSections(): Promise<Section[]> {
-    return this.db.sections.toArray();
-  }
-
-  async getSection(id: string): Promise<Section | undefined> {
-    return this.db.sections.get(id);
-  }
-
-  async createSection(
-    section: Omit<Section, "id" | "createdAt" | "updatedAt">,
-  ): Promise<string> {
-    const now = new Date();
-
-    const id = await this.db.sections.add({
-      ...section,
-      id: generateId(),
-      createdAt: now,
-      updatedAt: now,
-    });
-    return id;
-  }
-
-  async updateSection(
-    id: string,
-    updates: Partial<Omit<Section, "createdAt">>,
-  ): Promise<void> {
-    await this.db.sections.update(id, {
-      ...updates,
-      updatedAt: new Date(),
-    });
-  }
-
-  async deleteSection(id: string): Promise<void> {
-    try {
-      await this.db.transaction("rw", this.db.sections, this.db.todos, () => {
-        this.db.sections.where("id").equals(id).delete();
-        this.db.todos.where("sectionId").equals(id).delete();
-      });
-    } catch (error) {
-      console.error("Error deleting section:", error);
-    }
   }
 }

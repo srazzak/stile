@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { TodoItem } from "./todo-item";
 import { type Todo } from "@/lib/storage/types";
 import { useShortcut } from "@/hooks/useShortcut";

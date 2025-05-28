@@ -5,9 +5,10 @@ import { subDays } from "date-fns";
 
 export interface TodoTimlineProps {
   todos: Todo[];
+  sectionId: string;
 }
 
-export function TodoTimeline({ todos }: TodoTimlineProps) {
+export function TodoTimeline({ todos, sectionId }: TodoTimlineProps) {
   const grouped = groupTodos(todos);
 
   const sortedDateArray = Object.entries(grouped).sort(([dateA], [dateB]) => {
@@ -24,7 +25,7 @@ export function TodoTimeline({ todos }: TodoTimlineProps) {
                 {date}
               </h3>
               <TodoList todos={todos} />
-              {index === 0 ? <EmptyTodo /> : null}
+              {index === 0 ? <EmptyTodo sectionId={sectionId} /> : null}
             </div>
           ),
       )}

@@ -2,13 +2,7 @@ import { todoStore } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 import { useLiveQuery } from "dexie-react-hooks";
 import { Link, useLocation } from "react-router";
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipPopup,
-  TooltipPositioner,
-  TooltipProvider,
-} from "@/components/ui/tooltip";
+import { TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
 import { Kbd } from "@/components/ui/kbd";
 import { Dialog, DialogPopup, DialogTrigger } from "./ui/dialog";
 import { BookOpenIcon } from "@heroicons/react/16/solid";
@@ -20,7 +14,7 @@ import { useShortcut } from "@/hooks/useShortcut";
 import { useKeyboard } from "@/contexts/keyboard-context";
 
 export function Navbar() {
-  const todoCount = useLiveQuery(() => todoStore.getTodoCount(), []);
+  const todoCount = useLiveQuery(() => todoStore.getIncompletedTodoCount(), []);
 
   const location = useLocation();
 
@@ -42,7 +36,7 @@ export function Navbar() {
                 >
                   TODAY
                   <span className="ml-1 px-1 rounded bg-background-900">
-                    {todoCount?.pending}
+                    {todoCount?.today}
                   </span>
                 </Link>
               }

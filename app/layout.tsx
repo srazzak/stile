@@ -1,7 +1,8 @@
+import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router";
-import { useShortcut } from "./hooks/useShortcut";
-import { Navbar } from "./components/navbar";
-import { KeyboardDebug } from "./debug/keyboard-debug";
+import { useShortcut } from "@/hooks/useShortcut";
+import { Navbar } from "@/components/navbar";
+import { KeyboardDebug } from "@/debug/keyboard-debug";
 
 export default function Layout() {
   const navigate = useNavigate();

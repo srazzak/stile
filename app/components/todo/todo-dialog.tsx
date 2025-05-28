@@ -12,7 +12,7 @@ interface TodoDialogProps {
   section?: Section;
 }
 
-export function TodoDialog({ sectionId, section }: TodoDialogProps) {
+export function TodoDialog({ sectionId }: TodoDialogProps) {
   const [title, setTitle] = useState("");
   const [deadline, setDeadline] = useState<Date | undefined>();
   const [open, setOpen] = useState(false);
