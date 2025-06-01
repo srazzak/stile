@@ -1,8 +1,8 @@
-import React from "react";
 import { Checkbox as BaseCheckbox } from "@base-ui-components/react";
 import { CheckIcon } from "@heroicons/react/16/solid";
+import { forwardRef } from "react";
 
-const Checkbox = React.forwardRef<
+const Checkbox = forwardRef<
   React.ComponentRef<typeof BaseCheckbox.Root>,
   React.ComponentPropsWithoutRef<typeof BaseCheckbox.Root>
 >(({ ...props }, ref) => (

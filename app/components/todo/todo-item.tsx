@@ -17,7 +17,6 @@ import {
   TrashIcon,
 } from "@heroicons/react/16/solid";
 import styles from "./todo.module.css";
-import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipPopup,
@@ -152,30 +151,28 @@ export const TodoItem = ({ todo, onFocus, onBlur }: TodoItemProps) => {
       onFocus={onFocus}
       onBlur={onBlur}
     >
-      <TooltipProvider delay={200}>
-        <Tooltip>
-          <TooltipTrigger
-            render={
-              <TodoCheckbox
-                checked={todo.completed}
-                onCheckedChange={(checked) =>
-                  checked
-                    ? handleUpdate({ completed: true, completedAt: new Date() })
-                    : handleUpdate({ completed: false, completedAt: undefined })
-                }
-              />
-            }
-          />
-          <TooltipPositioner sideOffset={8} side="left">
-            <TooltipPopup className="inline-flex gap-2">
-              Toggle complete
-              <span>
-                <Kbd>T</Kbd>
-              </span>
-            </TooltipPopup>
-          </TooltipPositioner>
-        </Tooltip>
-      </TooltipProvider>
+      <Tooltip delay={200}>
+        <TooltipTrigger
+          render={
+            <TodoCheckbox
+              checked={todo.completed}
+              onCheckedChange={(checked) =>
+                checked
+                  ? handleUpdate({ completed: true, completedAt: new Date() })
+                  : handleUpdate({ completed: false, completedAt: undefined })
+              }
+            />
+          }
+        />
+        <TooltipPositioner sideOffset={8} side="left">
+          <TooltipPopup className="inline-flex gap-2">
+            Toggle complete
+            <span>
+              <Kbd>T</Kbd>
+            </span>
+          </TooltipPopup>
+        </TooltipPositioner>
+      </Tooltip>
       <form
         className="inline-flex justify-between w-full"
         onSubmit={handleSubmit}
