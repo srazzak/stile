@@ -9,7 +9,7 @@ export interface CompleteTodo {
   completed: true;
   completedAt: Date;
   deadline?: Date;
-  sectionId?: string;
+  sectionId: string;
 }
 
 export interface IncompleteTodo {
@@ -18,6 +18,9 @@ export interface IncompleteTodo {
   description?: string;
   createdAt: Date;
   updatedAt: Date;
+  completed: false;
+  completedAt?: undefined;
+  deadline?: Date;
   sectionId: string;
 }
 
