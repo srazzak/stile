@@ -18,10 +18,7 @@ export interface IncompleteTodo {
   description?: string;
   createdAt: Date;
   updatedAt: Date;
-  completed: false;
-  completedAt?: undefined;
-  deadline?: Date;
-  sectionId?: string;
+  sectionId: string;
 }
 
 export interface Section {

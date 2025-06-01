@@ -1,9 +1,7 @@
 import Dexie, { type Table } from "dexie";
 import { type Todo, type Section } from "./types";
 import { generateId } from "../utils";
-import { upgradeToV3 } from "./upgrades/v3-upgrade";
-import { upgradeToV4 } from "./upgrades/v4-upgrade";
-import { upgradeToV5 } from "./upgrades/v5-upgrade";
+import { upgradeToV3, upgradeToV4, upgradeToV5 } from "./upgrades";
 
 class TodoDatabase extends Dexie {
   todos!: Table<Todo>;
