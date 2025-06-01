@@ -11,6 +11,7 @@
 
   --color-separator: oklch(91.8% 0.014 60.56);
 
+  /* color-background */
   --color-background-50: oklch(0.561 0.01 67.7);
   --color-background-100: oklch(0.6 0.01 67.7);
   --color-background-200: oklch(0.639 0.01 67.7);
@@ -22,6 +23,18 @@
   --color-background-800: oklch(0.872 0.01 67.7);
   --color-background-900: oklch(0.911 0.01 67.7);
   --color-background-950: oklch(0.95 0.01 67.7);
+
+  /* color-foreground */
+  --color-foreground-50: #fff3e9;
+  --color-foreground-100: #ffcc9e;
+  --color-foreground-200: #e8ac75;
+  --color-foreground-300: #ca9059;
+  --color-foreground-400: #ac743d;
+  --color-foreground-500: #91591c;
+  --color-foreground-600: #7e4801;
+  --color-foreground-700: #5f3500;
+  --color-foreground-800: #412200;
+  --color-foreground-900: #271300;
 
   --todo-background: radial-gradient(
     circle at 60px 10px,
