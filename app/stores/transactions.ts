@@ -8,12 +8,12 @@ export type DbTransaction =
 
 export interface CreateTransaction {
   event: "create";
-  todoId: string;
+  todo: Todo;
 }
 
 export interface DeleteTransaction {
   event: "delete";
-  todoId: string;
+  todo: Todo;
 }
 
 export interface UpdateTransaction {

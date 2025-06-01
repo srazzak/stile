@@ -2,6 +2,7 @@ import Dexie, { type Table } from "dexie";
 import { type Todo, type Section } from "./types";
 import { generateId } from "../utils";
 import { upgradeToV3, upgradeToV4, upgradeToV5 } from "./upgrades";
+import { transactionStore, type TodoUpdateDiff } from "@/stores/transactions";
 
 class TodoDatabase extends Dexie {
   todos!: Table<Todo>;
@@ -65,33 +66,85 @@ export class TodoDb {
   async createTodo(
     todo: Omit<Todo, "id" | "createdAt" | "updatedAt">,
   ): Promise<string> {
-    const id = await this.db.todos.add({
+    const todoId = generateId();
+    const today = new Date();
+
+    const returnId = await this.db.todos.add({
       ...todo,
-      id: generateId(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      id: todoId,
+      createdAt: today,
+      updatedAt: today,
       completed: false,
       completedAt: undefined,
     });
-    return id;
+
+    transactionStore
+      .getState()
+      .addTransaction({ todoId: todoId, event: "create" });
+
+    return returnId;
   }
 
-  async updateTodo(
-    id: string,
-    updates: Partial<Omit<Todo, "createdAt">>,
-  ): Promise<void> {
+  async updateTodo(id: string, update: Partial<Todo>): Promise<void> {
+    const updatedAt = new Date();
+    const todo = await this.getTodo(id);
+
     await this.db.todos.update(id, {
-      ...updates,
-      updatedAt: new Date(),
+      ...update,
+      updatedAt: updatedAt,
     });
+
+    const updateKeys = Object.keys(update) as (keyof Todo)[];
+
+    const diffs = updateKeys.map((k: keyof Todo) => ({
+      field: k,
+      previousValue: todo![k as keyof Todo],
+      newValue: update[k as keyof Todo],
+    })) as TodoUpdateDiff[];
+
+    transactionStore
+      .getState()
+      .addTransaction({ todoId: id, event: "update", diffs: diffs });
+  }
+
+  async deleteTodo(id: string): Promise<void> {
+    const todo = await this.getTodo(id);
+    await this.db.todos.delete(id);
+
+    transactionStore
+      .getState()
+      .addTransaction({ todo: todo!, event: "delete" });
+  }
+
+  async undo(): Promise<void> {
+    const offset = transactionStore.getState().offset;
+
+    if (offset < 0) {
+      return;
+    }
+
+    const transactions = transactionStore.getState().transactions;
+
+    const currentTx = transactions[offset];
+
+    if (currentTx.event === "create") {
+      await this.db.todos.delete(currentTx.todo.id);
+      transactionStore.getState().decreaseOffset();
+    } else if (currentTx.event === "delete") {
+      await this.db.todos.add(currentTx.todo);
+      transactionStore.getState().decreaseOffset();
+    } else {
+      const updates: Partial<Todo> = Object.fromEntries([
+        currentTx.diffs.map((diff) => [diff?.field, diff?.previousValue]),
+      ]);
+
+      await this.db.todos.update(currentTx.todoId, updates);
+      transactionStore.getState().decreaseOffset();
+    }
   }
 
   async getTodo(id: string): Promise<Todo | undefined> {
     return this.db.todos.get(id);
-  }
-
-  async deleteTodo(id: string): Promise<void> {
-    await this.db.todos.delete(id);
   }
 
   async getAllTodos(): Promise<Todo[]> {
