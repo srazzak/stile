@@ -34,10 +34,10 @@ export type TodoUpdateDiff = {
 
 interface DbTransactionStore {
   transactions: DbTransaction[];
-  offset: number;
+  index: number;
   addTransaction: (transaction: DbTransaction) => void;
-  increaseOffset: () => void;
-  decreaseOffset: () => void;
+  increaseIndex: () => void;
+  decreaseIndex: () => void;
 }
 
 /**
@@ -46,26 +46,26 @@ interface DbTransactionStore {
  */
 export const useTransactionStore = create<DbTransactionStore>()((set, get) => ({
   transactions: [],
-  offset: -1,
+  index: -1,
   addTransaction: (tx: DbTransaction) => {
-    const { transactions, offset: currentTransaction } = get();
+    const { transactions, index } = get();
 
     // TODO: add max size for tx store
-    const newTransactions = transactions.slice(0, currentTransaction + 1);
+    const newTransactions = transactions.slice(0, index + 1);
     newTransactions.push(tx);
 
     set({
       transactions: newTransactions,
-      offset: newTransactions.length - 1,
+      index: newTransactions.length - 1,
     });
   },
-  increaseOffset: () =>
+  increaseIndex: () =>
     set((state) => ({
-      offset: Math.max(-1, state.offset - 1),
+      index: Math.max(-1, state.index + 1),
     })),
-  decreaseOffset: () =>
+  decreaseIndex: () =>
     set((state) => ({
-      offset: Math.max(-1, state.offset + 1),
+      index: Math.max(-1, state.index - 1),
     })),
 }));
 

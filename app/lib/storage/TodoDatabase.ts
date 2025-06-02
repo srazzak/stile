@@ -117,29 +117,61 @@ export class TodoDb {
   }
 
   async undo(): Promise<void> {
-    const offset = transactionStore.getState().offset;
+    const index = transactionStore.getState().index;
 
-    if (offset < 0) {
+    // return if at beginning of tx buffer (i.e. no more tx to undo)
+    if (index < 0) {
       return;
     }
 
     const transactions = transactionStore.getState().transactions;
 
-    const currentTx = transactions[offset];
+    const currentTx = transactions[index];
 
     if (currentTx.event === "create") {
       await this.db.todos.delete(currentTx.todo.id);
-      transactionStore.getState().decreaseOffset();
+      transactionStore.getState().decreaseIndex();
     } else if (currentTx.event === "delete") {
       await this.db.todos.add(currentTx.todo);
-      transactionStore.getState().decreaseOffset();
+      transactionStore.getState().decreaseIndex();
     } else {
       const updates: Partial<Todo> = Object.fromEntries([
-        currentTx.diffs.map((diff) => [diff?.field, diff?.previousValue]),
+        ...currentTx.diffs.map((diff) => [diff?.field, diff?.previousValue]),
+      ]);
+
+      console.log(updates);
+
+      await this.db.todos.update(currentTx.todoId, updates);
+      transactionStore.getState().decreaseIndex();
+    }
+  }
+
+  async redo(): Promise<void> {
+    const index = transactionStore.getState().index;
+
+    const transactions = transactionStore.getState().transactions;
+
+    // return if already at end of tx buffer (i.e. no more tx to redo)
+    if (index === transactions.length - 1) {
+      return;
+    }
+
+    // grab the next transaction and execute
+    const currentTx = transactions[index + 1];
+
+    if (currentTx.event === "create") {
+      await this.db.todos.add(currentTx.todo);
+      transactionStore.getState().increaseIndex();
+    } else if (currentTx.event === "delete") {
+      await this.db.todos.delete(currentTx.todo.id);
+      transactionStore.getState().increaseIndex();
+    } else {
+      const updates: Partial<Todo> = Object.fromEntries([
+        ...currentTx.diffs.map((diff) => [diff?.field, diff?.newValue]),
       ]);
 
       await this.db.todos.update(currentTx.todoId, updates);
-      transactionStore.getState().decreaseOffset();
+      transactionStore.getState().increaseIndex();
     }
   }
 

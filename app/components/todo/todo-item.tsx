@@ -38,22 +38,13 @@ interface TodoItemProps {
 
 export const TodoItem = ({ todo, onFocus, onBlur }: TodoItemProps) => {
   const [title, setTitle] = useState(todo.title);
-  const [isInnerFocusMode, setIsInnerFocusMode] = useState(false);
 
-  const { setActiveContext } = useKeyboard();
+  useEffect(() => {
+    setTitle(todo.title);
+  }, [todo.title]);
 
   const todoRef = useRef<HTMLLIElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  // Initialize the focus navigation hook
-  const { navigate } = useFocusNavigation(todoRef);
-
-  // Focus the input when editing starts
-  useEffect(() => {
-    if (isInnerFocusMode) {
-      inputRef.current?.focus();
-    }
-  }, [isInnerFocusMode]);
 
   const handleUpdate = useCallback(
     async (data: Partial<Todo>) => {
@@ -64,82 +55,11 @@ export const TodoItem = ({ todo, onFocus, onBlur }: TodoItemProps) => {
     [title, todo.id],
   );
 
-  const handleDelete = async () => {
-    todoStore.deleteTodo(todo.id);
-  };
-
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     handleUpdate({ title: title.trim() });
     todoRef.current?.focus();
   }
-
-  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if (title.trim()) {
-        handleUpdate({ title: title.trim() });
-        exitInnerFocusMode();
-      }
-    }
-  };
-
-  const handleTodoKeyDown = (e: React.KeyboardEvent<HTMLLIElement>) => {
-    // When not in inner focus mode
-    if (!isInnerFocusMode) {
-      // Handle entering inner focus mode
-      if (e.key === "Enter") {
-        e.preventDefault();
-        setIsInnerFocusMode(true);
-      } else if (e.key === "Escape") {
-        e.preventDefault();
-        todoRef.current?.blur();
-      }
-
-      // // Handle external list navigation
-      // if (onKeyDown) {
-      //   onKeyDown(e);
-      // }
-
-      // Other keys are passed through to parent handlers when not in inner focus mode
-      return;
-    }
-
-    // When in inner focus mode
-    switch (e.key) {
-      case "Escape":
-        e.preventDefault();
-        exitInnerFocusMode();
-        break;
-
-      case "Tab":
-        if (e.shiftKey) {
-          e.preventDefault();
-          navigate("prev");
-        } else {
-          e.preventDefault();
-          navigate("next");
-        }
-        break;
-    }
-  };
-
-  const exitInnerFocusMode = () => {
-    setIsInnerFocusMode(false);
-    if (todoRef.current) {
-      todoRef.current.focus();
-    }
-  };
-
-  const handleBlur = () => {
-    if (title.trim()) {
-      handleUpdate({ title: title.trim() });
-    } else {
-      setTitle(todo.title);
-    }
-
-    setActiveContext("global");
-  };
 
   return (
     <li

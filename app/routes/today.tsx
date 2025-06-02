@@ -14,7 +14,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Today() {
-  const todos = useLiveQuery(() => todoStore.getPendingTodos("today"), []);
+  const todos = useLiveQuery(() => todoStore.getPendingTodos("today"));
 
   if (todos) {
     return (

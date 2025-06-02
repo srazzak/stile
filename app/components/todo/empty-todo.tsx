@@ -1,17 +1,9 @@
-import {
-  useState,
-  type KeyboardEvent,
-  useRef,
-  forwardRef,
-  type FormEvent,
-} from "react";
+import { useState, useRef, forwardRef, type FormEvent } from "react";
 import { todoStore } from "@/lib/storage";
 import { type Todo } from "@/lib/storage/types";
 import { TodoInput } from "./todo-input";
 import { useLiveQuery } from "dexie-react-hooks";
-import { cn } from "@/lib/utils";
 import { useShortcut } from "@/hooks/useShortcut";
-import styles from "./todo.module.css";
 import { Checkbox } from "../ui/checkbox";
 import { IconButton } from "../ui/icon-button/icon-button";
 import { CheckIcon } from "@heroicons/react/16/solid";
@@ -22,7 +14,7 @@ interface EmptyTodoProps {
 }
 
 export const EmptyTodo = forwardRef<HTMLFormElement, EmptyTodoProps>(
-  ({ sectionId, onNavigateToTodos }, ref) => {
+  ({ sectionId }, ref) => {
     const [newTodoTitle, setNewTodoTitle] = useState("");
     const [deadline, setDeadline] = useState<Date | undefined>(undefined);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -54,18 +46,6 @@ export const EmptyTodo = forwardRef<HTMLFormElement, EmptyTodoProps>(
         await todoStore.createTodo(newTodo);
         setNewTodoTitle("");
         setDeadline(undefined);
-      }
-    };
-
-    const handleKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        await createTodo();
-      } else if (e.key === "ArrowUp" || (e.key === "Tab" && e.shiftKey)) {
-        e.preventDefault();
-        if (onNavigateToTodos) {
-          onNavigateToTodos();
-        }
       }
     };
 
