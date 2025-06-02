@@ -50,8 +50,10 @@ export const useTransactionStore = create<DbTransactionStore>()((set, get) => ({
   addTransaction: (tx: DbTransaction) => {
     const { transactions, index } = get();
 
-    // TODO: add max size for tx store
-    const newTransactions = transactions.slice(0, index + 1);
+    const newTransactions = transactions.slice(
+      Math.max(0, transactions.length - 32),
+      index + 1,
+    );
     newTransactions.push(tx);
 
     set({
