@@ -1,5 +1,5 @@
 import Dexie, { type Table } from "dexie";
-import { type Todo, type Section } from "./types";
+import { type Todo, type Section, type IncompleteTodo } from "./types";
 import { generateId } from "../utils";
 import { upgradeToV3, upgradeToV4, upgradeToV5 } from "./upgrades";
 import { transactionStore, type TodoUpdateDiff } from "@/stores/transactions";
@@ -69,20 +69,18 @@ export class TodoDb {
     const todoId = generateId();
     const today = new Date();
 
-    const returnId = await this.db.todos.add({
+    const incompleteTodo: IncompleteTodo = {
       ...todo,
       id: todoId,
       createdAt: today,
       updatedAt: today,
       completed: false,
       completedAt: undefined,
-    });
+    };
 
     transactionStore
       .getState()
-      .addTransaction({ todoId: todoId, event: "create" });
-
-    return returnId;
+      .addTransaction({ todo: incompleteTodo, event: "create" });
   }
 
   async updateTodo(id: string, update: Partial<Todo>): Promise<void> {
