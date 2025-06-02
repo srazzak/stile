@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { TodoInput } from "./todo-input";
 
 interface TodoDialogProps {
-  sectionId?: string;
+  sectionId: string;
   section?: Section;
 }
 
