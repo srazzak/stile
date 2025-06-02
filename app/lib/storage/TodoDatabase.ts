@@ -63,9 +63,7 @@ export class TodoDb {
     }
   }
 
-  async createTodo(
-    todo: Omit<Todo, "id" | "createdAt" | "updatedAt">,
-  ): Promise<string> {
+  async createTodo(todo: Omit<Todo, "id" | "createdAt" | "updatedAt">) {
     const todoId = generateId();
     const today = new Date();
 
