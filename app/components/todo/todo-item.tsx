@@ -25,10 +25,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { Kbd } from "../ui/kbd";
-import { useKeyboard } from "@/contexts/keyboard-context";
-import { useShortcut } from "@/hooks/useShortcut";
 import { IconButton } from "../ui/icon-button/icon-button";
+import { ShortcutTooltip } from "../ui/shortcut-tooltip";
 
 interface TodoItemProps {
   todo: Todo;
@@ -71,7 +69,7 @@ export const TodoItem = ({ todo, onFocus, onBlur }: TodoItemProps) => {
       onFocus={onFocus}
       onBlur={onBlur}
     >
-      <Tooltip delay={200}>
+      <ShortcutTooltip content="Toggle complete" shortcut={["T"]}>
         <TooltipTrigger
           render={
             <TodoCheckbox
@@ -84,27 +82,25 @@ export const TodoItem = ({ todo, onFocus, onBlur }: TodoItemProps) => {
             />
           }
         />
-        <TooltipPositioner sideOffset={8} side="left">
-          <TooltipPopup className="inline-flex gap-2">
-            Toggle complete
-            <span>
-              <Kbd>T</Kbd>
-            </span>
-          </TooltipPopup>
-        </TooltipPositioner>
-      </Tooltip>
+      </ShortcutTooltip>
       <form
         className="inline-flex justify-between w-full"
         onSubmit={handleSubmit}
       >
-        <TodoInput
-          type="text"
-          id="todo-title"
-          ref={inputRef}
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          completed={todo.completed}
-        />
+        <ShortcutTooltip align="start" content="Edit todo" shortcut={["E"]}>
+          <TooltipTrigger
+            render={
+              <TodoInput
+                type="text"
+                id="todo-title"
+                ref={inputRef}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                completed={todo.completed}
+              />
+            }
+          />
+        </ShortcutTooltip>
         {title !== todo.title ? (
           <IconButton type="submit" variant="green">
             <CheckIcon className="h-4 w-4 text-green-600" />
@@ -128,8 +124,14 @@ function MoveTodoButton({ todo }: { todo: Todo }) {
     }
   }
 
+  const targetText =
+    todo.sectionId === "today" ? "Move to Later" : "Move to Today";
+
   return (
-    <Tooltip>
+    <ShortcutTooltip
+      content={targetText}
+      shortcut={["M", todo.sectionId === "today" ? "L" : "T"]}
+    >
       <TooltipTrigger
         render={
           <IconButton onClick={handleMove} aria-label="Move todo">
@@ -141,15 +143,7 @@ function MoveTodoButton({ todo }: { todo: Todo }) {
           </IconButton>
         }
       />
-      <TooltipPositioner sideOffset={8}>
-        <TooltipPopup className="inline-flex gap-2">
-          Move to {todo.sectionId === "today" ? "Later" : "Today"}
-          <span>
-            <Kbd>M</Kbd> then <Kbd>{todo.sectionId ? "T" : "L"}</Kbd>
-          </span>
-        </TooltipPopup>
-      </TooltipPositioner>
-    </Tooltip>
+    </ShortcutTooltip>
   );
 }
 
@@ -159,7 +153,7 @@ function DeleteTodoButton({ todo }: { todo: Todo }) {
   }
 
   return (
-    <Tooltip>
+    <ShortcutTooltip content="Delete" shortcut={["D"]}>
       <TooltipTrigger
         render={
           <IconButton
@@ -171,14 +165,6 @@ function DeleteTodoButton({ todo }: { todo: Todo }) {
           </IconButton>
         }
       />
-      <TooltipPositioner sideOffset={8}>
-        <TooltipPopup className="inline-flex gap-2">
-          Delete
-          <span>
-            <Kbd>D</Kbd>
-          </span>
-        </TooltipPopup>
-      </TooltipPositioner>
-    </Tooltip>
+    </ShortcutTooltip>
   );
 }
