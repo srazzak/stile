@@ -2,6 +2,7 @@ import {
   CalendarIcon,
   QueueListIcon,
   Cog6ToothIcon,
+  ArrowDownTrayIcon,
 } from "@heroicons/react/16/solid";
 import { useView, type ViewType } from "@/contexts/view-context";
 import { Switch } from "@/components/ui/switch";
@@ -17,28 +18,39 @@ import {
 } from "./ui/menu";
 import { IconButton } from "./ui/icon-button/icon-button";
 import { exportTodosToJson } from "@/lib/export";
+import { TooltipTrigger } from "./ui/tooltip";
+import { ShortcutTooltip } from "./ui/shortcut-tooltip";
 
 export function SettingsButton() {
   const [open, setOpen] = useState(false);
 
   useShortcut({
-    key: ["m"],
+    key: ["s"],
     handler: () => setOpen(true),
-    description: "Open menu",
+    description: "Open settings",
   });
 
   return (
     <Menu open={open} onOpenChange={setOpen}>
-      <MenuTrigger
-        render={
-          <IconButton>
-            <Cog6ToothIcon className="h-4 w-4" />
-          </IconButton>
-        }
-      />
+      <ShortcutTooltip content="View settings" shortcut={["S"]}>
+        <TooltipTrigger
+          render={
+            <MenuTrigger
+              render={
+                <IconButton>
+                  <Cog6ToothIcon className="h-4 w-4" />
+                </IconButton>
+              }
+            />
+          }
+        />
+      </ShortcutTooltip>
       <MenuPositioner>
         <MenuPopup>
-          <MenuItem onClick={exportTodosToJson}>Export todos</MenuItem>
+          <MenuItem onClick={exportTodosToJson}>
+            <ArrowDownTrayIcon className="h-4 w-4" />
+            Export todos
+          </MenuItem>
         </MenuPopup>
       </MenuPositioner>
     </Menu>

@@ -2,6 +2,7 @@ import {
   forwardRef,
   type ComponentRef,
   type ComponentPropsWithoutRef,
+  type ReactElement,
 } from "react";
 import { Menu as BaseMenu } from "@base-ui-components/react";
 import { cn } from "@/lib/utils";
@@ -69,18 +70,25 @@ const MenuGroupLabel = forwardRef<
 ));
 MenuGroupLabel.displayName = "MenuGroupLabel";
 
+interface MenuItemProps {
+  icon?: ReactElement[];
+}
+
 const MenuItem = forwardRef<
   ComponentRef<typeof BaseMenu.Item>,
-  ComponentPropsWithoutRef<typeof BaseMenu.Item>
->(({ className, ...props }, ref) => (
+  MenuItemProps & ComponentPropsWithoutRef<typeof BaseMenu.Item>
+>(({ className, icon, ...props }, ref) => (
   <BaseMenu.Item
     ref={ref}
     className={cn(
-      "flex cursor-default py-2 pr-8 pl-3 text-sm leading-4 outline-none select-none data-[highlighted]:relative data-[highlighted]:z-0 data-[highlighted]:text-foreground-500 data-[highlighted]:before:absolute data-[highlighted]:before:inset-x-1 data-[highlighted]:before:inset-y-0 data-[highlighted]:before:z-[-1] data-[highlighted]:before:rounded-sm data-[highlighted]:before:bg-background-900",
+      "flex items-center font-medium gap-2 cursor-default py-2 pr-8 pl-3 text-sm leading-4 outline-none select-none data-[highlighted]:relative data-[highlighted]:z-0 data-[highlighted]:text-foreground-500 data-[highlighted]:before:absolute data-[highlighted]:before:inset-x-1 data-[highlighted]:before:inset-y-0 data-[highlighted]:before:z-[-1] data-[highlighted]:before:rounded-sm data-[highlighted]:before:bg-background-900",
       className,
     )}
     {...props}
-  />
+  >
+    {icon}
+    {props.children}
+  </BaseMenu.Item>
 ));
 
 export {
