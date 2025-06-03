@@ -133,7 +133,7 @@ function MoveTodoButton({ todo }: { todo: Todo }) {
       <TooltipTrigger
         render={
           <IconButton onClick={handleMove} aria-label="Move todo">
-            {todo.sectionId ? (
+            {todo.sectionId === "later" ? (
               <ArrowLeftIcon className="h-4 w-4 text-foreground" />
             ) : (
               <ArrowRightIcon className="h-4 w-4 text-foreground/85" />
@@ -143,7 +143,7 @@ function MoveTodoButton({ todo }: { todo: Todo }) {
       />
       <TooltipPositioner sideOffset={8}>
         <TooltipPopup className="inline-flex gap-2">
-          Move to {todo.sectionId === "today" ? "Today" : "Later"}
+          Move to {todo.sectionId === "today" ? "Later" : "Today"}
           <span>
             <Kbd>M</Kbd> then <Kbd>{todo.sectionId ? "T" : "L"}</Kbd>
           </span>
