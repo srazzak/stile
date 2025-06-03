@@ -17,7 +17,7 @@ import {
   MenuItem,
 } from "./ui/menu";
 import { IconButton } from "./ui/icon-button/icon-button";
-import { exportTodosToJson } from "@/lib/export";
+import { exportTodosToJson } from "@/lib/io";
 import { TooltipTrigger } from "./ui/tooltip";
 import { ShortcutTooltip } from "./ui/shortcut-tooltip";
 
