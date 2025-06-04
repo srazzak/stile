@@ -25,7 +25,7 @@ export default function LaterPage() {
           </span>
         </header>
         <div>
-          <TodoList todos={todos} sectionId="later" />
+          <TodoList todos={todos} />
           <EmptyTodo sectionId="later" />
         </div>
       </div>

@@ -6,7 +6,6 @@ import {
   type FormEvent,
 } from "react";
 import { todoStore } from "@/lib/storage";
-import { useFocusNavigation } from "@/hooks/useFocusNavigation";
 import { type Todo } from "@/lib/storage/types";
 import { TodoCheckbox } from "./todo-checkbox";
 import { TodoInput } from "./todo-input";
@@ -17,13 +16,7 @@ import {
   TrashIcon,
 } from "@heroicons/react/16/solid";
 import styles from "./todo.module.css";
-import {
-  Tooltip,
-  TooltipPopup,
-  TooltipPositioner,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { IconButton } from "../ui/icon-button/icon-button";
 import { ShortcutTooltip } from "../ui/shortcut-tooltip";

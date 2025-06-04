@@ -7,7 +7,6 @@ import { useKeyboard } from "@/contexts/keyboard-context";
 
 interface TodoListProps {
   todos: Todo[];
-  sectionId?: string;
 }
 
 export function TodoList({ todos }: TodoListProps) {

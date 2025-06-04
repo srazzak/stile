@@ -76,6 +76,8 @@ export class TodoDb {
       completedAt: undefined,
     };
 
+    await this.db.todos.add(incompleteTodo);
+
     transactionStore
       .getState()
       .addTransaction({ todo: incompleteTodo, event: "create" });
