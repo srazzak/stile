@@ -16,9 +16,13 @@ export function TodoList({ todos }: TodoListProps) {
 
   const { setActiveContext } = useKeyboard();
 
-  function handleMove(sectionId: string) {
+  function handleMove() {
     if (focusedTodoId) {
-      todoStore.updateTodo(focusedTodoId, { sectionId: sectionId });
+      const todo = todos.find((todo) => todo.id === focusedTodoId);
+
+      todoStore.updateTodo(focusedTodoId, {
+        sectionId: todo?.sectionId === "today" ? "later" : "today",
+      });
     }
 
     handleNavigate("next");
@@ -40,16 +44,9 @@ export function TodoList({ todos }: TodoListProps) {
   });
 
   useShortcut({
-    key: ["m", "l"],
-    handler: () => handleMove("later"),
+    key: ["m"],
+    handler: () => handleMove(),
     description: "Move todo to later",
-    contexts: ["todo"],
-  });
-
-  useShortcut({
-    key: ["m", "t"],
-    handler: () => handleMove("today"),
-    description: "Move todo to today",
     contexts: ["todo"],
   });
 

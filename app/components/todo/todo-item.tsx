@@ -128,10 +128,7 @@ function MoveTodoButton({ todo }: { todo: Todo }) {
     todo.sectionId === "today" ? "Move to Later" : "Move to Today";
 
   return (
-    <ShortcutTooltip
-      content={targetText}
-      shortcut={["M", todo.sectionId === "today" ? "L" : "T"]}
-    >
+    <ShortcutTooltip content={targetText} shortcut={["M"]}>
       <TooltipTrigger
         render={
           <IconButton onClick={handleMove} aria-label="Move todo">
