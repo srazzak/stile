@@ -24,7 +24,7 @@ const MenuPositioner = forwardRef<
         ref={ref}
         align={align}
         sideOffset={sideOffset}
-        className={cn("z-50", className)}
+        className={cn("outline-none focus-within:outline-none", className)}
         {...props}
       >
         {children}
@@ -41,14 +41,10 @@ const MenuPopup = forwardRef<
   <BaseMenu.Popup
     ref={ref}
     className={cn(
-      "origin-[var(--transform-origin)] rounded-md bg-background-gradient py-1 text-foreground shadow-lg shadow-gray-200 outline-1 outline-gray-200 min-w-24",
-      "transition-[scale,opacity]",
+      "origin-[var(--transform-origin)] rounded-md bg-background-gradient py-1 text-foreground-500 shadow-lg shadow-gray-200 outline-1 outline-gray-100 min-w-24",
+      "transition-[transform,scale,opacity]",
       "data-[ending-style]:scale-90 data-[starting-style]:scale-90",
       "data-[ending-style]:opacity-0 data-[starting-style]:opacity-0",
-      "data-[side=bottom]:slide-in-from-top-2",
-      "data-[side=left]:slide-in-from-right-2",
-      "data-[side=right]:slide-in-from-left-2",
-      "data-[side=top]:slide-in-from-bottom-2",
       className,
     )}
     {...props}
@@ -81,7 +77,8 @@ const MenuItem = forwardRef<
   <BaseMenu.Item
     ref={ref}
     className={cn(
-      "flex items-center font-medium gap-2 cursor-default py-2 pr-8 pl-3 text-sm leading-4 outline-none select-none data-[highlighted]:relative data-[highlighted]:z-0 data-[highlighted]:text-foreground-500 data-[highlighted]:before:absolute data-[highlighted]:before:inset-x-1 data-[highlighted]:before:inset-y-0 data-[highlighted]:before:z-[-1] data-[highlighted]:before:rounded-sm data-[highlighted]:before:bg-background-900",
+      "flex items-center font-medium gap-2 cursor-default py-2 pr-8 pl-3 text-sm leading-4 select-none outline-none",
+      "data-[highlighted]:relative data-[highlighted]:z-0 data-[highlighted]:text-foreground-500 data-[highlighted]:before:absolute data-[highlighted]:before:inset-x-1 data-[highlighted]:before:inset-y-0 data-[highlighted]:before:z-[-1] data-[highlighted]:before:rounded-sm data-[highlighted]:before:bg-background-900",
       className,
     )}
     {...props}
