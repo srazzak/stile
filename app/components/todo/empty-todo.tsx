@@ -1,10 +1,8 @@
 import { useState, useRef, forwardRef, type FormEvent } from "react";
 import { todoStore } from "@/lib/storage";
-import { type Todo } from "@/lib/storage/types";
 import { TodoInput } from "./todo-input";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useShortcut } from "@/hooks/useShortcut";
-import { Checkbox } from "../ui/checkbox";
 import { IconButton } from "../ui/icon-button/icon-button";
 import { CheckIcon } from "@heroicons/react/16/solid";
 
@@ -16,7 +14,6 @@ interface EmptyTodoProps {
 export const EmptyTodo = forwardRef<HTMLFormElement, EmptyTodoProps>(
   ({ sectionId }, ref) => {
     const [newTodoTitle, setNewTodoTitle] = useState("");
-    const [deadline, setDeadline] = useState<Date | undefined>(undefined);
     const inputRef = useRef<HTMLInputElement>(null);
 
     useShortcut({
@@ -34,18 +31,14 @@ export const EmptyTodo = forwardRef<HTMLFormElement, EmptyTodoProps>(
 
     const createTodo = async () => {
       if (newTodoTitle.trim()) {
-        const newTodo: Omit<Todo, "createdAt" | "id"> = {
+        const newTodo = {
           title: newTodoTitle.trim(),
           description: "",
-          completed: false,
-          updatedAt: new Date(),
-          deadline: deadline,
           sectionId: sectionId,
         };
 
         await todoStore.createTodo(newTodo);
         setNewTodoTitle("");
-        setDeadline(undefined);
       }
     };
 
@@ -58,12 +51,12 @@ export const EmptyTodo = forwardRef<HTMLFormElement, EmptyTodoProps>(
       return (
         <form
           ref={ref}
-          className="flex items-center w-full gap-1 py-1 pr-1 pl-3"
+          className="flex items-center w-full gap-1 py-1 pr-1 pl-[36px]"
           onSubmit={handleSubmit}
         >
-          <Checkbox disabled />
           <TodoInput
             type="text"
+            id="title"
             ref={inputRef}
             value={newTodoTitle}
             onChange={(e) => setNewTodoTitle(e.target.value)}

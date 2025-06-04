@@ -63,7 +63,12 @@ export class TodoDb {
     }
   }
 
-  async createTodo(todo: Omit<Todo, "id" | "createdAt" | "updatedAt">) {
+  async createTodo(
+    todo: Omit<
+      Todo,
+      "id" | "createdAt" | "updatedAt" | "completed" | "completedAt"
+    >,
+  ) {
     const todoId = generateId();
     const today = new Date();
 
