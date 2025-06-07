@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router";
 import { useShortcut } from "@/hooks/useShortcut";
 import { Navbar } from "@/components/navbar";
@@ -38,7 +37,7 @@ export default function Layout() {
   });
 
   return (
-    <main className="mx-auto flex h-full w-full max-w-4xl flex-col p-4 pt-32 xl:max-w-3xl">
+    <main className="flex flex-col p-4 pt-32 grow">
       <KeyboardDebug />
       <Navbar />
       <Outlet />
