@@ -10,7 +10,6 @@ import {
   type RefObject,
 } from "react";
 
-// Define types for our shortcuts and contexts
 type ShortcutHandler = (e: KeyboardEvent) => void;
 
 interface ShortcutDefinition {
@@ -42,24 +41,22 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
   const [debugKeyBuffer, setDebugKeyBuffer] = useState<string[]>([]);
   const sequenceTimer = useRef<NodeJS.Timeout | null>(null);
 
-  // Register a new shortcut - optimize to prevent unnecessary updates
   const registerShortcut = useCallback((shortcut: ShortcutDefinition) => {
     setShortcuts((prev) => {
-      // Check if we're adding the same shortcut (by value comparison)
       const existing = prev.find((s) => s.key === shortcut.key);
+
       if (
         existing &&
         existing.handler === shortcut.handler &&
         existing.description === shortcut.description &&
         existing.contexts.join(",") === shortcut.contexts.join(",")
       ) {
-        return prev; // No change needed
+        return prev;
       }
       return [...prev.filter((s) => s.key !== shortcut.key), shortcut];
     });
   }, []);
 
-  // Unregister a shortcut
   const unregisterShortcut = useCallback((key: string[]) => {
     setShortcuts((prev) => prev.filter((s) => s.key !== key));
   }, []);
@@ -87,10 +84,8 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
     );
   }
 
-  // Handle keydown events
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Ignore if the target is an input or textarea
       if (
         document.activeElement?.tagName === "INPUT" ||
         document.activeElement?.tagName === "TEXTAREA"
@@ -145,7 +140,6 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
     };
   }, [keyBuffer, sequenceTimer, getActiveShortcuts]);
 
-  // Memoize the context value to prevent unnecessary rerenders
   const contextValue = useMemo(
     () => ({
       registerShortcut,

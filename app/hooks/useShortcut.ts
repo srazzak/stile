@@ -35,20 +35,16 @@ export function useShortcut({
 }: UseShortcutProps) {
   const { registerShortcut, unregisterShortcut } = useKeyboard();
 
-  // Use a ref to store the latest handler
   const handlerRef = useRef(handler);
 
-  // Update the ref when handler changes
   useEffect(() => {
     handlerRef.current = handler;
   }, [handler]);
 
-  // Create a stable handler wrapper that uses the ref
   const stableHandler = useCallback((e: KeyboardEvent) => {
     handlerRef.current(e);
   }, []);
 
-  // Use refs for static values to maintain stable references
   const shortcutKey = useRef(key).current;
   const shortcutDescription = useRef(description).current;
   const shortcutContexts = useRef(contexts).current;
