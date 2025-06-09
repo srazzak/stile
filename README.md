@@ -24,7 +24,7 @@ Start the development server with HMR:
 pnpm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+Verdigris will be available at `http://localhost:5173`.
 
 ## Building for Production
 
