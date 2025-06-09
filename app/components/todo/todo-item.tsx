@@ -9,12 +9,7 @@ import { todoStore } from "@/lib/storage";
 import { type Todo } from "@/lib/storage/types";
 import { TodoCheckbox } from "./todo-checkbox";
 import { TodoInput } from "./todo-input";
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  CheckIcon,
-  TrashIcon,
-} from "@heroicons/react/16/solid";
+import { ArrowRightIcon, TagIcon, TrashIcon } from "@heroicons/react/16/solid";
 import styles from "./todo.module.css";
 import { TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
@@ -96,7 +91,7 @@ export const TodoItem = ({ todo, onFocus, onBlur }: TodoItemProps) => {
         </ShortcutTooltip>
         {title !== todo.title ? (
           <IconButton type="submit" variant="green">
-            <CheckIcon className="h-4 w-4 text-green-600" />
+            <ArrowRightIcon className="h-4 w-4 text-green-600" />
           </IconButton>
         ) : null}
       </form>
@@ -125,11 +120,7 @@ function MoveTodoButton({ todo }: { todo: Todo }) {
       <TooltipTrigger
         render={
           <IconButton onClick={handleMove} aria-label="Move todo">
-            {todo.sectionId === "later" ? (
-              <ArrowLeftIcon className="h-4 w-4 text-foreground" />
-            ) : (
-              <ArrowRightIcon className="h-4 w-4 text-foreground/85" />
-            )}
+            <TagIcon className="h-4 w-4 text-foreground-500/85" />
           </IconButton>
         }
       />

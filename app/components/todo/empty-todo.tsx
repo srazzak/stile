@@ -4,7 +4,7 @@ import { TodoInput } from "./todo-input";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useShortcut } from "@/hooks/useShortcut";
 import { IconButton } from "../ui/icon-button/icon-button";
-import { CheckIcon } from "@heroicons/react/16/solid";
+import { ArrowRightIcon, PlusIcon } from "@heroicons/react/16/solid";
 
 interface EmptyTodoProps {
   sectionId: string;
@@ -51,9 +51,12 @@ export const EmptyTodo = forwardRef<HTMLFormElement, EmptyTodoProps>(
       return (
         <form
           ref={ref}
-          className="flex items-center w-full gap-1 py-1 pr-1 pl-[36px]"
+          className="flex items-center w-full gap-1 py-1 px-[14px]"
           onSubmit={handleSubmit}
         >
+          <div className="h-5 w-5 flex justify-between items-center">
+            <PlusIcon className="h-4 w-4 text-foreground-500/50" />
+          </div>
           <TodoInput
             type="text"
             id="title"
@@ -65,7 +68,7 @@ export const EmptyTodo = forwardRef<HTMLFormElement, EmptyTodoProps>(
           />
           {newTodoTitle.length > 0 ? (
             <IconButton type="submit" variant="green">
-              <CheckIcon className="h-4 w-4 text-green-600" />
+              <ArrowRightIcon className="h-4 w-4 text-green-600" />
             </IconButton>
           ) : null}
         </form>
