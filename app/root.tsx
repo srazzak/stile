@@ -34,6 +34,25 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="title" content="Verdigris" />
+        <meta name="description" content="A simple local-only todo app." />
+        <meta property="og:url" content="https://verdigris.vercel.app" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Verdigris" />
+        <meta
+          property="og:description"
+          content="A simple local-only todo app"
+        />
+        <meta property="og:image" content="/public/og-image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="verdigris.vercel.app" />
+        <meta property="twitter:url" content="https://verdigris.vercel.app" />
+        <meta name="twitter:title" content="Verdigris" />
+        <meta
+          name="twitter:description"
+          content="A simple local-only todo app"
+        />
+        <meta name="twitter:image" content="/public/og-image.png" />
         <link rel="icon" href="/icon.png" />
         <Meta />
         <Links />
