@@ -21,6 +21,12 @@
   background-color: oklch(93.02% 0.014 67.66);
 }
 
+.iconButton:disabled {
+  color: oklch(64% 0 0);
+  background-color: oklch(92.02% 0.014 67.66);
+  cursor: default;
+}
+
 .red {
   background: oklch(94.3% 0.029 17.7);
   border: 1px solid oklch(89.46% 0.021 17.55);

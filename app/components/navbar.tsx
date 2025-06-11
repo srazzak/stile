@@ -5,7 +5,11 @@ import { Link, useLocation } from "react-router";
 import { TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
 import { Kbd } from "@/components/ui/kbd";
 import { Dialog, DialogPopup, DialogTrigger } from "./ui/dialog";
-import { BookOpenIcon } from "@heroicons/react/16/solid";
+import {
+  ArrowUturnLeftIcon,
+  ArrowUturnRightIcon,
+  BookOpenIcon,
+} from "@heroicons/react/16/solid";
 import { IconButton } from "./ui/icon-button/icon-button";
 import { ShortcutTooltip } from "./ui/shortcut-tooltip";
 import { useEffect, useState } from "react";
@@ -13,6 +17,7 @@ import { useShortcut } from "@/hooks/useShortcut";
 import { useKeyboard } from "@/contexts/keyboard-context";
 import { SettingsButton } from "./settings-button";
 import { Tabs, TabsTab, TabsList, TabsPanel } from "@/components/ui/tabs";
+import { useTransactionStore } from "@/stores/transactions";
 
 export function Navbar() {
   const todoCount = useLiveQuery(() => todoStore.getIncompletedTodoCount(), []);
@@ -67,10 +72,50 @@ export function Navbar() {
         </TooltipProvider>
       </div>
       <div className="inline-flex gap-1">
-        <HowToDialog />
-        <SettingsButton />
+        <TooltipProvider delay={200}>
+          <UndoButton />
+          <RedoButton />
+          <HowToDialog />
+          <SettingsButton />
+        </TooltipProvider>
       </div>
     </nav>
+  );
+}
+
+function UndoButton() {
+  const index = useTransactionStore((state) => state.index);
+
+  return (
+    <ShortcutTooltip content="Undo" shortcut={["U"]}>
+      <TooltipTrigger
+        render={
+          <IconButton onClick={() => todoStore.undo()} disabled={index < 0}>
+            <ArrowUturnLeftIcon className={cn("h-4 w-4")} />
+          </IconButton>
+        }
+      />
+    </ShortcutTooltip>
+  );
+}
+
+function RedoButton() {
+  const index = useTransactionStore((state) => state.index);
+  const transactions = useTransactionStore((state) => state.transactions);
+
+  return (
+    <ShortcutTooltip content="Redo" shortcut={["U"]}>
+      <TooltipTrigger
+        render={
+          <IconButton
+            onClick={() => todoStore.redo()}
+            disabled={index === transactions.length - 1}
+          >
+            <ArrowUturnRightIcon className="h-4 w-4" />
+          </IconButton>
+        }
+      />
+    </ShortcutTooltip>
   );
 }
 
@@ -142,7 +187,7 @@ function HowToDialog() {
           <TabsPanel value="shortcuts" className="flex flex-col">
             <div className="text-stone-500 text-sm *:my-3">
               <div className="font-medium text-stone-400 italic">
-                At any time
+                When on todo list view
               </div>
               <ul className="*:my-2">
                 <li>
@@ -162,6 +207,12 @@ function HowToDialog() {
                   <Kbd>C</Kbd> - Create new todo
                 </li>
                 <li>
+                  <Kbd>U</Kbd> - Undo
+                </li>
+                <li>
+                  <Kbd>I</Kbd> - Redo
+                </li>
+                <li>
                   <Kbd>H</Kbd> - View How To modal
                 </li>
               </ul>
@@ -179,10 +230,7 @@ function HowToDialog() {
                   <Kbd>D</Kbd> - Delete todo
                 </li>
                 <li>
-                  <Kbd>M</Kbd> then <Kbd>T</Kbd> - Move todo to Today page
-                </li>
-                <li>
-                  <Kbd>M</Kbd> then <Kbd>L</Kbd> - Move todo to Later page
+                  <Kbd>M</Kbd> - Move todo to other list
                 </li>
               </ul>
             </div>
