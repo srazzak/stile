@@ -51,7 +51,7 @@ export const EmptyTodo = forwardRef<HTMLFormElement, EmptyTodoProps>(
       return (
         <form
           ref={ref}
-          className="flex items-center w-full gap-1 py-1 px-[14px]"
+          className="flex items-center w-full gap-1 py-1 pl-[14px] pr-1"
           onSubmit={handleSubmit}
         >
           <div className="h-5 w-5 flex justify-between items-center">

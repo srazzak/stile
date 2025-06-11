@@ -9,7 +9,13 @@ import { todoStore } from "@/lib/storage";
 import { type Todo } from "@/lib/storage/types";
 import { TodoCheckbox } from "./todo-checkbox";
 import { TodoInput } from "./todo-input";
-import { ArrowRightIcon, TagIcon, TrashIcon } from "@heroicons/react/16/solid";
+import {
+  ArrowLeftEndOnRectangleIcon,
+  ArrowRightEndOnRectangleIcon,
+  ArrowRightIcon,
+  TagIcon,
+  TrashIcon,
+} from "@heroicons/react/16/solid";
 import styles from "./todo.module.css";
 import { TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
@@ -120,7 +126,11 @@ function MoveTodoButton({ todo }: { todo: Todo }) {
       <TooltipTrigger
         render={
           <IconButton onClick={handleMove} aria-label="Move todo">
-            <TagIcon className="h-4 w-4 text-foreground-500/85" />
+            {todo.sectionId === "today" ? (
+              <ArrowRightEndOnRectangleIcon className="h-4 w-4 text-foreground-500/85" />
+            ) : (
+              <ArrowLeftEndOnRectangleIcon className="h-4 w-4 text-foreground-500/85" />
+            )}
           </IconButton>
         }
       />
