@@ -37,7 +37,11 @@ function TabsIndicator({
 function TabsPanel({ ...props }: ComponentProps<typeof BaseTabs.Panel>) {
   return (
     <BaseTabs.Panel
-      className={cn("w-full h-full", props.className)}
+      className={cn(
+        "w-full h-full",
+        "transition-transform duration-200",
+        props.className,
+      )}
       {...props}
     />
   );

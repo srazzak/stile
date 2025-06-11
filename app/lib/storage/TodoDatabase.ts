@@ -110,6 +110,10 @@ export class TodoDb {
       .addTransaction({ todoId: id, event: "update", diffs: diffs });
   }
 
+  async deleteTodos() {
+    this.db.todos.clear();
+  }
+
   async deleteTodo(id: string): Promise<void> {
     const todo = await this.getTodo(id);
     await this.db.todos.delete(id);

@@ -23,7 +23,7 @@ export async function exportTodosToJson() {
   }
 }
 
-export async function importTodosFromJson() {
+export async function importTodosFromJson(overwrite: boolean) {
   const input = document.createElement("input");
   input.type = "file";
 
@@ -39,9 +39,14 @@ export async function importTodosFromJson() {
           const jsonString = e.target?.result as string;
           const todos: Todo[] = JSON.parse(jsonString);
 
+          if (overwrite) {
+            await todoStore.deleteTodos()
+          }
+          
           for (const todo of todos) {
             await todoStore.createTodo(todo);
           }
+          
           // Optionally, provide feedback to the user (e.g., show a success message)
           console.log("Todos imported successfully!");
         } catch (error) {

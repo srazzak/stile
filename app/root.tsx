@@ -44,7 +44,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
           property="og:description"
           content="A simple local-only todo app"
         />
-        <meta property="og:image" content="/og-image.png" />
+        <meta
+          property="og:image"
+          content="https://verdigris.vercel.app/og-image.png"
+        />
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="twitter:domain" content="verdigris.vercel.app" />
         <meta property="twitter:url" content="https://verdigris.vercel.app" />
@@ -53,7 +56,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
           name="twitter:description"
           content="A simple local-only todo app"
         />
-        <meta name="twitter:image" content="/og-image.png" />
+        <meta
+          name="twitter:image"
+          content="https://verdigris.vercel.app/og-image.png"
+        />
         <link rel="icon" href="/icon.png" />
         <Meta />
         <Links />
