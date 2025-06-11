@@ -104,7 +104,7 @@ function RedoButton() {
   const transactions = useTransactionStore((state) => state.transactions);
 
   return (
-    <ShortcutTooltip content="Redo" shortcut={["U"]}>
+    <ShortcutTooltip content="Redo" shortcut={["I"]}>
       <TooltipTrigger
         render={
           <IconButton
