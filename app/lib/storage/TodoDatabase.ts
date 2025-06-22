@@ -2,7 +2,7 @@ import Dexie, { type Table } from "dexie";
 import { type Todo, type Section, type IncompleteTodo } from "./types";
 import { generateId } from "../utils";
 import { upgradeToV3, upgradeToV4, upgradeToV5 } from "./upgrades";
-import { transactionStore, type TodoUpdateDiff } from "@/stores/transactions";
+import { useStore, type TodoUpdateDiff } from "@/stores/store";
 
 class TodoDatabase extends Dexie {
   todos!: Table<Todo>;
@@ -83,7 +83,7 @@ export class TodoDb {
 
     await this.db.todos.add(incompleteTodo);
 
-    transactionStore
+    useStore
       .getState()
       .addTransaction({ todo: incompleteTodo, event: "create" });
   }
@@ -105,7 +105,7 @@ export class TodoDb {
       newValue: update[k as keyof Todo],
     })) as TodoUpdateDiff[];
 
-    transactionStore
+    useStore
       .getState()
       .addTransaction({ todoId: id, event: "update", diffs: diffs });
   }
@@ -118,29 +118,27 @@ export class TodoDb {
     const todo = await this.getTodo(id);
     await this.db.todos.delete(id);
 
-    transactionStore
-      .getState()
-      .addTransaction({ todo: todo!, event: "delete" });
+    useStore.getState().addTransaction({ todo: todo!, event: "delete" });
   }
 
   async undo(): Promise<void> {
-    const index = transactionStore.getState().index;
+    const index = useStore.getState().transactionIndex;
 
     // return if at beginning of tx buffer (i.e. no more tx to undo)
     if (index < 0) {
       return;
     }
 
-    const transactions = transactionStore.getState().transactions;
+    const transactions = useStore.getState().transactions;
 
     const currentTx = transactions[index];
 
     if (currentTx.event === "create") {
       await this.db.todos.delete(currentTx.todo.id);
-      transactionStore.getState().decreaseIndex();
+      useStore.getState().decreaseTransactionIndex();
     } else if (currentTx.event === "delete") {
       await this.db.todos.add(currentTx.todo);
-      transactionStore.getState().decreaseIndex();
+      useStore.getState().decreaseTransactionIndex();
     } else {
       const updates: Partial<Todo> = Object.fromEntries([
         ...currentTx.diffs.map((diff) => [diff?.field, diff?.previousValue]),
@@ -149,36 +147,36 @@ export class TodoDb {
       console.log(updates);
 
       await this.db.todos.update(currentTx.todoId, updates);
-      transactionStore.getState().decreaseIndex();
+      useStore.getState().decreaseTransactionIndex();
     }
   }
 
   async redo(): Promise<void> {
-    const index = transactionStore.getState().index;
+    const txIndex = useStore.getState().transactionIndex;
 
-    const transactions = transactionStore.getState().transactions;
+    const transactions = useStore.getState().transactions;
 
     // return if already at end of tx buffer (i.e. no more tx to redo)
-    if (index === transactions.length - 1) {
+    if (txIndex === transactions.length - 1) {
       return;
     }
 
     // grab the next transaction and execute
-    const currentTx = transactions[index + 1];
+    const currentTx = transactions[txIndex + 1];
 
     if (currentTx.event === "create") {
       await this.db.todos.add(currentTx.todo);
-      transactionStore.getState().increaseIndex();
+      useStore.getState().increaseTransactionIndex();
     } else if (currentTx.event === "delete") {
       await this.db.todos.delete(currentTx.todo.id);
-      transactionStore.getState().increaseIndex();
+      useStore.getState().increaseTransactionIndex();
     } else {
       const updates: Partial<Todo> = Object.fromEntries([
         ...currentTx.diffs.map((diff) => [diff?.field, diff?.newValue]),
       ]);
 
       await this.db.todos.update(currentTx.todoId, updates);
-      transactionStore.getState().increaseIndex();
+      useStore.getState().increaseTransactionIndex();
     }
   }
 

@@ -17,7 +17,7 @@ import { useShortcut } from "@/hooks/useShortcut";
 import { useKeyboard } from "@/contexts/keyboard-context";
 import { SettingsButton } from "./settings-button";
 import { Tabs, TabsTab, TabsList, TabsPanel } from "@/components/ui/tabs";
-import { useTransactionStore } from "@/stores/transactions";
+import { useStore } from "@/stores/store";
 
 export function Navbar() {
   const todoCount = useLiveQuery(() => todoStore.getIncompletedTodoCount(), []);
@@ -84,7 +84,7 @@ export function Navbar() {
 }
 
 function UndoButton() {
-  const index = useTransactionStore((state) => state.index);
+  const index = useStore((state) => state.transactionIndex);
 
   return (
     <ShortcutTooltip content="Undo" shortcut={["U"]}>
@@ -100,8 +100,8 @@ function UndoButton() {
 }
 
 function RedoButton() {
-  const index = useTransactionStore((state) => state.index);
-  const transactions = useTransactionStore((state) => state.transactions);
+  const index = useStore((state) => state.transactionIndex);
+  const transactions = useStore((state) => state.transactions);
 
   return (
     <ShortcutTooltip content="Redo" shortcut={["I"]}>

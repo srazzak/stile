@@ -32,23 +32,24 @@ export type TodoUpdateDiff = {
   [K in keyof Todo]: FieldUpdateDiff<Todo, K>;
 }[keyof Todo];
 
-interface DbTransactionStore {
+interface AppState {
+  activeTodo: string | null;
   transactions: DbTransaction[];
-  index: number;
+  transactionIndex: number;
   addTransaction: (transaction: DbTransaction) => void;
-  increaseIndex: () => void;
-  decreaseIndex: () => void;
+  increaseTransactionIndex: () => void;
+  decreaseTransactionIndex: () => void;
 }
 
 /**
- * Zustand store for managing database transactions history for undo/redo functionality.
- * Stores a list of transactions and tracks the current state index.
+ * Zustand store for managing app state.
  */
-export const useTransactionStore = create<DbTransactionStore>()((set, get) => ({
+export const useStore = create<AppState>()((set, get) => ({
+  activeTodo: null,
   transactions: [],
-  index: -1,
+  transactionIndex: -1,
   addTransaction: (tx: DbTransaction) => {
-    const { transactions, index } = get();
+    const { transactions, transactionIndex: index } = get();
 
     const newTransactions = transactions.slice(
       Math.max(0, transactions.length - 32),
@@ -58,17 +59,15 @@ export const useTransactionStore = create<DbTransactionStore>()((set, get) => ({
 
     set({
       transactions: newTransactions,
-      index: newTransactions.length - 1,
+      transactionIndex: newTransactions.length - 1,
     });
   },
-  increaseIndex: () =>
+  increaseTransactionIndex: () =>
     set((state) => ({
-      index: Math.max(-1, state.index + 1),
+      transactionIndex: Math.max(-1, state.transactionIndex + 1),
     })),
-  decreaseIndex: () =>
+  decreaseTransactionIndex: () =>
     set((state) => ({
-      index: Math.max(-1, state.index - 1),
+      transactionIndex: Math.max(-1, state.transactionIndex - 1),
     })),
 }));
-
-export const transactionStore = useTransactionStore;

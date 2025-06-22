@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
-import { useTransactionStore } from "@/stores/transactions";
+import { useStore } from "@/stores/store";
 
 export function TransactionDebug() {
-  const transactions = useTransactionStore((state) => state.transactions);
-  const index = useTransactionStore((state) => state.index);
+  const transactions = useStore((state) => state.transactions);
+  const transactionIndex = useStore((state) => state.transactionIndex);
 
   if (import.meta.env.DEV) {
     return (
@@ -16,7 +16,7 @@ export function TransactionDebug() {
               <div
                 className={cn(
                   "border border-gray-200 p-1 rounded inline-flex gap-1",
-                  index === idx ? "bg-gray-50" : "",
+                  transactionIndex === idx ? "bg-gray-50" : "",
                 )}
               >
                 <div>{JSON.stringify(k, null, 3)}</div>
