@@ -37,8 +37,7 @@ interface AppState {
   transactions: DbTransaction[];
   transactionIndex: number;
   addTransaction: (transaction: DbTransaction) => void;
-  increaseTransactionIndex: () => void;
-  decreaseTransactionIndex: () => void;
+  updateTransactionIndex: (by: number) => void;
 }
 
 /**
@@ -62,12 +61,8 @@ export const useStore = create<AppState>()((set, get) => ({
       transactionIndex: newTransactions.length - 1,
     });
   },
-  increaseTransactionIndex: () =>
+  updateTransactionIndex: (by: number) =>
     set((state) => ({
-      transactionIndex: Math.max(-1, state.transactionIndex + 1),
-    })),
-  decreaseTransactionIndex: () =>
-    set((state) => ({
-      transactionIndex: Math.max(-1, state.transactionIndex - 1),
+      transactionIndex: Math.max(-1, state.transactionIndex + by),
     })),
 }));

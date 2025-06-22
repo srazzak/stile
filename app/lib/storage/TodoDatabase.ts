@@ -135,10 +135,8 @@ export class TodoDb {
 
     if (currentTx.event === "create") {
       await this.db.todos.delete(currentTx.todo.id);
-      useStore.getState().decreaseTransactionIndex();
     } else if (currentTx.event === "delete") {
       await this.db.todos.add(currentTx.todo);
-      useStore.getState().decreaseTransactionIndex();
     } else {
       const updates: Partial<Todo> = Object.fromEntries([
         ...currentTx.diffs.map((diff) => [diff?.field, diff?.previousValue]),
@@ -147,8 +145,9 @@ export class TodoDb {
       console.log(updates);
 
       await this.db.todos.update(currentTx.todoId, updates);
-      useStore.getState().decreaseTransactionIndex();
     }
+
+    useStore.getState().updateTransactionIndex(-1);
   }
 
   async redo(): Promise<void> {
@@ -166,18 +165,17 @@ export class TodoDb {
 
     if (currentTx.event === "create") {
       await this.db.todos.add(currentTx.todo);
-      useStore.getState().increaseTransactionIndex();
     } else if (currentTx.event === "delete") {
       await this.db.todos.delete(currentTx.todo.id);
-      useStore.getState().increaseTransactionIndex();
     } else {
       const updates: Partial<Todo> = Object.fromEntries([
         ...currentTx.diffs.map((diff) => [diff?.field, diff?.newValue]),
       ]);
 
       await this.db.todos.update(currentTx.todoId, updates);
-      useStore.getState().increaseTransactionIndex();
     }
+
+    useStore.getState().updateTransactionIndex(1);
   }
 
   async getTodo(id: string): Promise<Todo | undefined> {
