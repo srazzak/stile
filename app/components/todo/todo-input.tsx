@@ -4,13 +4,12 @@ import React from "react";
 
 interface TodoInputProps extends React.ComponentProps<typeof Input> {
   completed: boolean;
-  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 export const TodoInput = React.forwardRef<
   React.ComponentRef<typeof Input>,
   TodoInputProps
->(({ completed, onKeyDown, ...props }: TodoInputProps, ref) => {
+>(({ completed, ...props }: TodoInputProps, ref) => {
   return (
     <Input
       className={cn(
