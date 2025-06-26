@@ -37,7 +37,7 @@ export function SettingsButton() {
           }
         />
       </ShortcutTooltip>
-      <MenuPositioner>
+      <MenuPositioner align="end">
         <MenuPopup>
           <MenuItem onClick={exportTodosToJson}>
             <ArrowDownTrayIcon className="h-4 w-4" />
