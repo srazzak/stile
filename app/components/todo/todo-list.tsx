@@ -4,14 +4,17 @@ import { type Todo } from "@/lib/storage/types";
 import { useShortcut } from "@/hooks/useShortcut";
 import { todoStore } from "@/lib/storage";
 import { useKeyboard } from "@/contexts/keyboard-context";
+import { useStore } from "@/stores/store";
 
 interface TodoListProps {
   todos: Todo[];
 }
 
 export function TodoList({ todos }: TodoListProps) {
-  const [focusedTodoId, setFocusedTodoId] = useState<string | null>(null);
+  // const [focusedTodoId, setFocusedTodoId] = useState<string | null>(null);
   const listRef = useRef<HTMLUListElement>(null);
+
+  const focusedTodoId = useStore((state) => state.activeTodo);
 
   const { setActiveContext } = useKeyboard();
 
@@ -167,18 +170,7 @@ export function TodoList({ todos }: TodoListProps) {
       role="list"
     >
       {todos.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          onFocus={() => {
-            setFocusedTodoId(todo.id);
-            setActiveContext("todo");
-          }}
-          onBlur={() => {
-            setFocusedTodoId(null);
-            setActiveContext("global");
-          }}
-        />
+        <TodoItem key={todo.id} todo={todo} />
       ))}
     </ul>
   );

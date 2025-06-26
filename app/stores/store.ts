@@ -34,6 +34,7 @@ export type TodoUpdateDiff = {
 
 interface AppState {
   activeTodo: string | null;
+  updateActiveTodo: (id: string | null) => void;
   transactions: DbTransaction[];
   transactionIndex: number;
   addTransaction: (transaction: DbTransaction) => void;
@@ -45,6 +46,7 @@ interface AppState {
  */
 export const useStore = create<AppState>()((set, get) => ({
   activeTodo: null,
+  updateActiveTodo: (id) => set(() => ({ activeTodo: id })),
   transactions: [],
   transactionIndex: -1,
   addTransaction: (tx: DbTransaction) => {

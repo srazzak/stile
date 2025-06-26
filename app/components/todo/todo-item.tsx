@@ -21,15 +21,19 @@ import { TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { IconButton } from "../ui/icon-button/icon-button";
 import { ShortcutTooltip } from "../ui/shortcut-tooltip";
+import { useStore } from "@/stores/store";
+import { useKeyboard } from "@/contexts/keyboard-context";
 
 interface TodoItemProps {
   todo: Todo;
-  onFocus: () => void;
-  onBlur: () => void;
 }
 
-export const TodoItem = ({ todo, onFocus, onBlur }: TodoItemProps) => {
+export const TodoItem = ({ todo }: TodoItemProps) => {
   const [title, setTitle] = useState(todo.title);
+
+  const setFocusedTodoId = useStore((state) => state.updateActiveTodo);
+
+  const { setActiveContext } = useKeyboard();
 
   useEffect(() => {
     setTitle(todo.title);
@@ -53,6 +57,16 @@ export const TodoItem = ({ todo, onFocus, onBlur }: TodoItemProps) => {
     todoRef.current?.focus();
   }
 
+  function handleFocus() {
+    setFocusedTodoId(todo.id);
+    setActiveContext("todo");
+  }
+
+  function handleBlur() {
+    setFocusedTodoId(null);
+    setActiveContext("global");
+  }
+
   return (
     <li
       ref={todoRef}
@@ -60,8 +74,8 @@ export const TodoItem = ({ todo, onFocus, onBlur }: TodoItemProps) => {
       aria-label={`Todo: ${todo.title}`}
       data-todo-id={todo.id}
       tabIndex={0}
-      onFocus={onFocus}
-      onBlur={onBlur}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
     >
       <ShortcutTooltip content="Toggle complete" shortcut={["T"]}>
         <TooltipTrigger
