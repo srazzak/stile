@@ -13,7 +13,6 @@ import {
   ArrowLeftEndOnRectangleIcon,
   ArrowRightEndOnRectangleIcon,
   ArrowRightIcon,
-  TagIcon,
   TrashIcon,
 } from "@heroicons/react/16/solid";
 import styles from "./todo.module.css";

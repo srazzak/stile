@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { TodoItem } from "./todo-item";
 import { type Todo } from "@/lib/storage/types";
 import { useShortcut } from "@/hooks/useShortcut";
@@ -11,18 +11,24 @@ interface TodoListProps {
 }
 
 export function TodoList({ todos }: TodoListProps) {
-  // const [focusedTodoId, setFocusedTodoId] = useState<string | null>(null);
   const listRef = useRef<HTMLUListElement>(null);
 
-  const focusedTodoId = useStore((state) => state.activeTodo);
+  const activeTodo = useStore((state) => state.activeTodo);
+  const updateActiveTodo = useStore((state) => state.updateActiveTodo);
 
   const { setActiveContext } = useKeyboard();
 
-  function handleMove() {
-    if (focusedTodoId) {
-      const todo = todos.find((todo) => todo.id === focusedTodoId);
+  useEffect(() => {
+    setActiveContext("global");
 
-      todoStore.updateTodo(focusedTodoId, {
+    return () => updateActiveTodo(null);
+  }, []);
+
+  function handleMove() {
+    if (activeTodo) {
+      const todo = todos.find((todo) => todo.id === activeTodo);
+
+      todoStore.updateTodo(activeTodo, {
         sectionId: todo?.sectionId === "today" ? "later" : "today",
       });
     }
@@ -31,8 +37,8 @@ export function TodoList({ todos }: TodoListProps) {
   }
 
   function handleDelete() {
-    if (focusedTodoId) {
-      todoStore.deleteTodo(focusedTodoId);
+    if (activeTodo) {
+      todoStore.deleteTodo(activeTodo);
     }
 
     handleNavigate("next");
@@ -53,18 +59,18 @@ export function TodoList({ todos }: TodoListProps) {
   });
 
   function handleComplete() {
-    if (focusedTodoId) {
-      const focusedTodo = todos.find((t) => t.id === focusedTodoId);
+    if (activeTodo) {
+      const focusedTodo = todos.find((t) => t.id === activeTodo);
 
       if (!focusedTodo) return;
 
       if (focusedTodo.completed) {
-        todoStore.updateTodo(focusedTodoId, {
+        todoStore.updateTodo(activeTodo, {
           completed: false,
           completedAt: undefined,
         });
       } else {
-        todoStore.updateTodo(focusedTodoId, {
+        todoStore.updateTodo(activeTodo, {
           completed: true,
           completedAt: new Date(),
         });
@@ -80,9 +86,9 @@ export function TodoList({ todos }: TodoListProps) {
   });
 
   function handleNavigate(dir: "next" | "prev") {
-    if (focusedTodoId) {
+    if (activeTodo) {
       const activeTodoEl = document.querySelector(
-        `[data-todo-id="${focusedTodoId}"]`,
+        `[data-todo-id="${activeTodo}"]`,
       );
 
       if (dir === "prev") {
@@ -93,13 +99,13 @@ export function TodoList({ todos }: TodoListProps) {
         }
       } else {
         const nextSibling = activeTodoEl?.nextElementSibling as HTMLElement;
-        console.log(nextSibling);
         if (nextSibling?.tagName === "LI") {
           nextSibling.focus();
         }
       }
     } else {
       const firstEl = listRef.current?.firstElementChild as HTMLElement;
+      console.log(listRef);
 
       if (firstEl) {
         firstEl.focus();
@@ -138,9 +144,9 @@ export function TodoList({ todos }: TodoListProps) {
   });
 
   function handleFocusActive() {
-    if (focusedTodoId) {
+    if (activeTodo) {
       const activeTodoEl = document.querySelector(
-        `[data-todo-id="${focusedTodoId}"]`,
+        `[data-todo-id="${activeTodo}"]`,
       ) as HTMLElement | null;
 
       if (activeTodoEl) {
