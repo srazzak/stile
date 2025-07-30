@@ -1,0 +1,75 @@
+{
+  "buildManifest": {
+    "routes": {
+      "root": {
+        "path": "",
+        "id": "root",
+        "file": "root.tsx"
+      },
+      "layout": {
+        "id": "layout",
+        "parentId": "root",
+        "file": "./layout.tsx"
+      },
+      "routes/today": {
+        "id": "routes/today",
+        "parentId": "layout",
+        "file": "routes/today.tsx",
+        "index": true
+      },
+      "routes/later": {
+        "id": "routes/later",
+        "parentId": "layout",
+        "file": "routes/later.tsx",
+        "path": "later"
+      }
+    }
+  },
+  "reactRouterConfig": {
+    "appDirectory": "/Users/suhail/verdigris/apps/web/app",
+    "basename": "/",
+    "buildDirectory": "/Users/suhail/verdigris/apps/web/build",
+    "future": {
+      "unstable_middleware": false,
+      "unstable_optimizeDeps": false,
+      "unstable_splitRouteModules": false,
+      "unstable_subResourceIntegrity": false,
+      "unstable_viteEnvironmentApi": false
+    },
+    "routes": {
+      "root": {
+        "path": "",
+        "id": "root",
+        "file": "root.tsx"
+      },
+      "layout": {
+        "id": "layout",
+        "parentId": "root",
+        "file": "./layout.tsx"
+      },
+      "routes/today": {
+        "id": "routes/today",
+        "parentId": "layout",
+        "file": "routes/today.tsx",
+        "index": true
+      },
+      "routes/later": {
+        "id": "routes/later",
+        "parentId": "layout",
+        "file": "routes/later.tsx",
+        "path": "later"
+      }
+    },
+    "routeDiscovery": {
+      "mode": "initial"
+    },
+    "serverBuildFile": "index.js",
+    "serverModuleFormat": "esm",
+    "ssr": false
+  },
+  "viteConfig": {
+    "build": {
+      "assetsDir": "assets"
+    }
+  }
+}
