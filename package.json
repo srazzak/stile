@@ -6,9 +6,10 @@
   "main": "index.js",
   "scripts": {
     "build:web": "pnpm --filter web build",
-    "build:desktop": "pnpm --filter desktop tauri build",
+    "build:desktop": "pnpm --filter desktop build",
     "build": "pnpm build:web && pnpm build:desktop",
     "dev:web": "pnpm --filter web dev",
+    "dev:desktop": "pnpm --filter desktop dev",
     "start:web": "pnpm --filter web start",
     "typecheck:web": "pnpm --filter web typecheck",
     "test": "echo \"Error: no test specified\" && exit 1"

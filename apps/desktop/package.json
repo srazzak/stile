@@ -1,0 +1,19 @@
+{
+  "name": "desktop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tauri dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.4.1",
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.7.1",
+    "@types/node": "^20.17.27",
+    "wait-on": "^8.0.4"
+  }
+}
