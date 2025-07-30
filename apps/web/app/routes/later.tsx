@@ -1,5 +1,5 @@
 // route("/later")
-import type { Route } from "./+types/later";
+import type { Route } from "../types/app/routes/+types/later";
 import { TodoList } from "@/components/todo/todo-list";
 import { useLiveQuery } from "dexie-react-hooks";
 import { todoStore } from "@/lib/storage";

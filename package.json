@@ -1,48 +1,20 @@
 {
   "name": "verdigris",
+  "version": "1.0.0",
   "private": true,
-  "type": "module",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "build": "react-router build",
-    "dev": "react-router dev",
-    "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "build:web": "pnpm --filter web build",
+    "build:desktop": "pnpm --filter desktop tauri build",
+    "build": "pnpm build:web && pnpm build:desktop",
+    "dev:web": "pnpm --filter web dev",
+    "start:web": "pnpm --filter web start",
+    "typecheck:web": "pnpm --filter web typecheck",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
-    "@base-ui-components/react": "1.0.0-beta.0",
-    "@heroicons/react": "^2.2.0",
-    "@react-router/node": "^7.4.0",
-    "@react-router/serve": "^7.4.0",
-    "@vercel/analytics": "^1.5.0",
-    "@vercel/react-router": "^1.1.0",
-    "chrono-node": "^2.7.8",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "date-fns": "^4.1.0",
-    "dexie": "^4.0.11",
-    "dexie-react-hooks": "^1.1.7",
-    "isbot": "^5.1.25",
-    "nanoid": "^5.1.5",
-    "react": "^19.0.0",
-    "react-day-picker": "^9.6.3",
-    "react-dom": "^19.0.0",
-    "react-router": "^7.4.0",
-    "tailwind-merge": "^3.0.2",
-    "zustand": "^5.0.5"
-  },
-  "devDependencies": {
-    "@react-router/dev": "^7.4.0",
-    "@tailwindcss/vite": "^4.0.15",
-    "@types/node": "^20.17.27",
-    "@types/react": "^19.0.12",
-    "@types/react-dom": "^19.0.4",
-    "prettier": "^3.5.3",
-    "prettier-plugin-tailwindcss": "^0.6.11",
-    "react-router-devtools": "^1.1.6",
-    "tailwindcss": "^4.0.15",
-    "typescript": "^5.8.2",
-    "vite": "^5.4.15",
-    "vite-tsconfig-paths": "^5.1.4"
-  },
-  "packageManager": "pnpm@10.4.1+sha512.c753b6c3ad7afa13af388fa6d808035a008e30ea9993f58c6663e2bc5ff21679aa834db094987129aa4d488b86df57f7b634981b2f827cdcacc698cc0cfb88af"
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.4.1"
 }
