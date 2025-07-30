@@ -6,6 +6,8 @@ This was mainly just a fun project to learn to use IndexedDB. I mainly use Verdi
 
 ## Getting Started
 
+Verdigris is set up in a repo so you can either deploy the web app or build a Tauri desktop app yourself.
+
 ### Installation
 
 Verdigris is set up to use `pnpm` but use whatever package manager you prefer.
@@ -21,18 +23,26 @@ pnpm install
 Start the development server with HMR:
 
 ```bash
-pnpm run dev
+pnpm run dev:web
 ```
 
 Verdigris will be available at `http://localhost:5173`.
 
 ## Building for Production
 
-Create a production build:
+Create a production web build:
 
 ```bash
-pnpm run build
+pnpm run build:web
 ```
+
+For a desktop app build, we use Tauri to wrap and deploy the app. To build it:
+
+```bash
+pnpm run build:desktop
+```
+
+This will create a binary for your local setup.
 
 ### Deployment
 
