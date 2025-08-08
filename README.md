@@ -1,3 +1,8 @@
+<p align="center">
+    <a href="https://stuff.charm.sh/crush/charm-crush.png"><img width="502" alt="Charm Crush Logo" src="https://github.com/user-attachments/assets/9abb2007-b6dd-4f5b-a060-ade7535da052" /></a><br />
+</p>
+
+
 # Verdigris
 
 Verdigris is a simple local-only todo list application built with React Router. Meant to be deployed to Vercel so you can just host it for yourself.
