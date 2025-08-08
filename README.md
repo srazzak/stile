@@ -2,10 +2,12 @@
 
 <p align="center">
     <a href="https://stuff.charm.sh/crush/charm-crush.png"><img width="509" alt="Charm Crush Logo" src="https://github.com/user-attachments/assets/12a8acac-3527-4131-8426-266e1d098dd0" /></a><br />
-</p>
+</p
+
+<p align="center">A simple and calm local-only todo list app.
 
 
-Verdigris is a simple local-only todo list application built with React Router. Meant to be deployed to Vercel so you can just host it for yourself.
+## Summary
 
 This was mainly just a fun project to learn to use IndexedDB. I mainly use Verdigris as my own todo app and it satisfies the needs I have for myself, so I don't expect too many changes in the future.
 
