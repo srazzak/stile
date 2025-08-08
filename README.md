@@ -4,7 +4,7 @@
     <a href="https://stuff.charm.sh/crush/charm-crush.png"><img width="509" alt="Charm Crush Logo" src="https://github.com/user-attachments/assets/12a8acac-3527-4131-8426-266e1d098dd0" /></a><br />
 </p
 
-<p align="center">A simple and calm local-only todo list app.
+<p align="center">A simple and calm local-only todo list app.</p>
 
 
 ## Summary
