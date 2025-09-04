@@ -1,19 +1,24 @@
 import {
+  data,
   isRouteErrorResponse,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import "./app.css";
 import { Analytics } from "@vercel/analytics/react";
 
+import { ConvexProvider, ConvexReactClient } from "convex/react";
+
 import { KeyboardProvider } from "./contexts/keyboard-context";
 import { Separator } from "./components/ui/separator";
 import { IconButton } from "./components/ui/icon-button/icon-button";
+import { useState } from "react";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -28,7 +33,15 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
+export async function loader() {
+  const VITE_CONVEX_URL = process.env["VITE_CONVEX_URL"]!;
+  return data({ ENV: { VITE_CONVEX_URL } });
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  const { ENV } = useLoaderData<typeof loader>();
+  const [convex] = useState(() => new ConvexReactClient(ENV.VITE_CONVEX_URL));
+
   return (
     <html lang="en" className="h-full w-full">
       <head>
@@ -65,7 +78,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="flex flex-col relative h-full w-full antialiased mx-auto max-w-4xl xl:max-w-3xl">
-        <KeyboardProvider>{children}</KeyboardProvider>
+        <ConvexProvider client={convex}>
+          <KeyboardProvider>{children}</KeyboardProvider>
+        </ConvexProvider>
         <ScrollRestoration />
         <Scripts />
         <Analytics />

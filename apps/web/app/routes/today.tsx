@@ -5,6 +5,8 @@ import { todoStore } from "@/lib/storage";
 import { useLiveQuery } from "dexie-react-hooks";
 import { EmptyTodo } from "@/components/todo/empty-todo";
 import { format } from "date-fns";
+import { useQuery } from "convex/react";
+import { api } from "convex/_generated/api";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,8 +17,9 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Today() {
   const todos = useLiveQuery(() => todoStore.getPendingTodos("today"));
+  const convexTodos = useQuery(api.todos.get);
 
-  if (todos) {
+  if (convexTodos) {
     return (
       <div className="w-full h-full">
         <header className="flex flex-col gap-2 mb-8">
@@ -26,7 +29,7 @@ export default function Today() {
           </span>
         </header>
         <div>
-          <TodoList todos={todos} />
+          <TodoList todos={convexTodos} />
           <EmptyTodo sectionId="today" />
         </div>
       </div>
