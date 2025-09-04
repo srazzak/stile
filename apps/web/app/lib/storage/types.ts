@@ -1,27 +1,23 @@
 export type Todo = CompleteTodo | IncompleteTodo;
 
-export interface CompleteTodo {
+export interface BaseTodo {
   id: string;
   title: string;
   description?: string;
   createdAt: Date;
   updatedAt: Date;
-  completed: true;
-  completedAt: Date;
   deadline?: Date;
   sectionId: string;
 }
 
-export interface IncompleteTodo {
-  id: string;
-  title: string;
-  description?: string;
-  createdAt: Date;
-  updatedAt: Date;
+export interface CompleteTodo extends BaseTodo {
+  completed: true;
+  completedAt: Date;
+}
+
+export interface IncompleteTodo extends BaseTodo {
   completed: false;
   completedAt?: undefined;
-  deadline?: Date;
-  sectionId: string;
 }
 
 export interface Section {
