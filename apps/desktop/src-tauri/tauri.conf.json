@@ -10,11 +10,12 @@
   "app": {
     "windows": [
       {
-        "title": "Verdigris",
         "width": 800,
         "height": 600,
         "resizable": true,
-        "fullscreen": false
+        "fullscreen": false,
+        "titleBarStyle": "Transparent",
+        "backgroundColor": "#f8f2ed"
       }
     ],
     "security": {
