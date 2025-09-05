@@ -143,8 +143,7 @@ body {
 }
 
 *:focus-visible:not(input):not([class*="todo"]) {
-  outline: 2px solid oklch(36.64% 0.104 63.31) !important;
-  outline-offset: 1px;
+  outline: 1px solid var(--foreground) !important;
 }
 
 input {

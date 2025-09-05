@@ -6,6 +6,7 @@
   gap: 0.25rem;
   padding: 0.25rem 0.25rem 0.25rem 0.75rem;
   background: transparent;
+  transition: background-color 100ms ease-in-out;
 }
 
 .innerFocusMode {
@@ -17,31 +18,8 @@
 .todo:hover {
   outline: none;
   background-color: oklch(93.94% 0.013 71.33);
-  transition: background-color 100ms ease-in-out;
-  /* background: radial-gradient( */
-  /*   circle at 60px 10px, */
-  /*   oklch(94.39% 0.015 70.88) 0%, */
-  /*   /* oklch(92.32% 0.021 74.65) 100% oklch(93.94% 0.013 71.33) 100% */
-  /* ); */
+  transition: background-color 25ms ease-in-out;
 }
-
-/* .todo::before {
-  position: absolute;
-  content: "";
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(
-    circle at 60px 10px,
-    oklch(94.39% 0.015 70.88) 0%,
-    oklch(94.94% 0.013 71.33) 100%
-  );
-  opacity: 0;
-  z-index: -1;
-  border-radius: inherit;
-  transition: opacity 75ms ease-in-out;
-} */
 
 .todo::after {
   position: absolute;
@@ -50,11 +28,6 @@
   content: "";
   height: 1px;
   width: 100%;
-  /* background: linear-gradient(
-    to right,
-    oklch(91.8% 0.014 60.56),
-    oklch(94.22% 0.014 60.57)
-  ); */
   background-color: oklch(89.8% 0.014 60.56);
   box-shadow: 0px 1px 0px #fff;
 }
@@ -63,12 +36,12 @@
 .todo:focus-within::before,
 .todo:has([data-popup-open])::before {
   opacity: 1;
-  transition: opacity 75ms ease-in-out;
+  transition: opacity 25ms ease-in-out;
 }
 
 .todo > .iconButton {
   opacity: 0;
-  transition: opacity 75ms ease-in-out;
+  transition: opacity 100ms ease-in-out;
 }
 
 .todo:hover > .iconButton {
@@ -81,12 +54,12 @@
 
 .todo > button:not([aria-haspopup="dialog"], [role="checkbox"]) {
   opacity: 0;
-  transition: opacity 75ms ease-in-out;
+  transition: opacity 100ms ease-in-out;
 }
 
 .todo:hover > button,
 .todo:focus-within > button,
 .todo:has([data-popup-open]) > button {
   opacity: 1;
-  transition: opacity 75ms ease-in-out;
+  transition: opacity 25ms ease-in-out;
 }
