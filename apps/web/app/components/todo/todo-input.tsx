@@ -12,13 +12,15 @@ export const TodoInput = React.forwardRef<
 >(({ completed, ...props }: TodoInputProps, ref) => {
   return (
     <Input
+      ref={ref}
       className={cn(
         "text-foreground flex w-full items-center gap-1 p-1 outline-none transition-colors duration-100",
         completed ? "text-foreground/50 line-through" : "",
       )}
+      placeholder="Add title"
       disabled={completed}
+      type="text"
       {...props}
-      ref={ref}
     />
   );
 });

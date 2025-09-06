@@ -28,7 +28,9 @@ interface TodoItemProps {
 }
 
 export const TodoItem = ({ todo }: TodoItemProps) => {
-  const [title, setTitle] = useState(todo.title);
+  const [title, setTitle] = useState<
+    string | number | readonly string[] | undefined
+  >(todo.title);
 
   const setFocusedTodoId = useStore((state) => state.updateActiveTodo);
 
@@ -72,6 +74,14 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
     setActiveContext("global");
   }
 
+  function handleCheckedChange(checked: boolean) {
+    if (checked) {
+      handleUpdate({ completed: true, completedAt: new Date() });
+    } else {
+      handleUpdate({ completed: false, completedAt: undefined });
+    }
+  }
+
   return (
     <li
       ref={todoRef}
@@ -87,11 +97,7 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
           render={
             <TodoCheckbox
               checked={todo.completed}
-              onCheckedChange={(checked) =>
-                checked
-                  ? handleUpdate({ completed: true, completedAt: new Date() })
-                  : handleUpdate({ completed: false, completedAt: undefined })
-              }
+              onCheckedChange={handleCheckedChange}
             />
           }
         />
@@ -104,11 +110,11 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
           <TooltipTrigger
             render={
               <TodoInput
-                type="text"
                 id="todo-title"
                 ref={inputRef}
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                defaultValue={todo.title}
+                onValueChange={setTitle}
                 completed={todo.completed}
               />
             }
