@@ -15,6 +15,8 @@ export function TodoList({ todos }: TodoListProps) {
 
   const activeTodo = useStore((state) => state.activeTodo);
   const updateActiveTodo = useStore((state) => state.updateActiveTodo);
+  const lastActiveTodo = useStore((state) => state.lastActiveTodo);
+  const updateLastActiveTodo = useStore((state) => state.updateLastActiveTodo);
 
   const { setActiveContext } = useKeyboard();
 
@@ -44,6 +46,10 @@ export function TodoList({ todos }: TodoListProps) {
     handleNavigate("next");
   }
 
+  function getTodoEl(id: string): HTMLElement | null {
+    return document.querySelector(`[data-todo-id="${id}"]`);
+  }
+
   useShortcut({
     key: ["d"],
     handler: handleDelete,
@@ -53,7 +59,7 @@ export function TodoList({ todos }: TodoListProps) {
 
   useShortcut({
     key: ["m"],
-    handler: () => handleMove(),
+    handler: handleMove,
     description: "Move todo to later",
     contexts: ["todo"],
   });
@@ -87,9 +93,7 @@ export function TodoList({ todos }: TodoListProps) {
 
   function handleNavigate(dir: "next" | "prev") {
     if (activeTodo) {
-      const activeTodoEl = document.querySelector(
-        `[data-todo-id="${activeTodo}"]`,
-      );
+      const activeTodoEl = getTodoEl(activeTodo);
 
       if (dir === "prev") {
         const prevSibling = activeTodoEl?.previousElementSibling as HTMLElement;
@@ -104,13 +108,18 @@ export function TodoList({ todos }: TodoListProps) {
         }
       }
     } else {
-      const firstEl = listRef.current?.firstElementChild as HTMLElement;
-      console.log(listRef);
+      if (lastActiveTodo) {
+        const lastActiveTodoEl = getTodoEl(lastActiveTodo);
 
-      if (firstEl) {
-        firstEl.focus();
+        lastActiveTodoEl?.focus();
       } else {
-        setActiveContext("global");
+        const firstEl = listRef.current?.firstElementChild as HTMLElement;
+
+        if (firstEl) {
+          firstEl.focus();
+        } else {
+          setActiveContext("global");
+        }
       }
     }
   }
@@ -143,11 +152,25 @@ export function TodoList({ todos }: TodoListProps) {
     contexts: ["global"],
   });
 
+  function handleEscape() {
+    if (activeTodo) {
+      const activeTodoEl = getTodoEl(activeTodo);
+
+      updateLastActiveTodo(activeTodo);
+      activeTodoEl?.blur();
+    }
+  }
+
+  useShortcut({
+    key: ["escape"],
+    handler: handleEscape,
+    description: "Blur currently active todo",
+    contexts: ["global"],
+  });
+
   function handleFocusActive() {
     if (activeTodo) {
-      const activeTodoEl = document.querySelector(
-        `[data-todo-id="${activeTodo}"]`,
-      ) as HTMLElement | null;
+      const activeTodoEl = getTodoEl(activeTodo);
 
       if (activeTodoEl) {
         // Find the input element within the focused todo item
