@@ -112,8 +112,9 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
                 ref={inputRef}
                 value={title}
                 defaultValue={todo.title}
-                // @ts-ignore - strange bug where a SetStateAction<string> isn't valid for
-                // the onValueChange handler in BaseUI need to investigate
+                // TODO: strange TypeError where a SetStateAction<string> isn't
+                // valid for the onValueChange handler in BaseUI need to investigate
+                // @ts-ignore
                 onValueChange={setTitle}
                 completed={todo.completed}
               />
