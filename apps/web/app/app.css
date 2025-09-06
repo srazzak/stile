@@ -153,18 +153,23 @@ input {
 
 .checkbox {
   @apply m-0 box-border flex h-5 w-5 shrink-0 items-center justify-center rounded-full p-0;
-  box-shadow:
-    0 1px 0px #ffffff,
-    0 0 1px #dcd6d0,
-    inset 0px 0px 1px #d9bfa6;
 }
 
 .checkbox[data-checked] {
-  background: radial-gradient(at 0% 50%, #ddc4ac, #dcc2a9 58%, #d7ba9d 100%);
+  background: radial-gradient(at 0% 50%, #ddc4ac, #dcc2a9 68%, #d2b293 100%);
+  box-shadow:
+    inset 0px 0px 0.5px 1px #cdb39a,
+    inset 0 2.5px 0px #ffffff80,
+    0 1.5px 0px #ffffff80;
 }
 
 .checkbox[data-unchecked] {
   background: radial-gradient(at 0% 50%, #f6f0e9, #f5ede6 58%, #f0e5db 100%);
+  box-shadow:
+    0 1px 0px #ffffff,
+    0 0 1px #dcd6d0,
+    inset 0px 0px 0.5px 1px #cdb39a40;
+  /*inset 0px 0px 1px #d9bfa6;*/
 }
 
 .checkbox:disabled {
