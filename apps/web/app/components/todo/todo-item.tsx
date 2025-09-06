@@ -61,7 +61,13 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
     setActiveContext("todo");
   }
 
-  function handleBlur() {
+  function handleBlur(e: React.FocusEvent<HTMLLIElement>) {
+    // check to see if blur was caused by a focus within the li (i.e. tabbing within the li)
+    // if it isn't, then we reset the value
+    const next = e.relatedTarget as Node | null;
+    const leftContainer = !next || !e.currentTarget.contains(next);
+    if (leftContainer) setTitle(todo.title);
+
     setFocusedTodoId(null);
     setActiveContext("global");
   }
