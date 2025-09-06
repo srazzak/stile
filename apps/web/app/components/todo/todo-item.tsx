@@ -28,9 +28,7 @@ interface TodoItemProps {
 }
 
 export const TodoItem = ({ todo }: TodoItemProps) => {
-  const [title, setTitle] = useState<
-    string | number | readonly string[] | undefined
-  >(todo.title);
+  const [title, setTitle] = useState<string>(todo.title);
 
   const setFocusedTodoId = useStore((state) => state.updateActiveTodo);
 
@@ -114,6 +112,8 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
                 ref={inputRef}
                 value={title}
                 defaultValue={todo.title}
+                // @ts-ignore - strange bug where a SetStateAction<string> isn't valid for
+                // the onValueChange handler in BaseUI need to investigate
                 onValueChange={setTitle}
                 completed={todo.completed}
               />
