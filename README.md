@@ -1,7 +1,7 @@
 # Verdigris
 
 <div align="center">
-    <a href="https://github.com/user-attachments/assets/12a8acac-3527-4131-8426-266e1d098dd0">
+    <a href="https://verdigris.vercel.app/">
         <img width="509" alt="Verdigris logo" src="https://github.com/user-attachments/assets/12a8acac-3527-4131-8426-266e1d098dd0" />
     </a>
     <p>A simple and calm local-only todo list app.</p>
