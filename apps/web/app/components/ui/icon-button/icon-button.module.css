@@ -30,7 +30,7 @@
 }
 
 .iconButton:hover {
-  background: oklch(0.85 0.04 65.94);
+  background: oklch(0.89 0.04 65.94);
 }
 
 .iconButton:disabled {
@@ -40,24 +40,24 @@
 }
 
 .red {
-  background: oklch(96.3% 0.029 17.7);
+  /*background: oklch(96.3% 0.029 17.7);*/
+  background: oklch(0.8726 0.0507 25.73);
 }
 
 .red:hover {
-  background: oklch(92.3% 0.029 17.7);
+  background: oklch(0.8926 0.0507 25.73);
 }
 
 .green {
-  background: oklch(96.94% 0.02 177.45);
+  background: oklch(0.8904 0.0214 147.61);
 }
 
 .green:hover {
-  background: oklch(92.94% 0.02 177.45);
+  background: oklch(0.9104 0.0214 147.61);
 }
 
 .iconButton > svg path {
   filter: drop-shadow(0px -1px 0px oklch(1 0 0 / 0.7));
-  fill: ;
 }
 
 .old-iconButton {
