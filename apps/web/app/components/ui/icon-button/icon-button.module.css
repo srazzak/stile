@@ -10,41 +10,54 @@
   height: 2rem;
   padding: 0;
   cursor: pointer;
-  background-color: oklch(95.02% 0.014 67.66);
+  background: oklch(0.87 0.04 67.94);
+  /*background-color: oklch(95.02% 0.014 67.66);
   border: 1px solid oklch(89.55% 0.018 59.46);
   box-shadow:
     0 1px oklch(100% 0 106.37),
-    inset 0px 2px 0.5px oklch(0% 0 0 / 0.02);
+    inset 0px 2px 0.5px oklch(0% 0 0 / 0.02);*/
+  box-shadow:
+    0px -1px 0px oklch(0 0 0 / 0.08),
+    inset 0px -1px 1px oklch(1 0 0 / 0.4),
+    inset 0px 1px 0.5px oklch(1 0 0 / 0.7),
+    inset 0px -8px 8px oklch(1 0 0 / 0.25),
+    inset 0px 0px 1px 2px oklch(1 0 0 / 0.1),
+    inset 0px 4px 3px oklch(0.81 0.04 66 / 0.25),
+    0px 1px 2px oklch(0 0 0 / 0.06),
+    0px 2px 4px oklch(0 0 0 / 0.04),
+    0px 3px 6px oklch(0 0 0 / 0.02),
+    0px 0px 0px 1px oklch(0 0 0 / 0.03);
 }
 
 .iconButton:hover {
-  background-color: oklch(93.02% 0.014 67.66);
+  background: oklch(0.85 0.04 65.94);
 }
 
 .iconButton:disabled {
-  color: oklch(64% 0 0);
-  background-color: oklch(92.02% 0.014 67.66);
-  cursor: default;
+  color: oklch(76% 0 0);
+  background-color: oklch(89.02% 0.014 67.66);
+  cursor: not-allowed;
 }
 
 .red {
   background: oklch(96.3% 0.029 17.7);
-  border: 1px solid oklch(89.46% 0.021 17.55);
 }
 
 .red:hover {
   background: oklch(92.3% 0.029 17.7);
-  border: 1px solid oklch(89.46% 0.021 17.55);
 }
 
 .green {
   background: oklch(96.94% 0.02 177.45);
-  border: 1px solid oklch(91.85% 0.029 150.08);
 }
 
 .green:hover {
   background: oklch(92.94% 0.02 177.45);
-  border: 1px solid oklch(91.85% 0.029 150.08);
+}
+
+.iconButton > svg path {
+  filter: drop-shadow(0px -1px 0px oklch(1 0 0 / 0.7));
+  fill: ;
 }
 
 .old-iconButton {
