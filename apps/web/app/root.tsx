@@ -14,6 +14,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { KeyboardProvider } from "./contexts/keyboard-context";
 import { Separator } from "./components/ui/separator";
 import { IconButton } from "./components/ui/icon-button/icon-button";
+import { GlobeAltIcon } from "@heroicons/react/16/solid";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -76,20 +77,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
               You’ve just gotta fight your way through.
             </div>
             <div className="inline-flex gap-1">
-              <a href="https://x.com/srazzak/">
+              <a href="https://suhailrazzak.com/">
                 <IconButton>
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.52217 6.77491L15.4785 0H14.0671L8.89516 5.88256L4.76437 0H0L6.24656 8.89547L0 16H1.41155L6.87321 9.78782L11.2356 16H16L9.52183 6.77491H9.52217ZM7.58887 8.97384L6.95596 8.08805L1.92015 1.03974H4.0882L8.15216 6.72795L8.78507 7.61374L14.0677 15.0075H11.8997L7.58887 8.97418V8.97384Z"
-                      fill="var(--color-foreground-400)"
-                    />
-                  </svg>
+                  <GlobeAltIcon className="h-4 w-4 text-foreground-400" />
                 </IconButton>
               </a>
               <a href="https://github.com/srazzak/verdigris/">
