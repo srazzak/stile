@@ -11,7 +11,7 @@
     "dev:web": "pnpm --filter web dev",
     "dev:desktop": "pnpm --filter desktop dev",
     "start:web": "pnpm --filter web start",
-    "typecheck:web": "pnpm --filter web typecheck",
+    "typecheck": "pnpm --filter web typecheck",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
