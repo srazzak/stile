@@ -117,9 +117,12 @@ export function TodoList({ todos }: TodoListProps) {
         lastActiveTodoEl?.focus();
       } else {
         const firstEl = listRef.current?.firstElementChild as HTMLElement;
+        const lastEl = listRef.current?.lastElementChild as HTMLElement;
 
-        if (firstEl) {
+        if (dir === "next" && firstEl) {
           firstEl.focus();
+        } else if (dir === "prev" && lastEl) {
+          lastEl.focus();
         } else {
           setActiveContext("global");
         }
