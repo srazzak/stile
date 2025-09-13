@@ -139,7 +139,6 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
         ) : null}
       </form>
       <TooltipProvider delay={200}>
-        <FocusTaskButton todo={todo} />
         <MoveTodoButton todo={todo} />
         <DeleteTodoButton todo={todo} />
       </TooltipProvider>
