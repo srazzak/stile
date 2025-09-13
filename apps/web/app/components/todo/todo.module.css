@@ -51,13 +51,14 @@
   opacity: 1;
 }
 
-.todo > button:not([aria-haspopup="dialog"], [role="checkbox"]) {
+.todo > button:not([data-popup-open], [role="checkbox"]) {
   opacity: 0;
   transition: opacity 75ms ease-in-out;
 }
 
 .todo:hover > button,
 .todo:focus-within > button,
+.todo:focus-within > button > button,
 .todo:has([data-popup-open]) > button {
   opacity: 1;
   transition: opacity 25ms ease-in-out;

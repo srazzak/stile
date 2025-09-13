@@ -13,11 +13,13 @@ import {
   ArrowLeftEndOnRectangleIcon,
   ArrowRightEndOnRectangleIcon,
   ArrowRightIcon,
+  ClockIcon,
   PaperAirplaneIcon,
   TrashIcon,
 } from "@heroicons/react/16/solid";
 import styles from "./todo.module.css";
 import { TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Dialog as BaseDialog, Input } from "@base-ui-components/react";
 import { cn } from "@/lib/utils";
 import { IconButton } from "../ui/icon-button/icon-button";
 import { ShortcutTooltip } from "../ui/shortcut-tooltip";
@@ -137,12 +139,78 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
         ) : null}
       </form>
       <TooltipProvider delay={200}>
+        <FocusTaskButton todo={todo} />
         <MoveTodoButton todo={todo} />
         <DeleteTodoButton todo={todo} />
       </TooltipProvider>
     </li>
   );
 };
+
+function FocusTaskButton({ todo }: { todo: Todo }) {
+  const [open, setOpen] = useState(false);
+  const [duration, setDuration] = useState<undefined | number>(30);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let v = e.target.value;
+    v = v.replace(/\D/g, "");
+
+    if (v === "") {
+      setDuration(undefined);
+      return;
+    }
+
+    v = v.replace(/^0+/g, "");
+    if (v === "") v = "0";
+
+    if (v.length > 2) v = v.slice(0, 2);
+
+    setDuration(Number(v));
+  };
+
+  function cleanup() {
+    setDuration(30);
+  }
+
+  return (
+    <BaseDialog.Root
+      open={open}
+      onOpenChange={setOpen}
+      onOpenChangeComplete={cleanup}
+    >
+      <ShortcutTooltip content="Focus task" shortcut={["F"]}>
+        <TooltipTrigger
+          render={
+            <BaseDialog.Trigger
+              render={
+                <IconButton>
+                  <ClockIcon className="h-4 w-4 text-foreground-500/70" />
+                </IconButton>
+              }
+            />
+          }
+        />
+      </ShortcutTooltip>
+      <BaseDialog.Portal>
+        <BaseDialog.Backdrop className="fixed h-full w-full inset-0 [background:var(--color-background-gradient)] data-[starting-style]:opacity-0 data-[ending-style]:opacity-0 transition-all duration-200" />
+        <BaseDialog.Popup className="absolute h-full w-full inset-0">
+          <div className="flex flex-col items-center h-full w-full pt-60 gap-8">
+            <div className="font-serif text-6xl text-foreground-900">
+              {todo.title}
+            </div>
+            <Input
+              type="number"
+              value={duration}
+              onChange={handleChange}
+              max={90}
+              className="ml-8 text-3xl font-semibold font-mono w-16"
+            />
+          </div>
+        </BaseDialog.Popup>
+      </BaseDialog.Portal>
+    </BaseDialog.Root>
+  );
+}
 
 function MoveTodoButton({ todo }: { todo: Todo }) {
   function handleMove() {
