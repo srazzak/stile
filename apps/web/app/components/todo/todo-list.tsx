@@ -23,7 +23,10 @@ export function TodoList({ todos }: TodoListProps) {
   useEffect(() => {
     setActiveContext("global");
 
-    return () => updateActiveTodo(null);
+    return () => {
+      updateLastActiveTodo(null);
+      updateActiveTodo(null);
+    };
   }, []);
 
   function handleMove() {
