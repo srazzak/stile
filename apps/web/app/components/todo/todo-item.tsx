@@ -62,6 +62,13 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
     setActiveContext("todo");
   }
 
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Escape") {
+      e.currentTarget.blur();
+      setTitle(todo.title);
+    }
+  }
+
   function handleBlur(e: React.FocusEvent<HTMLLIElement>) {
     // check to see if blur was caused by a focus within the li (i.e. tabbing within the li)
     // if it isn't, then we reset the value
@@ -113,6 +120,7 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
                 ref={inputRef}
                 value={title}
                 defaultValue={todo.title}
+                onKeyDown={handleKeyDown}
                 // TODO: strange TypeError where a SetStateAction<string> isn't
                 // valid for the onValueChange handler in BaseUI need to investigate
                 // @ts-ignore
@@ -124,7 +132,7 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
         </ShortcutTooltip>
         {title !== todo.title ? (
           <IconButton type="submit" variant="green">
-            <ArrowRightIcon className="h-4 w-4 text-green-600" />
+            <ArrowRightIcon className="h-4 w-4 text-green-700" />
           </IconButton>
         ) : null}
       </form>

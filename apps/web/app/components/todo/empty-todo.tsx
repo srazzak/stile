@@ -47,6 +47,13 @@ export const EmptyTodo = forwardRef<HTMLFormElement, EmptyTodoProps>(
       createTodo();
     }
 
+    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+      if (e.key === "Escape") {
+        e.currentTarget.blur();
+        setNewTodoTitle("");
+      }
+    }
+
     if (todos.length < 10 || sectionId) {
       return (
         <form
@@ -63,12 +70,13 @@ export const EmptyTodo = forwardRef<HTMLFormElement, EmptyTodoProps>(
             ref={inputRef}
             value={newTodoTitle}
             onChange={(e) => setNewTodoTitle(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="Add a new todo..."
             completed={false}
           />
           {newTodoTitle.length > 0 ? (
             <IconButton type="submit" variant="green">
-              <ArrowUpIcon className="h-4 w-4 text-green-600" />
+              <ArrowUpIcon className="h-4 w-4 text-green-700" />
             </IconButton>
           ) : null}
         </form>
