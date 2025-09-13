@@ -87,7 +87,7 @@ function UndoButton() {
   const index = useStore((state) => state.transactionIndex);
 
   return (
-    <ShortcutTooltip content="Undo" shortcut={["U"]}>
+    <ShortcutTooltip content="Undo" shortcut={["U"]} disabled={index < 0}>
       <TooltipTrigger
         render={
           <IconButton onClick={() => todoStore.undo()} disabled={index < 0}>
@@ -104,7 +104,7 @@ function RedoButton() {
   const transactions = useStore((state) => state.transactions);
 
   return (
-    <ShortcutTooltip content="Redo" shortcut={["I"]}>
+    <ShortcutTooltip content="Redo" shortcut={["I"]} disabled={index < 0}>
       <TooltipTrigger
         render={
           <IconButton

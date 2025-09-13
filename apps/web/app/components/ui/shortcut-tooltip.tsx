@@ -9,6 +9,7 @@ import { Kbd } from "./kbd";
 interface ShortcutTooltipProps extends PropsWithChildren {
   content: string;
   shortcut: string[];
+  disabled?: boolean;
   side?: "top" | "right" | "bottom" | "left";
   align?: "start" | "center" | "end";
   sideOffset?: number;
@@ -19,6 +20,7 @@ const ShortcutTooltip: FC<ShortcutTooltipProps> = ({
   content,
   shortcut,
   children,
+  disabled,
   side = "top",
   align = "center",
   sideOffset = 8,
@@ -34,7 +36,7 @@ const ShortcutTooltip: FC<ShortcutTooltipProps> = ({
     );
 
   return (
-    <Tooltip delay={200}>
+    <Tooltip delay={200} disabled={disabled}>
       {children}
       <TooltipPositioner
         side={side}
