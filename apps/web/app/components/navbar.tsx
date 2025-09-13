@@ -85,13 +85,19 @@ export function Navbar() {
 
 function UndoButton() {
   const index = useStore((state) => state.transactionIndex);
+  const isDisabled = index < 0;
 
   return (
-    <ShortcutTooltip content="Undo" shortcut={["U"]} disabled={index < 0}>
+    <ShortcutTooltip content="Undo" shortcut={["U"]} disabled={isDisabled}>
       <TooltipTrigger
         render={
-          <IconButton onClick={() => todoStore.undo()} disabled={index < 0}>
-            <ArrowUturnLeftIcon className={cn("h-4 w-4")} />
+          <IconButton onClick={() => todoStore.undo()} disabled={isDisabled}>
+            <ArrowUturnLeftIcon
+              className={cn(
+                "h-4 w-4",
+                index < 0 ? "" : "text-foreground-500/70",
+              )}
+            />
           </IconButton>
         }
       />
@@ -103,15 +109,19 @@ function RedoButton() {
   const index = useStore((state) => state.transactionIndex);
   const transactions = useStore((state) => state.transactions);
 
+  const isDisabled = index === transactions.length - 1;
+
   return (
-    <ShortcutTooltip content="Redo" shortcut={["I"]} disabled={index < 0}>
+    <ShortcutTooltip content="Redo" shortcut={["I"]} disabled={isDisabled}>
       <TooltipTrigger
         render={
-          <IconButton
-            onClick={() => todoStore.redo()}
-            disabled={index === transactions.length - 1}
-          >
-            <ArrowUturnRightIcon className="h-4 w-4" />
+          <IconButton onClick={() => todoStore.redo()} disabled={isDisabled}>
+            <ArrowUturnRightIcon
+              className={cn(
+                "h-4 w-4",
+                isDisabled ? "" : "text-foreground-500/70",
+              )}
+            />
           </IconButton>
         }
       />
@@ -151,7 +161,7 @@ function HowToDialog() {
                   variant="default"
                   aria-label="How To Dialog"
                 >
-                  <BookOpenIcon className="h-4 w-4 text-foreground/85" />
+                  <BookOpenIcon className="h-4 w-4 text-foreground-500/70" />
                 </IconButton>
               }
             />

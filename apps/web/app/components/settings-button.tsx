@@ -30,7 +30,7 @@ export function SettingsButton() {
             <MenuTrigger
               render={
                 <IconButton>
-                  <Cog6ToothIcon className="h-4 w-4" />
+                  <Cog6ToothIcon className="h-4 w-4 text-foreground-500/70" />
                 </IconButton>
               }
             />

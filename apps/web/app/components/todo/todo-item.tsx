@@ -153,7 +153,7 @@ function MoveTodoButton({ todo }: { todo: Todo }) {
       <TooltipTrigger
         render={
           <IconButton onClick={handleMove} aria-label="Move todo">
-            <PaperAirplaneIcon className="h-4 w-4 text-foreground-500/85 -rotate-45" />
+            <PaperAirplaneIcon className="h-4 w-4 text-foreground-500/70 -rotate-45" />
           </IconButton>
         }
       />
