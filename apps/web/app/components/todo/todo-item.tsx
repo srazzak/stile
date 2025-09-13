@@ -13,6 +13,7 @@ import {
   ArrowLeftEndOnRectangleIcon,
   ArrowRightEndOnRectangleIcon,
   ArrowRightIcon,
+  PaperAirplaneIcon,
   TrashIcon,
 } from "@heroicons/react/16/solid";
 import styles from "./todo.module.css";
@@ -152,11 +153,7 @@ function MoveTodoButton({ todo }: { todo: Todo }) {
       <TooltipTrigger
         render={
           <IconButton onClick={handleMove} aria-label="Move todo">
-            {todo.sectionId === "today" ? (
-              <ArrowRightEndOnRectangleIcon className="h-4 w-4 text-foreground-500/85" />
-            ) : (
-              <ArrowLeftEndOnRectangleIcon className="h-4 w-4 text-foreground-500/85" />
-            )}
+            <PaperAirplaneIcon className="h-4 w-4 text-foreground-500/85 -rotate-45" />
           </IconButton>
         }
       />
