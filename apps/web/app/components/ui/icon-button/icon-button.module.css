@@ -56,6 +56,19 @@
   background: oklch(0.9104 0.0214 147.61);
 }
 
+.ghost {
+  background: oklch(0.87 0.04 67.94 / 0.2);
+  backdrop-filter: blur(4px);
+  color: oklch(0.6 0 0);
+  fill: oklch(0.6 0 0);
+}
+
+.ghost:hover {
+  background: oklch(0.87 0.04 67.94 / 0);
+  color: oklch(0 0 0);
+  fill: oklch(0 0 0);
+}
+
 .iconButton > svg path {
   filter: drop-shadow(0px -1px 0px oklch(1 0 0 / 0.7));
 }
