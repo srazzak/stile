@@ -112,7 +112,7 @@ function RedoButton() {
   const isDisabled = index === transactions.length - 1;
 
   return (
-    <ShortcutTooltip content="Redo" shortcut={["I"]} disabled={isDisabled}>
+    <ShortcutTooltip content="Redo" shortcut={["R"]} disabled={isDisabled}>
       <TooltipTrigger
         render={
           <IconButton onClick={() => todoStore.redo()} disabled={isDisabled}>
@@ -220,7 +220,7 @@ function HowToDialog() {
                   <Kbd>U</Kbd> - Undo
                 </li>
                 <li>
-                  <Kbd>I</Kbd> - Redo
+                  <Kbd>R</Kbd> - Redo
                 </li>
                 <li>
                   <Kbd>H</Kbd> - View How To modal
