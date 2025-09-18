@@ -142,8 +142,8 @@ body {
   }
 }
 
-*:focus-visible:not(input):not([class*="todo"]) {
-  outline: 1px solid var(--foreground) !important;
+*:focus-visible:not(input, textarea):not([class*="todo"]) {
+  outline: 2px solid hsl(161deg, 49%, 40%) !important;
 }
 
 input {
