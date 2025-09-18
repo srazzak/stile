@@ -33,6 +33,8 @@ export type TodoUpdateDiff = {
 }[keyof Todo];
 
 interface AppState {
+  showNotesPanel: boolean;
+  toggleNotesPanel: () => void;
   activeTodo: string | null;
   updateActiveTodo: (id: string | null) => void;
   lastActiveTodo: string | null;
@@ -47,6 +49,9 @@ interface AppState {
  * Zustand store for managing app state.
  */
 export const useStore = create<AppState>()((set, get) => ({
+  showNotesPanel: false,
+  toggleNotesPanel: () =>
+    set((state) => ({ showNotesPanel: !state.showNotesPanel })),
   activeTodo: null,
   updateActiveTodo: (id) => set(() => ({ activeTodo: id })),
   lastActiveTodo: null,

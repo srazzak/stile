@@ -4,9 +4,12 @@ import { Navbar } from "@/components/navbar";
 import { KeyboardDebug } from "@/debug/keyboard-debug";
 import { TransactionDebug } from "@/debug/transaction-debug";
 import { todoStore } from "./lib/storage";
+import { NotesPanel } from "./components/notes-panel";
+import { useStore } from "./stores/store";
 
 export default function Layout() {
   const navigate = useNavigate();
+  const toggleNotesPanel = useStore((state) => state.toggleNotesPanel);
 
   useShortcut({
     key: ["g", "t"],
@@ -30,18 +33,28 @@ export default function Layout() {
   });
 
   useShortcut({
-    key: ["i"],
+    key: ["r"],
     handler: () => todoStore.redo(),
     description: "Redo last action",
     contexts: ["global"],
   });
 
+  useShortcut({
+    key: ["o"],
+    handler: toggleNotesPanel,
+    description: "Open Notes panel",
+    contexts: ["global"],
+  });
+
   return (
     <main className="flex flex-col p-4 pt-32 grow">
-      <KeyboardDebug />
+      <div className="fixed mr-auto top-0 left-0 flex flex-col gap-4 p-4">
+        <KeyboardDebug />
+        <TransactionDebug />
+      </div>
       <Navbar />
       <Outlet />
-      <TransactionDebug />
+      <NotesPanel />
     </main>
   );
 }

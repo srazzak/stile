@@ -26,3 +26,10 @@ export interface Section {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface Note {
+  id: string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+}

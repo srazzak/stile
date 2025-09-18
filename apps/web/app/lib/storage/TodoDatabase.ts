@@ -1,5 +1,10 @@
 import Dexie, { type Table } from "dexie";
-import { type Todo, type Section, type IncompleteTodo } from "./types";
+import {
+  type Todo,
+  type Section,
+  type IncompleteTodo,
+  type Note,
+} from "./types";
 import { generateId } from "../utils";
 import { upgradeToV3, upgradeToV4, upgradeToV5 } from "./upgrades";
 import { useStore, type TodoUpdateDiff } from "@/stores/store";
@@ -7,6 +12,7 @@ import { useStore, type TodoUpdateDiff } from "@/stores/store";
 class TodoDatabase extends Dexie {
   todos!: Table<Todo>;
   sections!: Table<Section>;
+  notes!: Table<Note>;
 
   constructor() {
     super("todo_db");
@@ -45,6 +51,14 @@ class TodoDatabase extends Dexie {
           "id, completed, deadline, createdAt, updatedAt, completedAt, sectionId",
       })
       .upgrade(upgradeToV5);
+
+    this.version(5)
+      .stores({
+        todos:
+          "id, completed, deadline, createdAt, updatedAt, completedAt, sectionId",
+        notes: "id",
+      })
+      .upgrade(upgradeToV5);
   }
 }
 
@@ -61,6 +75,35 @@ export class TodoDb {
     } catch (error) {
       console.error("Failed to open database:", error);
     }
+  }
+
+  async getNote(id: string): Promise<Note | undefined> {
+    if ((await this.db.notes.count()) === 0) {
+      const now = new Date();
+      const newNote = {
+        id: "main",
+        content: "",
+        createdAt: now,
+        updatedAt: now,
+      };
+
+      this.db.notes.add(newNote);
+
+      return newNote;
+    }
+
+    return this.db.notes.get(id);
+  }
+
+  async updateNote(id: string, newContent: string): Promise<void> {
+    const updatedAt = new Date();
+    const note = await this.getNote(id);
+
+    await this.db.notes.update(id, {
+      ...note,
+      updatedAt: updatedAt,
+      content: newContent,
+    });
   }
 
   async createTodo(
