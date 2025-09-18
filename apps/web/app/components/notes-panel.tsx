@@ -46,7 +46,7 @@ export function NotesPanel() {
   return (
     <div
       className={cn(
-        "fixed top-0 right-0 w-96 h-full border-l border-l-neutral-300 p-4 flex flex-col gap-4",
+        "fixed top-0 right-0 w-96 h-full border-l border-l-neutral-300 p-4 flex flex-col gap-4 bg-background bg-[url(noise.png)]",
       )}
     >
       <h2 className="font-serif text-xl text-neutral-800">Notes</h2>

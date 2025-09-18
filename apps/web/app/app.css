@@ -8,6 +8,7 @@
     "EB Garamond", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 
   --color-foreground: var(--foreground);
+  --color-background: var(--background);
 
   --color-separator: oklch(91.8% 0.014 60.56);
 
@@ -81,6 +82,7 @@
 
 :root {
   --foreground: oklch(51.64% 0.104 63.31);
+  --background: oklch(0.9564 0.0127 63.92);
 
   --color-blue: oklch(45% 50% 264);
   --color-red: oklch(50% 55% 31);
@@ -118,7 +120,7 @@
 html,
 body {
   color: var(--foreground);
-  background-color: #f7efe8;
+  background-color: oklch(0.9564 0.0127 63.92);
   background-image: url("/noise.png");
   background-repeat: repeat;
   background-size: 200px 200px;
