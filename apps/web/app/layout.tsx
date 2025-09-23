@@ -33,7 +33,7 @@ export default function Layout() {
   });
 
   useShortcut({
-    key: ["r"],
+    key: ["i"],
     handler: () => todoStore.redo(),
     description: "Redo last action",
     contexts: ["global"],
