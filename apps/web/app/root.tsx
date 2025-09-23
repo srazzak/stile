@@ -61,7 +61,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           name="twitter:image"
           content="https://verdigris.vercel.app/og-image.png"
         />
-        <a rel="icon" href="/icon.png" />
+        <link rel="icon" href="/icon.png" />
         <Meta />
         <Links />
       </head>
