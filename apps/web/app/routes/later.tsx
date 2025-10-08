@@ -7,7 +7,7 @@ import { EmptyTodo } from "@/components/todo/empty-todo";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Verdigris | Later" },
+    { title: "Stile | Later" },
     { name: "description", content: "A simple todo app" },
   ];
 }

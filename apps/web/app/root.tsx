@@ -35,31 +35,34 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="title" content="Verdigris" />
+        <meta name="title" content="Stile" />
         <meta name="description" content="A simple local-only todo app." />
-        <meta property="og:url" content="https://verdigris.vercel.app" />
-        <meta property="og:site_name" content="Verdigris" />
+        <meta property="og:url" content="https://stile.verdigrislabs.com" />
+        <meta property="og:site_name" content="Stile" />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Verdigris" />
+        <meta property="og:title" content="Stile" />
         <meta
           property="og:description"
           content="A simple local-only todo app"
         />
         <meta
           property="og:image"
-          content="https://verdigris.vercel.app/og-image.png"
+          content="https://stile.verdigrislabs.com/og-image.png"
         />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta property="twitter:domain" content="verdigris.vercel.app" />
-        <meta property="twitter:url" content="https://verdigris.vercel.app" />
-        <meta name="twitter:title" content="Verdigris" />
+        <meta
+          property="twitter:domain"
+          content="https://stile.verdigrislabs.com"
+        />
+        <meta property="twitter:url" content="stile.vercel.app" />
+        <meta name="twitter:title" content="Stile" />
         <meta
           name="twitter:description"
           content="A simple local-only todo app"
         />
         <meta
           name="twitter:image"
-          content="https://verdigris.vercel.app/og-image.png"
+          content="https://stile.verdigrislabs.com/og-image.png"
         />
         <link rel="icon" href="/icon.png" />
         <Meta />
@@ -82,7 +85,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   <GlobeAltIcon className="h-4 w-4" />
                 </IconButton>
               </a>
-              <a href="https://github.com/srazzak/verdigris/">
+              <a href="https://github.com/srazzak/stile/">
                 <IconButton variant="ghost">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

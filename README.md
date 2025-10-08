@@ -28,7 +28,7 @@ Start the development server with HMR:
 pnpm run dev:web
 ```
 
-Verdigris will be available at `http://localhost:5173`.
+Stile will be available at `http://localhost:5173`.
 
 ## Building for Production
 
@@ -48,4 +48,4 @@ This will create a binary for your local setup.
 
 ### Deployment
 
-Verdigris is set up to be deployed to Vercel. But you can also deploy it to any other platform using the Dockerfile.
+Stile is set up to be deployed to Vercel. But you can also deploy it to any other platform using the Dockerfile.

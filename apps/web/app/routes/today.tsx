@@ -8,7 +8,7 @@ import { format } from "date-fns";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Verdigris" },
+    { title: "Stile" },
     { name: "description", content: "A simple todo app" },
   ];
 }
