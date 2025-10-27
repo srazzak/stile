@@ -26,9 +26,9 @@
     }
   },
   "reactRouterConfig": {
-    "appDirectory": "/Users/suhail/verdigris/apps/web/app",
+    "appDirectory": "/Users/suhail/stile/apps/web/app",
     "basename": "/",
-    "buildDirectory": "/Users/suhail/verdigris/apps/web/build",
+    "buildDirectory": "/Users/suhail/stile/apps/web/build",
     "future": {
       "unstable_middleware": false,
       "unstable_optimizeDeps": false,
