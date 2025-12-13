@@ -17,6 +17,9 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 [build-dependencies]
 tauri-build = { version = "2.3.1", features = [] }
 
+[target."cfg(target_os = \"macos\")".dependencies]
+cocoa = "0.26"
+
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
