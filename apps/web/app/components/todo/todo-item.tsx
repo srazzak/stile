@@ -100,7 +100,7 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
       onFocus={handleFocus}
       onBlur={handleBlur}
     >
-      <ShortcutTooltip content="Toggle complete" shortcut={["T"]}>
+      <ShortcutTooltip content="Toggle complete" shortcut={["Space"]}>
         <TooltipTrigger
           render={
             <TodoCheckbox

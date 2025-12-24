@@ -231,7 +231,7 @@ function HowToDialog() {
               </span>
               <ul className="*:my-2">
                 <li>
-                  <Kbd>T</Kbd> - Toggle todo complete/incomplete
+                  <Kbd>Space</Kbd> - Toggle todo complete/incomplete
                 </li>
                 <li>
                   <Kbd>E</Kbd> - Edit todo

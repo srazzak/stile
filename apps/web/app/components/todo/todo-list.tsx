@@ -88,7 +88,7 @@ export function TodoList({ todos }: TodoListProps) {
   }
 
   useShortcut({
-    key: ["t"],
+    key: [" "],
     handler: handleComplete,
     description: "Toggle complete",
     contexts: ["todo"],

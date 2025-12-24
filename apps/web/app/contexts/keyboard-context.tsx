@@ -122,7 +122,7 @@ export function KeyboardProvider({ children }: { children: ReactNode }) {
       }
 
       const matchingShortcut = activeShortcuts.find((s) =>
-        isShortcutMatch(s.key, keyBuffer.current),
+        isShortcutMatch(keyBuffer.current, s.key),
       );
 
       // Check if sequence matches any shortcuts
